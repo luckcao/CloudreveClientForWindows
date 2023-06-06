@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33423.256
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudreveForWindows", "CloudreveForWindows\CloudreveForWindows.csproj", "{D3DFD271-4B68-4FA7-92B6-9EA46DFAF991}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentControls", "ComponentControls\ComponentControls.csproj", "{86574990-869F-41AF-AC33-1E6F22BDA7C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudreveMiddleLayer", "CloudreveMiddleLayer\CloudreveMiddleLayer.csproj", "{CA22615B-2F0C-480E-B104-5F6F80115C14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3DFD271-4B68-4FA7-92B6-9EA46DFAF991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3DFD271-4B68-4FA7-92B6-9EA46DFAF991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3DFD271-4B68-4FA7-92B6-9EA46DFAF991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3DFD271-4B68-4FA7-92B6-9EA46DFAF991}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86574990-869F-41AF-AC33-1E6F22BDA7C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86574990-869F-41AF-AC33-1E6F22BDA7C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86574990-869F-41AF-AC33-1E6F22BDA7C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86574990-869F-41AF-AC33-1E6F22BDA7C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA22615B-2F0C-480E-B104-5F6F80115C14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA22615B-2F0C-480E-B104-5F6F80115C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA22615B-2F0C-480E-B104-5F6F80115C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA22615B-2F0C-480E-B104-5F6F80115C14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1CE9DE3-2F04-4B8D-8BD3-C12FAABA7864}
+	EndGlobalSection
+EndGlobal
