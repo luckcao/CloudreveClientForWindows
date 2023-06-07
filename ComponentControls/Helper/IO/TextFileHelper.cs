@@ -106,7 +106,7 @@ namespace ComponentControls.Helper.IO
                     string temp = string.Empty;
                     while ((temp = sr.ReadLine()) != null)
                     {
-                        line.Append(line);
+                        line.Append(temp);
                     }
                     return line.ToString();
                 }

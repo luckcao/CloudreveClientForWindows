@@ -23,6 +23,7 @@ namespace ComponentControls.Controls
             set { labelHint.Text = value; }
         }
 
+        [Browsable(true)]
         public override string Text
         {
             get { return textBoxValue.Text.Trim(); }

@@ -14,27 +14,14 @@ namespace CloudreveMiddleLayer
 
         public class CloudreveWebURL
         {
-            public const string GET_AUTH_CONFIG = "api/v3/site/config";
+            public const string GET_AUTH_CONFIG = "api/v3/site/config";         //获取服务器登录配置
+            public const string GET_CAPTURE = "api/v3/site/captcha";            //获取登录验证码图片
+            public const string GET_REGISTER_URL = "signup";                    //获取注册页面
+            public const string GET_FORGET_PWD_URL = "forget";                  //获取找回密码页面
+            public const string AUTHENTICATION_URL = "api/v3/user/session";    //验证登录URL
         }
 
         public static CloudreveMiddleLayer.JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;
-
-        public static bool LoadCloudreveServerAuthConfig(string url)
-        {
-            if (!url.EndsWith("/"))
-            {
-                url += "/";
-            }
-            url += Util.CloudreveWebURL.GET_AUTH_CONFIG;
-            string responseContent = HttpClientHelper.Get(url, ref GLOBLE_COOKIE);
-            if (!string.IsNullOrEmpty(responseContent))
-            {
-                Util.AUTH_CONFIG_DATA =
-                    JsonConvert.DeserializeObject<CloudreveMiddleLayer.JsonEntiryClass.GetAuthConfigJson.Root>(responseContent).data;
-                return true;
-            }
-            return false;
-        }
 
         public static string GetApplicationPath()
         {
@@ -68,7 +55,7 @@ namespace CloudreveMiddleLayer
             try
             {
                 StringWriter stream = new StringWriter();
-                dt.WriteXml(stream);
+                dt.WriteXml(stream, XmlWriteMode.WriteSchema);
                 return stream.ToString();
             }
             catch(Exception ex)

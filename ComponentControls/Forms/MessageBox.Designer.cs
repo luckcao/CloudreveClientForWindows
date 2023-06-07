@@ -135,7 +135,7 @@ namespace ComponentControls.Forms
             this.btnOK.UseVisualStyleBackColor = false;
             this.btnOK.Click += new System.EventHandler(this.btn_Click);
             // 
-            // ExMessageBox
+            // MessageBox
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(506, 224);
@@ -145,8 +145,10 @@ namespace ComponentControls.Forms
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.Name = "ExMessageBox";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Name = "MessageBox";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ExMessageBox";
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);

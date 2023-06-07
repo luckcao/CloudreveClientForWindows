@@ -10,7 +10,7 @@ namespace ComponentControls.Helper.String
 {
     public class DecryptAndEncryptionHelper
     {
-        private static readonly SymmetricAlgorithm _symmetricAlgorithm;
+        private static readonly SymmetricAlgorithm _symmetricAlgorithm = new RijndaelManaged();
         private static string _key = "27e167e9-2660-4bc1-bea0-c8781a9f01cb";
         private static string _iv = "8280d587-f9bf-4127-bbfa-5e0b4b672958";
 
