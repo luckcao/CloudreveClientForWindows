@@ -78,7 +78,7 @@ namespace CloudreveMiddleLayer.Entiry
                 url += "/";
             }
             url += Util.CloudreveWebURL.AUTHENTICATION_URL;
-
+            //string tmpCookie = String.Empty;
             string responseContent = HttpClientHelper.Post(url, obj.ToString(), ref Util.GLOBLE_COOKIE);
             returnMessage = String.Empty;
             returnCode = -1;

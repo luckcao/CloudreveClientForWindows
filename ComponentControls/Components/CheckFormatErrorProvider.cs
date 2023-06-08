@@ -19,12 +19,14 @@ namespace ComponentControls.Components
         string emailFormat = @"^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$";
         string integerFormat = @"^\d+$";
         string floatFormat = @"^\d+(\.\d+)?$";
+        string numericFormat = @"^[+-]?(\d|([1-9]\d+))(\.\d+)?$";
         CheckTypeList checkType = CheckTypeList.Integer;
 
         public enum CheckTypeList
         {
             Integer = 0,
             Float = 1,
+            Numeric = 2,
             WebURL = 10,
             EmailFormat = 11
         }
@@ -81,7 +83,6 @@ namespace ComponentControls.Components
         {
             if (!val.Equals(String.Empty))
             {
-                //Regex r = new Regex(@"^\d+(\.)?\d*$");
                 string format = String.Empty;
                 switch(checkType)
                 {
@@ -90,6 +91,9 @@ namespace ComponentControls.Components
                         break;
                     case CheckTypeList.Float:
                         format = floatFormat;
+                        break;
+                    case CheckTypeList.Numeric:
+                        format = numericFormat;
                         break;
                     case CheckTypeList.WebURL:
                         format = urlFormat;

@@ -120,5 +120,77 @@
   <ItemGroup>
     <None Include="Resources\Warning.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\show_nav_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\my_account.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\show_nav_button1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\show_nav_button1_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image_ic_undo_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\default_profile_photo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_id.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\js_assets_xiala2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\js_assets_xiala.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\myfile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addTag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\connection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\music.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\share.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\task.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\harddisk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wait.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\home.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

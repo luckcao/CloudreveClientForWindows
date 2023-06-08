@@ -46,8 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSet\DataSetFileInfo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetFileInfo.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Entiry\FileList.cs" />
     <Compile Include="Entiry\Login.cs" />
     <Compile Include="JsonEntiryClass\GetAuthConfigJson.cs" />
+    <Compile Include="JsonEntiryClass\GetFileListJson.cs" />
     <Compile Include="JsonEntiryClass\GetLoginCaptchaJson.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,6 +66,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="DataSet\DataSetFileInfo.xsc">
+      <DependentUpon>DataSetFileInfo.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet\DataSetFileInfo.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetFileInfo.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSet\DataSetFileInfo.xss">
+      <DependentUpon>DataSetFileInfo.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

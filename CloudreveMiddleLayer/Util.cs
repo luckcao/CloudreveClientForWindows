@@ -11,14 +11,20 @@ namespace CloudreveMiddleLayer
     public class Util
     {
         public static string GLOBLE_COOKIE = "";
+        public static string GLOBLE_URL = "";
 
         public class CloudreveWebURL
         {
-            public const string GET_AUTH_CONFIG = "api/v3/site/config";         //获取服务器登录配置
-            public const string GET_CAPTURE = "api/v3/site/captcha";            //获取登录验证码图片
-            public const string GET_REGISTER_URL = "signup";                    //获取注册页面
-            public const string GET_FORGET_PWD_URL = "forget";                  //获取找回密码页面
-            public const string AUTHENTICATION_URL = "api/v3/user/session";    //验证登录URL
+            public const string GET_AUTH_CONFIG = "api/v3/site/config";                             //获取服务器登录配置
+            public const string GET_CAPTURE = "api/v3/site/captcha";                                //获取登录验证码图片
+            public const string GET_REGISTER_URL = "signup";                                        //获取注册页面
+            public const string GET_FORGET_PWD_URL = "forget";                                      //获取找回密码页面
+            public const string AUTHENTICATION_URL = "api/v3/user/session";                         //验证登录URL
+            public const string GET_FILE_LIST_URL = "api/v3/directory";                             //获取文件列表URL
+            public const string GET_VIDEO_FILE_LIST_URL = "api/v3/file/search/video%2Finternal";    //获取视频文件列表URL
+            public const string GET_IMAGE_FILE_LIST_URL = "api/v3/file/search/image%2Finternal";    //获取图片文件列表URL
+            public const string GET_AUDIO_FILE_LIST_URL = "api/v3/file/search/audio%2Finternal";    //获取音频文件列表URL
+            public const string GET_DOCUMENT_FILE_LIST_URL = "api/v3/file/search/doc%2Finternal";   //获取文档文件列表URL
         }
 
         public static CloudreveMiddleLayer.JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;

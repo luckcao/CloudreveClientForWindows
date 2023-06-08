@@ -75,6 +75,7 @@ namespace CloudreveForWindows.Forms
                                 //    throw new Exception("更新登录配置文件失败...");
                                 //}
                                 //跳转到主页面
+                                Util.GLOBLE_URL = cboDB.Text.Trim();
                                 this.Hide();
                                 new Main().ShowDialog();
                                 this.Close();
@@ -254,6 +255,7 @@ namespace CloudreveForWindows.Forms
             if(StartLogin())
             {
                 //登录成功，打开主页面
+                Util.GLOBLE_URL = cboDB.Text.Trim();
                 this.Hide();
                 new Main().ShowDialog();
                 this.Close();
