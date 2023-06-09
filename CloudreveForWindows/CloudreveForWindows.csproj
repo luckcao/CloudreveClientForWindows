@@ -192,5 +192,41 @@
   <ItemGroup>
     <None Include="Resources\home.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\create_dir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unknow_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\word_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\audio_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\excel_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\txt_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zip_file.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

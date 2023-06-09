@@ -299,6 +299,10 @@ namespace CloudreveMiddleLayer.DataSet {
             
             private global::System.Data.DataColumn columnSourceEnabled;
             
+            private global::System.Data.DataColumn columnTick;
+            
+            private global::System.Data.DataColumn columnSizeDesc;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TBL_FileInfoDataTable() {
@@ -414,6 +418,22 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TickColumn {
+                get {
+                    return this.columnTick;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SizeDescColumn {
+                get {
+                    return this.columnSizeDesc;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -449,7 +469,7 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TBL_FileInfoRow AddTBL_FileInfoRow(string ID, string FileName, string Path, string Pic, long Size, string Type, string TypeImage, string ModifyDate, string CreateDate, bool SourceEnabled) {
+            public TBL_FileInfoRow AddTBL_FileInfoRow(string ID, string FileName, string Path, string Pic, long Size, int Type, byte[] TypeImage, string ModifyDate, string CreateDate, bool SourceEnabled, bool Tick, string SizeDesc) {
                 TBL_FileInfoRow rowTBL_FileInfoRow = ((TBL_FileInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID,
@@ -461,7 +481,9 @@ namespace CloudreveMiddleLayer.DataSet {
                         TypeImage,
                         ModifyDate,
                         CreateDate,
-                        SourceEnabled};
+                        SourceEnabled,
+                        Tick,
+                        SizeDesc};
                 rowTBL_FileInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTBL_FileInfoRow);
                 return rowTBL_FileInfoRow;
@@ -494,6 +516,8 @@ namespace CloudreveMiddleLayer.DataSet {
                 this.columnModifyDate = base.Columns["ModifyDate"];
                 this.columnCreateDate = base.Columns["CreateDate"];
                 this.columnSourceEnabled = base.Columns["SourceEnabled"];
+                this.columnTick = base.Columns["Tick"];
+                this.columnSizeDesc = base.Columns["SizeDesc"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -509,9 +533,9 @@ namespace CloudreveMiddleLayer.DataSet {
                 base.Columns.Add(this.columnPic);
                 this.columnSize = new global::System.Data.DataColumn("Size", typeof(long), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSize);
-                this.columnType = new global::System.Data.DataColumn("Type", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnType = new global::System.Data.DataColumn("Type", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnType);
-                this.columnTypeImage = new global::System.Data.DataColumn("TypeImage", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnTypeImage = new global::System.Data.DataColumn("TypeImage", typeof(byte[]), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTypeImage);
                 this.columnModifyDate = new global::System.Data.DataColumn("ModifyDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnModifyDate);
@@ -519,6 +543,10 @@ namespace CloudreveMiddleLayer.DataSet {
                 base.Columns.Add(this.columnCreateDate);
                 this.columnSourceEnabled = new global::System.Data.DataColumn("SourceEnabled", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSourceEnabled);
+                this.columnTick = new global::System.Data.DataColumn("Tick", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTick);
+                this.columnSizeDesc = new global::System.Data.DataColumn("SizeDesc", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSizeDesc);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -741,10 +769,10 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Type {
+            public int Type {
                 get {
                     try {
-                        return ((string)(this[this.tableTBL_FileInfo.TypeColumn]));
+                        return ((int)(this[this.tableTBL_FileInfo.TypeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("表“TBL_FileInfo”中列“Type”的值为 DBNull。", e);
@@ -757,10 +785,10 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string TypeImage {
+            public byte[] TypeImage {
                 get {
                     try {
-                        return ((string)(this[this.tableTBL_FileInfo.TypeImageColumn]));
+                        return ((byte[])(this[this.tableTBL_FileInfo.TypeImageColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("表“TBL_FileInfo”中列“TypeImage”的值为 DBNull。", e);
@@ -816,6 +844,38 @@ namespace CloudreveMiddleLayer.DataSet {
                 }
                 set {
                     this[this.tableTBL_FileInfo.SourceEnabledColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool Tick {
+                get {
+                    try {
+                        return ((bool)(this[this.tableTBL_FileInfo.TickColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_FileInfo”中列“Tick”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_FileInfo.TickColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string SizeDesc {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_FileInfo.SizeDescColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_FileInfo”中列“SizeDesc”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_FileInfo.SizeDescColumn] = value;
                 }
             }
             
@@ -937,6 +997,30 @@ namespace CloudreveMiddleLayer.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetSourceEnabledNull() {
                 this[this.tableTBL_FileInfo.SourceEnabledColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTickNull() {
+                return this.IsNull(this.tableTBL_FileInfo.TickColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTickNull() {
+                this[this.tableTBL_FileInfo.TickColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSizeDescNull() {
+                return this.IsNull(this.tableTBL_FileInfo.SizeDescColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSizeDescNull() {
+                this[this.tableTBL_FileInfo.SizeDescColumn] = global::System.Convert.DBNull;
             }
         }
         

@@ -12,6 +12,8 @@ namespace CloudreveMiddleLayer
     {
         public static string GLOBLE_COOKIE = "";
         public static string GLOBLE_URL = "";
+        public static CloudreveMiddleLayer.JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;
+
 
         public class CloudreveWebURL
         {
@@ -27,7 +29,11 @@ namespace CloudreveMiddleLayer
             public const string GET_DOCUMENT_FILE_LIST_URL = "api/v3/file/search/doc%2Finternal";   //获取文档文件列表URL
         }
 
-        public static CloudreveMiddleLayer.JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;
+        public enum CloudreveFileListType
+        {
+            Dir = 0,
+            File = 1
+        }
 
         public static string GetApplicationPath()
         {

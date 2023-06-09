@@ -55,6 +55,13 @@
     <Compile Include="Components\RequirementErrorProvider.Designer.cs">
       <DependentUpon>RequirementErrorProvider.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DirecrotyPathItemClickedArgs.cs" />
+    <Compile Include="Controls\DirectoryPath.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DirectoryPath.Designer.cs">
+      <DependentUpon>DirectoryPath.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\HintTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -93,6 +100,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\DirectoryPath.resx">
+      <DependentUpon>DirectoryPath.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\HintTextBox.resx">
       <DependentUpon>HintTextBox.cs</DependentUpon>
     </EmbeddedResource>
