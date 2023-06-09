@@ -29,6 +29,7 @@ namespace ComponentControls.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -37,10 +38,12 @@ namespace ComponentControls.Forms
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.requirementErrorProvider1 = new ComponentControls.Components.RequirementErrorProvider(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.requirementErrorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -86,7 +89,7 @@ namespace ComponentControls.Forms
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.ReadOnly = true;
             this.txtMessage.Size = new System.Drawing.Size(377, 112);
-            this.txtMessage.TabIndex = 0;
+            this.txtMessage.TabIndex = 1;
             // 
             // picIcon
             // 
@@ -117,7 +120,7 @@ namespace ComponentControls.Forms
             this.btnCancel.Location = new System.Drawing.Point(0, 0);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(252, 46);
-            this.btnCancel.TabIndex = 1;
+            this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "button2";
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btn_Click);
@@ -130,10 +133,16 @@ namespace ComponentControls.Forms
             this.btnOK.Location = new System.Drawing.Point(252, 0);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(252, 46);
-            this.btnOK.TabIndex = 0;
+            this.btnOK.TabIndex = 2;
             this.btnOK.Text = "button1";
             this.btnOK.UseVisualStyleBackColor = false;
             this.btnOK.Click += new System.EventHandler(this.btn_Click);
+            // 
+            // requirementErrorProvider1
+            // 
+            this.requirementErrorProvider1.BindControl = this.txtMessage;
+            this.requirementErrorProvider1.ContainerControl = this;
+            this.requirementErrorProvider1.ErrorMessage = "不能为空";
             // 
             // MessageBox
             // 
@@ -155,6 +164,7 @@ namespace ComponentControls.Forms
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
             this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.requirementErrorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -169,5 +179,6 @@ namespace ComponentControls.Forms
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.PictureBox picIcon;
         private System.Windows.Forms.TextBox txtMessage;
+        private Components.RequirementErrorProvider requirementErrorProvider1;
     }
 }

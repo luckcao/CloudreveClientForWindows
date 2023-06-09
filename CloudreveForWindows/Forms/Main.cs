@@ -3,6 +3,8 @@ using CloudreveMiddleLayer.DataSet;
 using CloudreveMiddleLayer.Entiry;
 using CloudreveMiddleLayer.JsonEntiryClass;
 using ComponentControls.Controls;
+using ComponentControls.Forms;
+using ComponentControls.Helper.IO;
 using ComponentControls.Helper.Media;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Data;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using static CloudreveMiddleLayer.Entiry.SystemEnvironment;
 
 namespace CloudreveForWindows.Forms
 {
@@ -19,6 +22,9 @@ namespace CloudreveForWindows.Forms
         List<GetFileListJson.ObjectsItem> currentFileList = new List<GetFileListJson.ObjectsItem>();
         DataSetFileInfo.TBL_FileInfoDataTable dtFileList = new DataSetFileInfo.TBL_FileInfoDataTable();
         List<ToolStripMenuItem> sortMenu = new List<ToolStripMenuItem>();
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int ShowScrollBar(IntPtr hWnd, int bar, int show);
 
         public Main()
         {
@@ -34,6 +40,7 @@ namespace CloudreveForWindows.Forms
             InitialFileTypeIconImageList();
             InitialLeftMenu();
             RefreshFileList();
+            RefreshStorage();
 
             EndWait();
         }
@@ -118,16 +125,16 @@ namespace CloudreveForWindows.Forms
             List<NavigateMenuItem> items = new List<NavigateMenuItem>();
 
             items.Insert(0, new NavigateMenuItem(0, global::CloudreveForWindows.Properties.Resources.myfile, "我的文件"));
-            items.Insert(1, new NavigateMenuItem(0, global::CloudreveForWindows.Properties.Resources.home, "主目录", 0));
-            items.Insert(2, new NavigateMenuItem(1, global::CloudreveForWindows.Properties.Resources.video, "视频", 0));
-            items.Insert(3, new NavigateMenuItem(2, global::CloudreveForWindows.Properties.Resources.image, "图片", 0));
-            items.Insert(4, new NavigateMenuItem(3, global::CloudreveForWindows.Properties.Resources.music, "音乐", 0));
-            items.Insert(5, new NavigateMenuItem(4, global::CloudreveForWindows.Properties.Resources.document, "文档", 0));
-            items.Insert(6, new NavigateMenuItem(5, global::CloudreveForWindows.Properties.Resources.addTag, "添加标签", 0));
+            items.Insert(1, new NavigateMenuItem(1, global::CloudreveForWindows.Properties.Resources.home, "主目录", 0));
+            items.Insert(2, new NavigateMenuItem(2, global::CloudreveForWindows.Properties.Resources.video, "视频", 0));
+            items.Insert(3, new NavigateMenuItem(3, global::CloudreveForWindows.Properties.Resources.image, "图片", 0));
+            items.Insert(4, new NavigateMenuItem(4, global::CloudreveForWindows.Properties.Resources.music, "音乐", 0));
+            items.Insert(5, new NavigateMenuItem(5, global::CloudreveForWindows.Properties.Resources.document, "文档", 0));
+            items.Insert(6, new NavigateMenuItem(6, global::CloudreveForWindows.Properties.Resources.addTag, "添加标签", 0));
 
-            items.Insert(7, new NavigateMenuItem(6, global::CloudreveForWindows.Properties.Resources.share, "我的分享"));
-            items.Insert(8, new NavigateMenuItem(7, global::CloudreveForWindows.Properties.Resources.download, "离线下载"));
-            items.Insert(9, new NavigateMenuItem(8, global::CloudreveForWindows.Properties.Resources.task, "任务队列"));
+            items.Insert(7, new NavigateMenuItem(7, global::CloudreveForWindows.Properties.Resources.share, "我的分享"));
+            items.Insert(8, new NavigateMenuItem(8, global::CloudreveForWindows.Properties.Resources.download, "离线下载"));
+            items.Insert(9, new NavigateMenuItem(9, global::CloudreveForWindows.Properties.Resources.task, "任务队列"));
 
             menuLeft.BindDataSource(items, true);
         }
@@ -136,7 +143,10 @@ namespace CloudreveForWindows.Forms
         {
             StartWait();
 
-            switch(e.MenuItemID)
+            directoryPath1.ClearAllPath();
+            directoryPath1.AddPath("/");
+
+            switch (e.MenuItemID)
             {
                 case 1:
                     filterType = "All";
@@ -155,7 +165,7 @@ namespace CloudreveForWindows.Forms
                     break;
                 case 5:
                     //音乐文件
-                    filterType = "文档";
+                    filterType = "Doc";
                     break;
             }
             RefreshFileList();
@@ -211,26 +221,7 @@ namespace CloudreveForWindows.Forms
                 }
                 else
                 {
-                    if(dr.Size > 0 && dr.Size < 1024)
-                    {
-                        dr.SizeDesc = dr.Size.ToString() + "B";
-                    }
-                    else if (dr.Size >= 1024 && dr.Size < 1048576)  //1048576是1M
-                    {
-                        dr.SizeDesc = Math.Round((dr.Size/1024.0), 2).ToString() + "KB";
-                    }
-                    else if (dr.Size >= 1048576 && dr.Size < 1073741824)  //1073741824是1G
-                    {
-                        dr.SizeDesc = Math.Round((dr.Size / 1024.0 / 1024.0), 2).ToString() + "M";
-                    }
-                    else if (dr.Size >= 1073741824 && dr.Size < 1099511627776)  //1099511627776是1T
-                    {
-                        dr.SizeDesc = Math.Round((dr.Size / 1024.0 / 1024.0 / 1024.0), 2).ToString() + "G";
-                    }
-                    else
-                    {
-                        dr.SizeDesc = Math.Round((dr.Size / 1024.0 / 1024.0 / 1024.0 / 1024.0), 2).ToString() + "T";
-                    }
+                    dr.SizeDesc = FileInfo.GetSizeInShortFormat(dr.Size);
                 }
                 switch (currentFileList[i].type.Trim().ToUpper())
                 {
@@ -339,9 +330,10 @@ namespace CloudreveForWindows.Forms
             if(dgvFileList.Rows.Count > 0)
             {
                 //默认选中第一条记录
+                dgvFileList.CurrentCell = dgvFileList.Rows[0].Cells[0];
+                dgvFileList.ClearSelection();
                 dgvFileList.Rows[0].Selected = false;
                 dgvFileList.CurrentCell = null;
-                dgvFileList.ClearSelection();
             }
 
             lblFileCount.Text = String.Format(lblFileCount.Text, currentFileList.Count, dirCount, fileCount);
@@ -369,18 +361,46 @@ namespace CloudreveForWindows.Forms
         {
             StartWait();
 
+            filterType = "ALL";
             RefreshFileList();
 
             EndWait();
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int ShowScrollBar(IntPtr hWnd, int bar, int show);
-
         private void Main_Resize(object sender, EventArgs e)
         {
             ShowScrollBar(directoryPath1.Handle, 3, 0);
             ShowScrollBar(panMiddleTopMiddle.Handle, 3, 0);
+        }
+
+        private void btnCreateDir_Click(object sender, EventArgs e)
+        {
+            ComponentControls.Forms.MessageBox msg = new ComponentControls.Forms.MessageBox("", "请输入要创建的目录名称", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, false, false);
+
+            if(msg.ShowDialog() == DialogResult.OK)
+            {
+                StartWait();
+
+                string dirFullPath = directoryPath1.CurrentFullPath;
+                if(!dirFullPath.EndsWith("/"))
+                {
+                    dirFullPath += "/";
+                }
+                dirFullPath += msg.InputText;
+                int returnCode;
+                string returnMsg;
+                if(FileList.CreateDirectory(dirFullPath, out returnCode, out returnMsg))
+                {
+                    directoryPath1.AddPath(msg.InputText);
+                    RefreshFileList();
+                }
+                else
+                {
+                    ExMessageBox.Show("保存失败！错误信息如下：\r\n" + returnMsg, "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                EndWait();
+            }
         }
 
         private void dgvFileList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -406,6 +426,25 @@ namespace CloudreveForWindows.Forms
 
             ShowScrollBar(directoryPath1.Handle, 3, 0);
             ShowScrollBar(panMiddleTopMiddle.Handle, 3, 0);
+        }
+
+        private void RefreshStorage()
+        {
+            int returnCode;
+            string returnMsg;
+            StorageInfo s = SystemEnvironment.GetStorageInfo(out returnCode, out returnMsg);
+            if(returnCode != 0)
+            {
+                ExMessageBox.Show("获取存储空间信息失败！\r\n错误信息如下：\r\n" + returnMsg, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                prgStorage.Maximum = Convert.ToInt32(s.TotalSpace * 100);
+                prgStorage.Minimum = 0;
+                prgStorage.Value = Convert.ToInt32(s.UsedSpace * 100);
+
+                lblStorage.Text = String.Format(lblStorage.Text.Trim(), s.UsedSpace.ToString() + " " + s.UnitName, s.TotalSpace.ToString() + " " + s.UnitName);
+            }
         }
     }
 }

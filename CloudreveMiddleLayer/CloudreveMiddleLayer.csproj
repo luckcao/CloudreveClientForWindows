@@ -53,6 +53,7 @@
     </Compile>
     <Compile Include="Entiry\FileList.cs" />
     <Compile Include="Entiry\Login.cs" />
+    <Compile Include="Entiry\SystemEnvironment.cs" />
     <Compile Include="JsonEntiryClass\GetAuthConfigJson.cs" />
     <Compile Include="JsonEntiryClass\GetFileListJson.cs" />
     <Compile Include="JsonEntiryClass\GetLoginCaptchaJson.cs" />

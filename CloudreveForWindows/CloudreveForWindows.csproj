@@ -169,9 +169,6 @@
     <None Include="Resources\music.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\share.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\video.png" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +224,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\zip_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\share.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

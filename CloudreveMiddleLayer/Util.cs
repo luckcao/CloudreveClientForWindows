@@ -27,6 +27,8 @@ namespace CloudreveMiddleLayer
             public const string GET_IMAGE_FILE_LIST_URL = "api/v3/file/search/image%2Finternal";    //获取图片文件列表URL
             public const string GET_AUDIO_FILE_LIST_URL = "api/v3/file/search/audio%2Finternal";    //获取音频文件列表URL
             public const string GET_DOCUMENT_FILE_LIST_URL = "api/v3/file/search/doc%2Finternal";   //获取文档文件列表URL
+            public const string CREATE_DIRECTORY_URL = "api/v3/directory";                          //创建目录URL
+            public const string GET_USER_STORAGE_URL = "api/v3/user/storage";                       //获取存储空间信息URL
         }
 
         public enum CloudreveFileListType

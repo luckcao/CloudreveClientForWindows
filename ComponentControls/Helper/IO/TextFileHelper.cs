@@ -12,7 +12,7 @@ namespace ComponentControls.Helper.IO
     {
         public static void OpenFileFolder(string filePath)
         {
-            FileInfo f = new FileInfo(filePath);
+            System.IO.FileInfo f = new System.IO.FileInfo(filePath);
             System.Diagnostics.Process.Start("Explorer.exe", f.DirectoryName);
         }
 

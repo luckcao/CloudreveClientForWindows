@@ -88,6 +88,7 @@
     <Compile Include="Forms\MessageBox.Designer.cs">
       <DependentUpon>MessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\IO\FileInfo.cs" />
     <Compile Include="Helper\IO\TextFileHelper.cs" />
     <Compile Include="Helper\Media\ImageHelper.cs" />
     <Compile Include="Helper\String\DecryptAndEncryptionHelper.cs" />

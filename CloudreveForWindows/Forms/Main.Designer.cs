@@ -30,23 +30,18 @@ namespace CloudreveForWindows.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panTop = new System.Windows.Forms.Panel();
-            this.btnShowProfile = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.btnShowLeftMenu = new System.Windows.Forms.PictureBox();
             this.panLeftMenu = new System.Windows.Forms.Panel();
-            this.menuLeft = new ComponentControls.Controls.NavigateMenu();
             this.panLeftBottom = new System.Windows.Forms.Panel();
             this.panRightMenu = new System.Windows.Forms.Panel();
             this.panMiddle = new System.Windows.Forms.Panel();
             this.panMiddleBottom = new System.Windows.Forms.Panel();
-            this.lblWait = new System.Windows.Forms.Label();
             this.dgvFileList = new System.Windows.Forms.DataGridView();
             this.colTick = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colType = new System.Windows.Forms.DataGridViewImageColumn();
@@ -57,13 +52,8 @@ namespace CloudreveForWindows.Forms
             this.lblFileCount = new System.Windows.Forms.Label();
             this.panMiddleTop = new System.Windows.Forms.Panel();
             this.panMiddleTopMiddle = new System.Windows.Forms.Panel();
-            this.directoryPath1 = new ComponentControls.Controls.DirectoryPath();
             this.panMiddleTopRight = new System.Windows.Forms.Panel();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.btnSort = new System.Windows.Forms.PictureBox();
             this.panMiddleTopLeft = new System.Windows.Forms.Panel();
-            this.btnBack = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.aZToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,11 +65,24 @@ namespace CloudreveForWindows.Forms
             this.最大ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.imglstFileTypeIcon = new System.Windows.Forms.ImageList(this.components);
+            this.directoryPath1 = new ComponentControls.Controls.DirectoryPath();
+            this.menuLeft = new ComponentControls.Controls.NavigateMenu();
+            this.lblWait = new System.Windows.Forms.Label();
+            this.btnShare = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.btnCreateDir = new System.Windows.Forms.PictureBox();
+            this.btnSort = new System.Windows.Forms.PictureBox();
+            this.btnBack = new System.Windows.Forms.PictureBox();
+            this.btnShowProfile = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.btnShowLeftMenu = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.prgStorage = new System.Windows.Forms.ProgressBar();
+            this.lblStorage = new System.Windows.Forms.Label();
             this.panTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnShowProfile)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnShowLeftMenu)).BeginInit();
             this.panLeftMenu.SuspendLayout();
+            this.panLeftBottom.SuspendLayout();
             this.panMiddle.SuspendLayout();
             this.panMiddleBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFileList)).BeginInit();
@@ -87,12 +90,17 @@ namespace CloudreveForWindows.Forms
             this.panMiddleTop.SuspendLayout();
             this.panMiddleTopMiddle.SuspendLayout();
             this.panMiddleTopRight.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnSort)).BeginInit();
             this.panMiddleTopLeft.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnBack)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnShare)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCreateDir)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSort)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnShowProfile)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnShowLeftMenu)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panTop
@@ -108,19 +116,6 @@ namespace CloudreveForWindows.Forms
             this.panTop.Size = new System.Drawing.Size(1317, 56);
             this.panTop.TabIndex = 0;
             // 
-            // btnShowProfile
-            // 
-            this.btnShowProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowProfile.Image = ((System.Drawing.Image)(resources.GetObject("btnShowProfile.Image")));
-            this.btnShowProfile.Location = new System.Drawing.Point(1264, 14);
-            this.btnShowProfile.Name = "btnShowProfile";
-            this.btnShowProfile.Size = new System.Drawing.Size(30, 30);
-            this.btnShowProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnShowProfile.TabIndex = 5;
-            this.btnShowProfile.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnShowProfile, "显示/隐藏用户信息导航栏");
-            this.btnShowProfile.Click += new System.EventHandler(this.btnShowProfile_Click);
-            // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -131,29 +126,6 @@ namespace CloudreveForWindows.Forms
             this.label1.Size = new System.Drawing.Size(205, 22);
             this.label1.TabIndex = 4;
             this.label1.Text = "Cloudreve For Windows";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pictureBox2.Image = global::CloudreveForWindows.Properties.Resources.Logo;
-            this.pictureBox2.Location = new System.Drawing.Point(530, 6);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(45, 45);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 3;
-            this.pictureBox2.TabStop = false;
-            // 
-            // btnShowLeftMenu
-            // 
-            this.btnShowLeftMenu.Image = global::CloudreveForWindows.Properties.Resources.show_nav_button1_white;
-            this.btnShowLeftMenu.Location = new System.Drawing.Point(17, 14);
-            this.btnShowLeftMenu.Name = "btnShowLeftMenu";
-            this.btnShowLeftMenu.Size = new System.Drawing.Size(30, 30);
-            this.btnShowLeftMenu.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnShowLeftMenu.TabIndex = 0;
-            this.btnShowLeftMenu.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnShowLeftMenu, "显示/隐藏导航栏");
-            this.btnShowLeftMenu.Click += new System.EventHandler(this.btnShowLeftMenu_Click);
             // 
             // panLeftMenu
             // 
@@ -167,23 +139,13 @@ namespace CloudreveForWindows.Forms
             this.panLeftMenu.Size = new System.Drawing.Size(240, 699);
             this.panLeftMenu.TabIndex = 1;
             // 
-            // menuLeft
-            // 
-            this.menuLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.menuLeft.Location = new System.Drawing.Point(0, 0);
-            this.menuLeft.MenuItemBackgroundColor = System.Drawing.Color.White;
-            this.menuLeft.MenuItemForeColor = System.Drawing.Color.Black;
-            this.menuLeft.MenuItemHeight = 40;
-            this.menuLeft.MenuItemMouseOnBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.menuLeft.MenuItemMouseOnForeColor = System.Drawing.Color.Black;
-            this.menuLeft.Name = "menuLeft";
-            this.menuLeft.Size = new System.Drawing.Size(240, 590);
-            this.menuLeft.TabIndex = 1;
-            this.menuLeft.MenuItemClick += new ComponentControls.Controls.NavigateMenu.MenuItemClickEvent(this.menuLeft_MenuItemClick);
-            // 
             // panLeftBottom
             // 
-            this.panLeftBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.panLeftBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panLeftBottom.Controls.Add(this.lblStorage);
+            this.panLeftBottom.Controls.Add(this.prgStorage);
+            this.panLeftBottom.Controls.Add(this.label2);
+            this.panLeftBottom.Controls.Add(this.pictureBox1);
             this.panLeftBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panLeftBottom.Location = new System.Drawing.Point(0, 590);
             this.panLeftBottom.Name = "panLeftBottom";
@@ -225,14 +187,6 @@ namespace CloudreveForWindows.Forms
             this.panMiddleBottom.Size = new System.Drawing.Size(835, 647);
             this.panMiddleBottom.TabIndex = 2;
             // 
-            // lblWait
-            // 
-            this.lblWait.Image = global::CloudreveForWindows.Properties.Resources.wait;
-            this.lblWait.Location = new System.Drawing.Point(401, 312);
-            this.lblWait.Name = "lblWait";
-            this.lblWait.Size = new System.Drawing.Size(32, 32);
-            this.lblWait.TabIndex = 5;
-            // 
             // dgvFileList
             // 
             this.dgvFileList.AllowUserToAddRows = false;
@@ -241,14 +195,14 @@ namespace CloudreveForWindows.Forms
             this.dgvFileList.AllowUserToResizeRows = false;
             this.dgvFileList.BackgroundColor = System.Drawing.Color.White;
             this.dgvFileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvFileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colTick,
@@ -290,8 +244,8 @@ namespace CloudreveForWindows.Forms
             // 
             this.colFileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colFileName.DataPropertyName = "FileName";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colFileName.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colFileName.DefaultCellStyle = dataGridViewCellStyle2;
             this.colFileName.HeaderText = "文件名";
             this.colFileName.Name = "colFileName";
             this.colFileName.ReadOnly = true;
@@ -302,8 +256,8 @@ namespace CloudreveForWindows.Forms
             // 
             this.colSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colSize.DataPropertyName = "SizeDesc";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSize.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
             this.colSize.HeaderText = "大小";
             this.colSize.Name = "colSize";
             this.colSize.ReadOnly = true;
@@ -315,8 +269,8 @@ namespace CloudreveForWindows.Forms
             // 
             this.colModifyDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colModifyDate.DataPropertyName = "ModifyDate";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colModifyDate.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colModifyDate.DefaultCellStyle = dataGridViewCellStyle4;
             this.colModifyDate.HeaderText = "修改日期";
             this.colModifyDate.Name = "colModifyDate";
             this.colModifyDate.ReadOnly = true;
@@ -359,94 +313,38 @@ namespace CloudreveForWindows.Forms
             // 
             // panMiddleTopMiddle
             // 
+            this.panMiddleTopMiddle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panMiddleTopMiddle.Controls.Add(this.directoryPath1);
             this.panMiddleTopMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panMiddleTopMiddle.Location = new System.Drawing.Point(40, 0);
             this.panMiddleTopMiddle.Name = "panMiddleTopMiddle";
-            this.panMiddleTopMiddle.Size = new System.Drawing.Size(675, 50);
+            this.panMiddleTopMiddle.Size = new System.Drawing.Size(635, 50);
             this.panMiddleTopMiddle.TabIndex = 2;
-            // 
-            // directoryPath1
-            // 
-            this.directoryPath1.AutoScrollMinSize = new System.Drawing.Size(670, 50);
-            this.directoryPath1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.directoryPath1.Location = new System.Drawing.Point(0, 0);
-            this.directoryPath1.Name = "directoryPath1";
-            this.directoryPath1.Size = new System.Drawing.Size(675, 50);
-            this.directoryPath1.TabIndex = 0;
-            this.directoryPath1.PathItemClick += new ComponentControls.Controls.DirectoryPath.PathItemClickedEvent(this.directoryPath1_PathItemClick);
             // 
             // panMiddleTopRight
             // 
+            this.panMiddleTopRight.BackColor = System.Drawing.Color.White;
+            this.panMiddleTopRight.Controls.Add(this.btnShare);
             this.panMiddleTopRight.Controls.Add(this.pictureBox5);
-            this.panMiddleTopRight.Controls.Add(this.pictureBox4);
+            this.panMiddleTopRight.Controls.Add(this.btnCreateDir);
             this.panMiddleTopRight.Controls.Add(this.btnSort);
             this.panMiddleTopRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panMiddleTopRight.Location = new System.Drawing.Point(715, 0);
-            this.panMiddleTopRight.MaximumSize = new System.Drawing.Size(120, 0);
-            this.panMiddleTopRight.MinimumSize = new System.Drawing.Size(120, 0);
+            this.panMiddleTopRight.Location = new System.Drawing.Point(675, 0);
+            this.panMiddleTopRight.MaximumSize = new System.Drawing.Size(160, 0);
+            this.panMiddleTopRight.MinimumSize = new System.Drawing.Size(160, 0);
             this.panMiddleTopRight.Name = "panMiddleTopRight";
-            this.panMiddleTopRight.Size = new System.Drawing.Size(120, 50);
+            this.panMiddleTopRight.Size = new System.Drawing.Size(160, 50);
             this.panMiddleTopRight.TabIndex = 1;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.pictureBox5.Image = global::CloudreveForWindows.Properties.Resources.upload;
-            this.pictureBox5.Location = new System.Drawing.Point(50, 15);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox5.TabIndex = 11;
-            this.pictureBox5.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBox5, "上传");
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.pictureBox4.Image = global::CloudreveForWindows.Properties.Resources.create_dir;
-            this.pictureBox4.Location = new System.Drawing.Point(8, 15);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox4.TabIndex = 10;
-            this.pictureBox4.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBox4, "创建目录");
-            // 
-            // btnSort
-            // 
-            this.btnSort.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnSort.Image = global::CloudreveForWindows.Properties.Resources.sort;
-            this.btnSort.Location = new System.Drawing.Point(89, 15);
-            this.btnSort.Name = "btnSort";
-            this.btnSort.Size = new System.Drawing.Size(20, 20);
-            this.btnSort.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnSort.TabIndex = 9;
-            this.btnSort.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnSort, "排序");
-            this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
             // 
             // panMiddleTopLeft
             // 
+            this.panMiddleTopLeft.BackColor = System.Drawing.Color.White;
             this.panMiddleTopLeft.Controls.Add(this.btnBack);
             this.panMiddleTopLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.panMiddleTopLeft.Location = new System.Drawing.Point(0, 0);
             this.panMiddleTopLeft.Name = "panMiddleTopLeft";
             this.panMiddleTopLeft.Size = new System.Drawing.Size(40, 50);
             this.panMiddleTopLeft.TabIndex = 0;
-            // 
-            // btnBack
-            // 
-            this.btnBack.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnBack.Image = global::CloudreveForWindows.Properties.Resources.image_ic_undo_disable;
-            this.btnBack.Location = new System.Drawing.Point(10, 15);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(20, 20);
-            this.btnBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnBack.TabIndex = 8;
-            this.btnBack.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnBack, "返回上一层");
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // contextMenuStrip1
             // 
@@ -534,6 +432,177 @@ namespace CloudreveForWindows.Forms
             this.imglstFileTypeIcon.ImageSize = new System.Drawing.Size(16, 16);
             this.imglstFileTypeIcon.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // directoryPath1
+            // 
+            this.directoryPath1.AutoScroll = true;
+            this.directoryPath1.AutoScrollMinSize = new System.Drawing.Size(670, 50);
+            this.directoryPath1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.directoryPath1.Location = new System.Drawing.Point(0, 0);
+            this.directoryPath1.Name = "directoryPath1";
+            this.directoryPath1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
+            this.directoryPath1.Size = new System.Drawing.Size(635, 50);
+            this.directoryPath1.TabIndex = 0;
+            this.directoryPath1.PathItemClick += new ComponentControls.Controls.DirectoryPath.PathItemClickedEvent(this.directoryPath1_PathItemClick);
+            // 
+            // menuLeft
+            // 
+            this.menuLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.menuLeft.Location = new System.Drawing.Point(0, 0);
+            this.menuLeft.MenuItemBackgroundColor = System.Drawing.Color.White;
+            this.menuLeft.MenuItemForeColor = System.Drawing.Color.Black;
+            this.menuLeft.MenuItemHeight = 40;
+            this.menuLeft.MenuItemMouseOnBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.menuLeft.MenuItemMouseOnForeColor = System.Drawing.Color.Black;
+            this.menuLeft.Name = "menuLeft";
+            this.menuLeft.Size = new System.Drawing.Size(240, 590);
+            this.menuLeft.TabIndex = 1;
+            this.menuLeft.MenuItemClick += new ComponentControls.Controls.NavigateMenu.MenuItemClickEvent(this.menuLeft_MenuItemClick);
+            // 
+            // lblWait
+            // 
+            this.lblWait.Image = global::CloudreveForWindows.Properties.Resources.wait;
+            this.lblWait.Location = new System.Drawing.Point(401, 312);
+            this.lblWait.Name = "lblWait";
+            this.lblWait.Size = new System.Drawing.Size(32, 32);
+            this.lblWait.TabIndex = 5;
+            // 
+            // btnShare
+            // 
+            this.btnShare.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnShare.Image = global::CloudreveForWindows.Properties.Resources.share;
+            this.btnShare.Location = new System.Drawing.Point(50, 15);
+            this.btnShare.Name = "btnShare";
+            this.btnShare.Size = new System.Drawing.Size(20, 20);
+            this.btnShare.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnShare.TabIndex = 12;
+            this.btnShare.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnShare, "分享");
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pictureBox5.Image = global::CloudreveForWindows.Properties.Resources.upload;
+            this.pictureBox5.Location = new System.Drawing.Point(90, 15);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 11;
+            this.pictureBox5.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox5, "上传");
+            // 
+            // btnCreateDir
+            // 
+            this.btnCreateDir.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnCreateDir.Image = global::CloudreveForWindows.Properties.Resources.create_dir;
+            this.btnCreateDir.Location = new System.Drawing.Point(8, 15);
+            this.btnCreateDir.Name = "btnCreateDir";
+            this.btnCreateDir.Size = new System.Drawing.Size(20, 20);
+            this.btnCreateDir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnCreateDir.TabIndex = 10;
+            this.btnCreateDir.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnCreateDir, "创建目录");
+            this.btnCreateDir.Click += new System.EventHandler(this.btnCreateDir_Click);
+            // 
+            // btnSort
+            // 
+            this.btnSort.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnSort.Image = global::CloudreveForWindows.Properties.Resources.sort;
+            this.btnSort.Location = new System.Drawing.Point(129, 15);
+            this.btnSort.Name = "btnSort";
+            this.btnSort.Size = new System.Drawing.Size(20, 20);
+            this.btnSort.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnSort.TabIndex = 9;
+            this.btnSort.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnSort, "排序");
+            this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
+            // 
+            // btnBack
+            // 
+            this.btnBack.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnBack.Image = global::CloudreveForWindows.Properties.Resources.image_ic_undo_disable;
+            this.btnBack.Location = new System.Drawing.Point(10, 15);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(20, 20);
+            this.btnBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnBack.TabIndex = 8;
+            this.btnBack.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnBack, "返回上一层");
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // btnShowProfile
+            // 
+            this.btnShowProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnShowProfile.Image = ((System.Drawing.Image)(resources.GetObject("btnShowProfile.Image")));
+            this.btnShowProfile.Location = new System.Drawing.Point(1264, 14);
+            this.btnShowProfile.Name = "btnShowProfile";
+            this.btnShowProfile.Size = new System.Drawing.Size(30, 30);
+            this.btnShowProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnShowProfile.TabIndex = 5;
+            this.btnShowProfile.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnShowProfile, "显示/隐藏用户信息导航栏");
+            this.btnShowProfile.Click += new System.EventHandler(this.btnShowProfile_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pictureBox2.Image = global::CloudreveForWindows.Properties.Resources.Logo;
+            this.pictureBox2.Location = new System.Drawing.Point(530, 6);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(45, 45);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 3;
+            this.pictureBox2.TabStop = false;
+            // 
+            // btnShowLeftMenu
+            // 
+            this.btnShowLeftMenu.Image = global::CloudreveForWindows.Properties.Resources.show_nav_button1_white;
+            this.btnShowLeftMenu.Location = new System.Drawing.Point(17, 14);
+            this.btnShowLeftMenu.Name = "btnShowLeftMenu";
+            this.btnShowLeftMenu.Size = new System.Drawing.Size(30, 30);
+            this.btnShowLeftMenu.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnShowLeftMenu.TabIndex = 0;
+            this.btnShowLeftMenu.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnShowLeftMenu, "显示/隐藏导航栏");
+            this.btnShowLeftMenu.Click += new System.EventHandler(this.btnShowLeftMenu_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::CloudreveForWindows.Properties.Resources.harddisk;
+            this.pictureBox1.Location = new System.Drawing.Point(23, 26);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(67, 19);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(74, 21);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "存储空间";
+            // 
+            // prgStorage
+            // 
+            this.prgStorage.BackColor = System.Drawing.Color.White;
+            this.prgStorage.Location = new System.Drawing.Point(71, 48);
+            this.prgStorage.Name = "prgStorage";
+            this.prgStorage.Size = new System.Drawing.Size(158, 8);
+            this.prgStorage.TabIndex = 2;
+            // 
+            // lblStorage
+            // 
+            this.lblStorage.AutoSize = true;
+            this.lblStorage.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblStorage.Location = new System.Drawing.Point(67, 68);
+            this.lblStorage.Name = "lblStorage";
+            this.lblStorage.Size = new System.Drawing.Size(65, 21);
+            this.lblStorage.TabIndex = 3;
+            this.lblStorage.Text = "{0} / {1}";
+            // 
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -553,10 +622,9 @@ namespace CloudreveForWindows.Forms
             this.Resize += new System.EventHandler(this.Main_Resize);
             this.panTop.ResumeLayout(false);
             this.panTop.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnShowProfile)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnShowLeftMenu)).EndInit();
             this.panLeftMenu.ResumeLayout(false);
+            this.panLeftBottom.ResumeLayout(false);
+            this.panLeftBottom.PerformLayout();
             this.panMiddle.ResumeLayout(false);
             this.panMiddleBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFileList)).EndInit();
@@ -564,12 +632,17 @@ namespace CloudreveForWindows.Forms
             this.panMiddleTop.ResumeLayout(false);
             this.panMiddleTopMiddle.ResumeLayout(false);
             this.panMiddleTopRight.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnSort)).EndInit();
             this.panMiddleTopLeft.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.btnBack)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnShare)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCreateDir)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnShowProfile)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnShowLeftMenu)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -599,7 +672,7 @@ namespace CloudreveForWindows.Forms
         private System.Windows.Forms.DataGridView dgvFileList;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblFileCount;
-        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox btnCreateDir;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.ImageList imglstFileTypeIcon;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colTick;
@@ -616,5 +689,10 @@ namespace CloudreveForWindows.Forms
         private System.Windows.Forms.ToolStripMenuItem 最小ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 最大ToolStripMenuItem;
         private ComponentControls.Controls.DirectoryPath directoryPath1;
+        private System.Windows.Forms.PictureBox btnShare;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblStorage;
+        private System.Windows.Forms.ProgressBar prgStorage;
+        private System.Windows.Forms.Label label2;
     }
 }

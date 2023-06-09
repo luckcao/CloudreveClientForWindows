@@ -10,12 +10,19 @@ using System.Windows.Forms;
 
 namespace ComponentControls.Forms
 {
-    internal partial class MessageBox : Form
+    public partial class MessageBox : Form
     {
-        public MessageBox(string message = "", string title = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Information, MessageBoxDefaultButton defaultButton = MessageBoxDefaultButton.Button1)
+        public MessageBox(string message = "", string title = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Information, MessageBoxDefaultButton defaultButton = MessageBoxDefaultButton.Button1, bool readOnly = true, bool multiLine = true)
         {
             InitializeComponent();
             this.txtMessage.Text = message;
+            this.txtMessage.ReadOnly = readOnly;
+            this.txtMessage.Multiline = multiLine;
+            if(!multiLine)
+            {
+                this.txtMessage.BorderStyle = BorderStyle.FixedSingle;
+                this.txtMessage.Focus();
+            }
             this.lblTitle.Text = title;
             switch (buttons)
             {
@@ -81,8 +88,22 @@ namespace ComponentControls.Forms
             }
         }
 
+        public string InputText
+        {
+            get { return txtMessage.Text.Trim(); }
+        }
+
         private void btn_Click(object sender, EventArgs e)
         {
+            if(!txtMessage.ReadOnly && !requirementErrorProvider1.ValidateInput())
+            {
+                return;
+            }
+            else
+            {
+                requirementErrorProvider1.Clear();
+            }
+
             switch (btnOK.Text.Trim())
             {
                 case "确定":

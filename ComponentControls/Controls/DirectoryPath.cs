@@ -148,5 +148,16 @@ namespace ComponentControls.Controls
         {
             ShowScrollBar(this.Handle, 3, 0);
         }
+
+        public void ClearAllPath()
+        {
+            while (controlList.Count > 0)
+            {
+                RemoveLastPath();
+            }
+            nextPosition.X = Padding.Left;
+            nextPosition.Y = Padding.Top;
+
+        }
     }
 }
