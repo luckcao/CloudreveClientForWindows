@@ -228,5 +228,29 @@
   <ItemGroup>
     <None Include="Resources\share.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_task.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause_task.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\finished.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open_folder.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

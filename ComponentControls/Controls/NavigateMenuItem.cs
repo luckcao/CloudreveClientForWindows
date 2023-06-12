@@ -26,11 +26,10 @@ namespace ComponentControls.Controls
         internal delegate void MenuItemClickEvent(object sender, NavigateMenuItemClickedArgs e);
         internal event MenuItemClickEvent MenuItemClick;
 
-        public NavigateMenuItem(int menuID, Image menuIcon, string menuText, int parentMenuID)
+        public NavigateMenuItem(Image menuIcon, string menuText, int parentMenuID)
         {
             InitializeComponent();
             this.picMenuIcon.Image = menuIcon;
-            this.menuID = menuID;
             this.lblMenuText.Text = menuText;
             this.parentMenuID = parentMenuID;
             this.picStatus.Visible = false;
@@ -39,17 +38,20 @@ namespace ComponentControls.Controls
 
         }
 
-        public NavigateMenuItem(int menuID, Image menuIcon, string menuText)
+        public NavigateMenuItem(Image menuIcon, string menuText)
         {
             InitializeComponent();
             this.picMenuIcon.Image = menuIcon;
-            this.menuID = menuID;
             this.lblMenuText.Text = menuText;
             this.picStatus.Image = global::ComponentControls.Properties.Resources.js_assets_xiala;
         }
 
 
-        public int MenuID { get { return menuID; } }
+        public int MenuID 
+        { 
+            get { return menuID; } 
+            set { menuID = value; }
+        }
 
         public int ParentMenuID { get { return parentMenuID; } }
 

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSetSystemConfig" targetNamespace="http://tempuri.org/DataSetSystemConfig.xsd" xmlns:mstns="http://tempuri.org/DataSetSystemConfig.xsd" xmlns="http://tempuri.org/DataSetSystemConfig.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSetSystemConfig" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSetSystemConfig" msprop:Generator_UserDSName="DataSetSystemConfig">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TBL_ServerInfo" msprop:Generator_TableClassName="TBL_ServerInfoDataTable" msprop:Generator_TableVarName="tableTBL_ServerInfo" msprop:Generator_TablePropName="TBL_ServerInfo" msprop:Generator_RowDeletingName="TBL_ServerInfoRowDeleting" msprop:Generator_RowChangingName="TBL_ServerInfoRowChanging" msprop:Generator_RowEvHandlerName="TBL_ServerInfoRowChangeEventHandler" msprop:Generator_RowDeletedName="TBL_ServerInfoRowDeleted" msprop:Generator_UserTableName="TBL_ServerInfo" msprop:Generator_RowChangedName="TBL_ServerInfoRowChanged" msprop:Generator_RowEvArgName="TBL_ServerInfoRowChangeEvent" msprop:Generator_RowClassName="TBL_ServerInfoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ServerUrl" msprop:Generator_ColumnVarNameInTable="columnServerUrl" msprop:Generator_ColumnPropNameInRow="ServerUrl" msprop:Generator_ColumnPropNameInTable="ServerUrlColumn" msprop:Generator_UserColumnName="ServerUrl" type="xs:string" minOccurs="0" />
+              <xs:element name="UserName" msprop:Generator_ColumnVarNameInTable="columnUserName" msprop:Generator_ColumnPropNameInRow="UserName" msprop:Generator_ColumnPropNameInTable="UserNameColumn" msprop:Generator_UserColumnName="UserName" type="xs:string" minOccurs="0" />
+              <xs:element name="Password" msprop:Generator_ColumnVarNameInTable="columnPassword" msprop:Generator_ColumnPropNameInRow="Password" msprop:Generator_ColumnPropNameInTable="PasswordColumn" msprop:Generator_UserColumnName="Password" type="xs:string" minOccurs="0" />
+              <xs:element name="Cookie" msprop:Generator_ColumnVarNameInTable="columnCookie" msprop:Generator_ColumnPropNameInRow="Cookie" msprop:Generator_ColumnPropNameInTable="CookieColumn" msprop:Generator_UserColumnName="Cookie" type="xs:string" minOccurs="0" />
+              <xs:element name="RememberUserInfo" msprop:Generator_ColumnVarNameInTable="columnRememberUserInfo" msprop:Generator_ColumnPropNameInRow="RememberUserInfo" msprop:Generator_ColumnPropNameInTable="RememberUserInfoColumn" msprop:Generator_UserColumnName="RememberUserInfo" type="xs:boolean" minOccurs="0" />
+              <xs:element name="AutoLogin" msprop:Generator_ColumnVarNameInTable="columnAutoLogin" msprop:Generator_ColumnPropNameInRow="AutoLogin" msprop:Generator_ColumnPropNameInTable="AutoLoginColumn" msprop:Generator_UserColumnName="AutoLogin" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

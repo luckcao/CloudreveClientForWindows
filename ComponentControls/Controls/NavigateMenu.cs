@@ -73,6 +73,11 @@ namespace ComponentControls.Controls
             }
             GC.Collect();
 
+            for (int i = 0; i < menuItems.Count; i++)
+            {
+                menuItems[i].MenuID = i;
+            }
+
             if (menuItems != null)
             {
                 if (sortByMenuID)
@@ -148,9 +153,10 @@ namespace ComponentControls.Controls
         private void NavigateMenu_MenuItemClick(object sender, NavigateMenuItemClickedArgs e)
         {
             NavigateMenuItem m = (NavigateMenuItem)sender;
-            if(m.panParent == null)
+            if(m.panParent == null && m.ChildPanel != null)
             {
-                //根菜单项
+                //根菜单项，并且有子菜单项
+                //有子菜单项
                 m.ChildPanel.Visible = !m.ChildPanel.Visible;
                 m.StatusImage = m.ChildPanel.Visible ?
                     global::ComponentControls.Properties.Resources.js_assets_xiala :

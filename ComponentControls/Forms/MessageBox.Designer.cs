@@ -48,7 +48,7 @@ namespace ComponentControls.Forms
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(81)))), ((int)(((byte)(181)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.lblTitle);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -62,6 +62,7 @@ namespace ComponentControls.Forms
             this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
             this.lblTitle.Location = new System.Drawing.Point(12, 9);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(481, 22);
@@ -89,7 +90,7 @@ namespace ComponentControls.Forms
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.ReadOnly = true;
             this.txtMessage.Size = new System.Drawing.Size(377, 112);
-            this.txtMessage.TabIndex = 1;
+            this.txtMessage.TabIndex = 0;
             // 
             // picIcon
             // 
@@ -103,7 +104,6 @@ namespace ComponentControls.Forms
             // 
             // panel3
             // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.btnCancel);
             this.panel3.Controls.Add(this.btnOK);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -114,26 +114,26 @@ namespace ComponentControls.Forms
             // 
             // btnCancel
             // 
-            this.btnCancel.BackColor = System.Drawing.Color.LightCoral;
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(0, 0);
+            this.btnCancel.BackColor = System.Drawing.Color.White;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.ForeColor = System.Drawing.Color.Black;
+            this.btnCancel.Location = new System.Drawing.Point(2, 2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(252, 46);
-            this.btnCancel.TabIndex = 3;
+            this.btnCancel.Size = new System.Drawing.Size(248, 42);
+            this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "button2";
             this.btnCancel.UseVisualStyleBackColor = false;
-            this.btnCancel.Click += new System.EventHandler(this.btn_Click);
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
-            this.btnOK.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnOK.ForeColor = System.Drawing.Color.White;
-            this.btnOK.Location = new System.Drawing.Point(252, 0);
+            this.btnOK.BackColor = System.Drawing.Color.White;
+            this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOK.ForeColor = System.Drawing.Color.Black;
+            this.btnOK.Location = new System.Drawing.Point(254, 2);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(252, 46);
-            this.btnOK.TabIndex = 2;
+            this.btnOK.Size = new System.Drawing.Size(248, 42);
+            this.btnOK.TabIndex = 1;
             this.btnOK.Text = "button1";
             this.btnOK.UseVisualStyleBackColor = false;
             this.btnOK.Click += new System.EventHandler(this.btn_Click);
@@ -159,6 +159,7 @@ namespace ComponentControls.Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ExMessageBox";
+            this.Load += new System.EventHandler(this.MessageBox_Load);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

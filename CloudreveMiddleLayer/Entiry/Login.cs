@@ -1,4 +1,6 @@
-﻿using ComponentControls.Helper.Media;
+﻿using CloudreveMiddleLayer.Data;
+using CloudreveMiddleLayer.DataSet;
+using ComponentControls.Helper.Media;
 using ComponentControls.Helper.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,6 +15,61 @@ namespace CloudreveMiddleLayer.Entiry
 {
     public class Login
     {
+        #region DB Method
+
+        public static bool GetServerInfo(DataSetSystemConfig.TBL_ServerInfoDataTable dt)
+        {
+            using(DataHelper da = new DataHelper())
+            {
+                string sql = "Select * From TBL_ServerInfo";
+                return da.GetData(sql, dt);
+            }
+        }
+
+        public static bool SaveServerUrl(DataSetSystemConfig.TBL_ServerInfoDataTable dt)
+        {
+            using (DataHelper da = new DataHelper())
+            {
+                da.BeginTransaction();
+
+                try
+                {
+                    string sql = "Delete From TBL_ServerInfo";
+                    da.ExecuteSQL(sql);
+
+                    for (int i = 0; i < dt.Count; i++)
+                    {
+                        da.AddParameter("@ServerUrl", DataHelper.SqlNull(dt[i].ServerUrl));
+                        da.AddParameter("@UserName", DataHelper.SqlNull(dt[i].UserName));
+                        da.AddParameter("@Password", DataHelper.SqlNull(dt[i].Password));
+                        da.AddParameter("@Cookie", DataHelper.SqlNull(dt[i].Cookie));
+                        da.AddParameter("@RememberUserInfo", DataHelper.SqlNull(dt[i].RememberUserInfo.ToString()));
+                        da.AddParameter("@AutoLogin", DataHelper.SqlNull(dt[i].AutoLogin.ToString()));
+
+                        sql = "INSERT INTO TBL_ServerInfo (ServerUrl, UserName, Password, Cookie, RememberUserInfo, AutoLogin) " +
+                            " Values(@ServerUrl, @UserName, @Password, @Cookie, @RememberUserInfo, @AutoLogin)";
+
+                        if (!da.ExecuteSQL(sql))
+                        {
+                            throw new Exception("Insert TBL_ServerInfo Record Error.");
+                        }
+                    }
+
+                    da.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    da.RollBack();
+                    return false;
+                }
+            }
+        }
+
+        #endregion
+
+        #region API Method
+
         public static bool LoadCloudreveServerAuthConfig(string url)
         {
             if(String.IsNullOrEmpty(url))
@@ -92,5 +149,7 @@ namespace CloudreveMiddleLayer.Entiry
             }
             return false;
         }
+
+        #endregion
     }
 }

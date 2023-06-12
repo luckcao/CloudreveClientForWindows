@@ -1,6 +1,7 @@
 ﻿using ComponentControls.Helper.Web;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
@@ -13,7 +14,7 @@ namespace CloudreveMiddleLayer
         public static string GLOBLE_COOKIE = "";
         public static string GLOBLE_URL = "";
         public static CloudreveMiddleLayer.JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;
-
+        public static List<string> Paused_Download_Task = new List<string>();
 
         public class CloudreveWebURL
         {
@@ -29,6 +30,13 @@ namespace CloudreveMiddleLayer
             public const string GET_DOCUMENT_FILE_LIST_URL = "api/v3/file/search/doc%2Finternal";   //获取文档文件列表URL
             public const string CREATE_DIRECTORY_URL = "api/v3/directory";                          //创建目录URL
             public const string GET_USER_STORAGE_URL = "api/v3/user/storage";                       //获取存储空间信息URL
+            public const string DELETE_FILE_URL = "api/v3/object";                                  //删除文件/文件夹URL
+            public const string GET_DOWNLOAD_FILE_URL = "api/v3/file/download";                     //获取下载文件的URL
+        }
+
+        public static string DataBaseFullPath
+        {
+            get { return GetApplicationPath() + @"system.db"; }
         }
 
         public enum CloudreveFileListType

@@ -1,4 +1,5 @@
 ﻿using CloudreveMiddleLayer;
+using CloudreveMiddleLayer.DataSet;
 using ComponentControls.Forms;
 using ComponentControls.Helper.IO;
 using ComponentControls.Helper.String;
@@ -11,7 +12,7 @@ namespace CloudreveForWindows.Forms
 {
     public partial class Login : Form
     {
-        DataTable dtDB = new DataTable("TBL_DB_Config");
+        DataSetSystemConfig.TBL_ServerInfoDataTable dtDB = new DataSetSystemConfig.TBL_ServerInfoDataTable();
 
         public Login()
         {
@@ -24,73 +25,47 @@ namespace CloudreveForWindows.Forms
 
             try
             {
-                string dbFile = Util.GetApplicationPath() + "DB.config";
-                if (File.Exists(dbFile))
+                if (CloudreveMiddleLayer.Entiry.Login.GetServerInfo(dtDB))
                 {
-                    //如果DB.config文件存在
-
-                    string config = TextFileHelper.ReadTextFile(dbFile);
-                    if (string.IsNullOrEmpty(config))
+                    int autoLoginRowIndex = -1;
+                    for (int i = 0; i < dtDB.Count; i++)
                     {
-                        //说明读取DB.config文件失败
-                        InitialDataTable();
-                        throw new Exception("读取本地配置文件失败！");
-                    }
-
-                    config = DecryptAndEncryptionHelper.Decrypto(config);
-                    if (!Util.DataTableReadXML(config, dtDB) || dtDB.Rows.Count == 0)
-                    {
-                        InitialDataTable();
-                    }
-                    else
-                    {
-                        int autoLoginRowIndex = -1;
-                        for (int i = 0; i < dtDB.Rows.Count; i++)
+                        cboDB.Items.Insert(0, dtDB[i].ServerUrl);
+                        if (Convert.ToBoolean(dtDB[i].AutoLogin))
                         {
-                            cboDB.Items.Insert(0, dtDB.Rows[i]["ServerUrl"].ToString());
-                            if (Convert.ToBoolean(dtDB.Rows[i]["AutoLogin"]))
-                            {
-                                autoLoginRowIndex = i;
-                            }
+                            autoLoginRowIndex = i;
                         }
-                        if (autoLoginRowIndex != -1)
-                        {
-                            cboDB.SelectedIndex = 0;
-                            txtUserName.Text = dtDB.Rows[autoLoginRowIndex]["UserName"].ToString();
-                            txtPWD.Text = dtDB.Rows[autoLoginRowIndex]["Password"].ToString();
-                            chkRememberInfo.Checked = true;
-                            chkAutoLogin.Checked = true;
+                    }
+                    if (autoLoginRowIndex != -1)
+                    {
+                        cboDB.SelectedIndex = 0;
+                        txtUserName.Text = dtDB[autoLoginRowIndex].UserName;
+                        txtPWD.Text = DecryptAndEncryptionHelper.Decrypto(dtDB[autoLoginRowIndex].Password);
+                        Util.GLOBLE_COOKIE = DecryptAndEncryptionHelper.Decrypto(dtDB[autoLoginRowIndex].Cookie);
+                        chkRememberInfo.Checked = true;
+                        chkAutoLogin.Checked = true;
 
+                        try
+                        {
                             LoadServerConfig();
 
                             if (StartLogin())
                             {
-                                //登录成功！
-                                //ExMessageBox.Show("登录成功！", "成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                //将dtDB加密保存至文件
-                                //string dtXML = Util.DataTableWriteXML(dtDB);
-                                //dtXML = DecryptAndEncryptionHelper.Encrypto(dtXML);
-                                //if (!TextFileHelper.WriteTextFile(dbFile, new String[] { dtXML }, false))
-                                //{
-                                //    throw new Exception("更新登录配置文件失败...");
-                                //}
                                 //跳转到主页面
                                 Util.GLOBLE_URL = cboDB.Text.Trim();
                                 this.Hide();
                                 new Main().ShowDialog();
                                 this.Close();
                             }
-                            else
-                            {
-                                //自动登录失败，继续停留在登录页面
-                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ExMessageBox.Show("出错。错误信息如下：\r\n" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
                 else
                 {
-                    //DB.config文件不存在，则初始化dtDB
-                    InitialDataTable();
                     cboDB.Focus();
                     //检查登录是否需要输入验证码
                     DisplayCaptchaIfNeed();
@@ -103,17 +78,6 @@ namespace CloudreveForWindows.Forms
             }
 
             this.Cursor = Cursors.Default;
-        }
-
-        private void InitialDataTable()
-        {
-            dtDB.Columns.Add("ServerUrl", Type.GetType("System.String"));
-            dtDB.Columns.Add("UserName", Type.GetType("System.String"));
-            dtDB.Columns.Add("Password", Type.GetType("System.String"));
-            dtDB.Columns.Add("Cookie", Type.GetType("System.String"));
-            dtDB.Columns.Add("RememberUserInfo", Type.GetType("System.Boolean"));
-            dtDB.Columns.Add("AutoLogin", Type.GetType("System.Boolean"));
-            dtDB.AcceptChanges();
         }
 
         private void DisplayCaptchaIfNeed()
@@ -166,12 +130,19 @@ namespace CloudreveForWindows.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                LoadServerConfig();
-                DisplayCaptchaIfNeed();
-                DisplayRegisterIfNeed();
-                DisplaySavedUserNameAndPWD();
+                try
+                {
+                    LoadServerConfig();
+                    DisplayCaptchaIfNeed();
+                    DisplayRegisterIfNeed();
+                    DisplaySavedUserNameAndPWD();
 
-                chkRememberInfo.Checked = true;
+                    chkRememberInfo.Checked = true;
+                }
+                catch (Exception ex)
+                {
+                    ExMessageBox.Show("出错。错误信息如下：\r\n" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
                 this.Cursor = Cursors.Default;
             }
@@ -198,9 +169,16 @@ namespace CloudreveForWindows.Forms
 
                 this.Cursor = Cursors.WaitCursor;
 
-                LoadServerConfig();
-                DisplayCaptchaIfNeed();
-                DisplayRegisterIfNeed();
+                try
+                {
+                    LoadServerConfig();
+                    DisplayCaptchaIfNeed();
+                    DisplayRegisterIfNeed();
+                }
+                catch (Exception ex)
+                {
+                    ExMessageBox.Show("出错。错误信息如下：\r\n" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
                 this.Cursor = Cursors.Default;
             }
@@ -210,9 +188,9 @@ namespace CloudreveForWindows.Forms
         {
             if(cboDB.SelectedIndex >=0)
             {
-                DataRow dr = dtDB.Select("ServerURL = '" + cboDB.Text.Trim() + "'")[0];
-                txtUserName.Text = dr.IsNull("UserName") ? "" : dr["UserName"].ToString().Trim();
-                txtPWD.Text = dr.IsNull("Password") ? "" : dr["Password"].ToString().Trim();
+                DataSetSystemConfig.TBL_ServerInfoRow dr = (DataSetSystemConfig.TBL_ServerInfoRow)dtDB.Select("ServerURL = '" + cboDB.Text.Trim() + "'")[0];
+                txtUserName.Text = dr.IsUserNameNull() ? "" : dr.UserName.Trim();
+                txtPWD.Text = dr.IsPasswordNull() ? "" : DecryptAndEncryptionHelper.Decrypto(dr.Password.Trim());
             }
         }
 
@@ -302,8 +280,7 @@ namespace CloudreveForWindows.Forms
                 //将现在的登录信息添加/更新至dtDB，并加密后保存至DB.config文件
                 if (cboDB.SelectedIndex >= 0)
                 {
-                    DataRow[] drs = dtDB.Select("ServerURL = '" + cboDB.Text.Trim() + "'");
-                    DataRow dr = drs[0];
+                    DataSetSystemConfig.TBL_ServerInfoRow dr = ((DataSetSystemConfig.TBL_ServerInfoRow[])dtDB.Select("ServerURL = '" + cboDB.Text.Trim() + "'"))[0];
 
                     if (chkRememberInfo.Checked)
                     {
@@ -312,14 +289,14 @@ namespace CloudreveForWindows.Forms
                         {
                             for (int i = 0; i < dtDB.Rows.Count; i++)
                             {
-                                dtDB.Rows[i]["AutoLogin"] = false;
+                                dtDB[i].AutoLogin = false;
                             }
                         }
 
-                        dr["Password"] = txtPWD.Text.Trim();
-                        dr["Cookie"] = Util.GLOBLE_COOKIE;
-                        dr["RememberUserInfo"] = chkRememberInfo.Checked;
-                        dr["AutoLogin"] = chkAutoLogin.Checked;
+                        dr.Password = DecryptAndEncryptionHelper.Encrypto(txtPWD.Text.Trim());
+                        dr.Cookie = DecryptAndEncryptionHelper.Encrypto(Util.GLOBLE_COOKIE);
+                        dr.RememberUserInfo = chkRememberInfo.Checked;
+                        dr.AutoLogin = chkAutoLogin.Checked;
                         dtDB.AcceptChanges();
                     }
                     else
@@ -330,21 +307,18 @@ namespace CloudreveForWindows.Forms
                 }
                 else if (chkRememberInfo.Checked)
                 {
-                    DataRow dr = dtDB.NewRow();
-                    dr["ServerURL"] = cboDB.Text.Trim();
-                    dr["UserName"] = txtUserName.Text.Trim();
-                    dr["Password"] = txtPWD.Text.Trim();
-                    dr["Cookie"] = Util.GLOBLE_COOKIE;
-                    dr["RememberUserInfo"] = chkRememberInfo.Checked;
-                    dr["AutoLogin"] = chkAutoLogin.Checked;
-                    dtDB.Rows.Add(dr);
+                    DataSetSystemConfig.TBL_ServerInfoRow dr = dtDB.NewTBL_ServerInfoRow();
+                    dr.ServerUrl = cboDB.Text.Trim();
+                    dr.UserName = txtUserName.Text.Trim();
+                    dr.Password = DecryptAndEncryptionHelper.Encrypto(txtPWD.Text.Trim());
+                    dr.Cookie = Util.GLOBLE_COOKIE;
+                    dr.RememberUserInfo = chkRememberInfo.Checked;
+                    dr.AutoLogin = chkAutoLogin.Checked;
+                    dtDB.AddTBL_ServerInfoRow(dr);
                     dtDB.AcceptChanges();
                 }
 
-                string dtXML = Util.DataTableWriteXML(dtDB);
-                dtXML = DecryptAndEncryptionHelper.Encrypto(dtXML);
-
-                if (!TextFileHelper.WriteTextFile(Util.GetApplicationPath() + "DB.config", new string[] { dtXML }, false))
+                if (!CloudreveMiddleLayer.Entiry.Login.SaveServerUrl(dtDB))
                 {
                     ExMessageBox.Show("保存登录信息失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }

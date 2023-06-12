@@ -28,7 +28,7 @@ namespace CloudreveMiddleLayer.JsonEntiryClass
             /// <summary>
             /// 
             /// </summary>
-            public string pic { get; set; }
+            public bool thumb { get; set; }
 
             /// <summary>
             /// 

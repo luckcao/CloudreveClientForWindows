@@ -78,12 +78,15 @@ namespace ComponentControls.Forms
             {
                 case MessageBoxDefaultButton.Button1:
                     this.AcceptButton = btnOK;
-                    this.btnOK.Focus();
                     this.CancelButton = btnCancel;
+                    this.btnOK.Focus();
                     break;
                 case MessageBoxDefaultButton.Button2:
+                    btnOK.TabIndex = 2;
+                    btnCancel.TabIndex = 1;
                     this.AcceptButton = btnCancel;
                     this.CancelButton = btnOK;
+                    this.btnCancel.Focus();
                     break;
             }
         }
@@ -103,8 +106,8 @@ namespace ComponentControls.Forms
             {
                 requirementErrorProvider1.Clear();
             }
-
-            switch (btnOK.Text.Trim())
+            Button btn = (Button)sender;
+            switch (btn.Text.Trim())
             {
                 case "确定":
                     this.DialogResult = DialogResult.OK;
@@ -123,6 +126,36 @@ namespace ComponentControls.Forms
                     break;
             }
             this.Close();
+        }
+
+        private void MessageBox_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            switch (btn.Text.Trim())
+            {
+                case "确定":
+                    this.DialogResult = DialogResult.OK;
+                    break;
+                case "取消":
+                    this.DialogResult = DialogResult.Cancel;
+                    break;
+                case "是":
+                    this.DialogResult = DialogResult.Yes;
+                    break;
+                case "否":
+                    this.DialogResult = DialogResult.No;
+                    break;
+                case "重试":
+                    this.DialogResult = DialogResult.Retry;
+                    break;
+            }
+            this.Close();
+
         }
     }
 }

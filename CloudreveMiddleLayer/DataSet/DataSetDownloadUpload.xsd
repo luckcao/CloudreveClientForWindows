@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSetDownloadUpload" targetNamespace="http://tempuri.org/DataSetDownloadUpload.xsd" xmlns:mstns="http://tempuri.org/DataSetDownloadUpload.xsd" xmlns="http://tempuri.org/DataSetDownloadUpload.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSetDownloadUpload" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSetDownloadUpload" msprop:Generator_UserDSName="DataSetDownloadUpload">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TBL_DownloadInfo" msprop:Generator_TableClassName="TBL_DownloadInfoDataTable" msprop:Generator_TableVarName="tableTBL_DownloadInfo" msprop:Generator_RowChangedName="TBL_DownloadInfoRowChanged" msprop:Generator_TablePropName="TBL_DownloadInfo" msprop:Generator_RowDeletingName="TBL_DownloadInfoRowDeleting" msprop:Generator_RowChangingName="TBL_DownloadInfoRowChanging" msprop:Generator_RowEvHandlerName="TBL_DownloadInfoRowChangeEventHandler" msprop:Generator_RowDeletedName="TBL_DownloadInfoRowDeleted" msprop:Generator_RowClassName="TBL_DownloadInfoRow" msprop:Generator_UserTableName="TBL_DownloadInfo" msprop:Generator_RowEvArgName="TBL_DownloadInfoRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FileID" msprop:Generator_ColumnVarNameInTable="columnFileID" msprop:Generator_ColumnPropNameInRow="FileID" msprop:Generator_ColumnPropNameInTable="FileIDColumn" msprop:Generator_UserColumnName="FileID" type="xs:string" minOccurs="0" />
+              <xs:element name="FileName" msprop:Generator_ColumnVarNameInTable="columnFileName" msprop:Generator_ColumnPropNameInRow="FileName" msprop:Generator_ColumnPropNameInTable="FileNameColumn" msprop:Generator_UserColumnName="FileName" type="xs:string" minOccurs="0" />
+              <xs:element name="FileSizeDesc" msprop:Generator_ColumnVarNameInTable="columnFileSizeDesc" msprop:Generator_ColumnPropNameInRow="FileSizeDesc" msprop:Generator_ColumnPropNameInTable="FileSizeDescColumn" msprop:Generator_UserColumnName="FileSizeDesc" type="xs:string" minOccurs="0" />
+              <xs:element name="DownloadPercent" msprop:Generator_ColumnVarNameInTable="columnDownloadPercent" msprop:Generator_ColumnPropNameInRow="DownloadPercent" msprop:Generator_ColumnPropNameInTable="DownloadPercentColumn" msprop:Generator_UserColumnName="DownloadPercent" type="xs:double" minOccurs="0" />
+              <xs:element name="DownloadStatus" msprop:Generator_ColumnVarNameInTable="columnDownloadStatus" msprop:Generator_ColumnPropNameInRow="DownloadStatus" msprop:Generator_ColumnPropNameInTable="DownloadStatusColumn" msprop:Generator_UserColumnName="DownloadStatus" type="xs:base64Binary" minOccurs="0" />
+              <xs:element name="FilePathFrom" msprop:Generator_ColumnVarNameInTable="columnFilePathFrom" msprop:Generator_ColumnPropNameInRow="FilePathFrom" msprop:Generator_ColumnPropNameInTable="FilePathFromColumn" msprop:Generator_UserColumnName="FilePathFrom" type="xs:string" minOccurs="0" />
+              <xs:element name="DownloadFilePath" msprop:Generator_ColumnVarNameInTable="columnDownloadFilePath" msprop:Generator_ColumnPropNameInRow="DownloadFilePath" msprop:Generator_ColumnPropNameInTable="DownloadFilePathColumn" msprop:Generator_UserColumnName="DownloadFilePath" type="xs:string" minOccurs="0" />
+              <xs:element name="OpenFolderDesc" msprop:Generator_ColumnVarNameInTable="columnOpenFolderDesc" msprop:Generator_ColumnPropNameInRow="OpenFolderDesc" msprop:Generator_ColumnPropNameInTable="OpenFolderDescColumn" msprop:Generator_UserColumnName="OpenFolderDesc" type="xs:string" minOccurs="0" />
+              <xs:element name="DeleteDesc" msprop:Generator_ColumnVarNameInTable="columnDeleteDesc" msprop:Generator_ColumnPropNameInRow="DeleteDesc" msprop:Generator_ColumnPropNameInTable="DeleteDescColumn" msprop:Generator_UserColumnName="DeleteDesc" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
