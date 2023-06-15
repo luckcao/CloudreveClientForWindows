@@ -417,9 +417,11 @@ namespace CloudreveMiddleLayer.Entiry
             return false;
         }
 
-        public static List<JsonEntiryClass.GetShareFileJson.ItemsItem>  GetShareFileList(, out int returnCode, out string returnMessage)
+        public static List<JsonEntiryClass.GetShareFileJson.ItemsItem>  GetShareFileList(out int returnCode, out string returnMessage)
         {
-
+            returnCode = -1;
+            returnMessage = String.Empty;
+            return null;
         }
 
         #endregion
