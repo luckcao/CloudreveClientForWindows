@@ -32,6 +32,8 @@ namespace CloudreveMiddleLayer
             public const string GET_USER_STORAGE_URL = "api/v3/user/storage";                       //获取存储空间信息URL
             public const string DELETE_FILE_URL = "api/v3/object";                                  //删除文件/文件夹URL
             public const string GET_DOWNLOAD_FILE_URL = "api/v3/file/download";                     //获取下载文件的URL
+            public const string GET_RENAME_FILE_URL = "api/v3/object/rename";                       //获取重命名URL
+            public const string SHARE_FILE_URL = "api/v3/share";                                    //创建分享URL
         }
 
         public static string DataBaseFullPath

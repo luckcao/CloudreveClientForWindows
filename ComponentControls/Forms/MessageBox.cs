@@ -12,6 +12,11 @@ namespace ComponentControls.Forms
 {
     public partial class MessageBox : Form
     {
+        public MessageBox()
+        {
+
+        }
+
         public MessageBox(string message = "", string title = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Information, MessageBoxDefaultButton defaultButton = MessageBoxDefaultButton.Button1, bool readOnly = true, bool multiLine = true)
         {
             InitializeComponent();

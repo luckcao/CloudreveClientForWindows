@@ -81,6 +81,24 @@
     <Compile Include="Controls\NavigateMenuItem.Designer.cs">
       <DependentUpon>NavigateMenuItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TransferFile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TransferFile.Designer.cs">
+      <DependentUpon>TransferFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TransferFileItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TransferFileItem.Designer.cs">
+      <DependentUpon>TransferFileItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TransferFileProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TransferFileProgressBar.Designer.cs">
+      <DependentUpon>TransferFileProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ExMessageBox.cs" />
     <Compile Include="Forms\MessageBox.cs">
       <SubType>Form</SubType>
@@ -113,6 +131,12 @@
     <EmbeddedResource Include="Controls\NavigateMenuItem.resx">
       <DependentUpon>NavigateMenuItem.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TransferFile.resx">
+      <DependentUpon>TransferFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TransferFileItem.resx">
+      <DependentUpon>TransferFileItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MessageBox.resx">
       <DependentUpon>MessageBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,6 +162,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\js_assets_xiala.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause_task.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_task.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open_folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\finished.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

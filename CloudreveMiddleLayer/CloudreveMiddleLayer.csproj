@@ -87,6 +87,7 @@
     <Compile Include="JsonEntiryClass\GetAuthConfigJson.cs" />
     <Compile Include="JsonEntiryClass\GetFileListJson.cs" />
     <Compile Include="JsonEntiryClass\GetLoginCaptchaJson.cs" />
+    <Compile Include="JsonEntiryClass\GetShareFileJson.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

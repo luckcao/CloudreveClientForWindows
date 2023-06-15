@@ -1,6 +1,7 @@
 ﻿using CloudreveMiddleLayer.Data;
 using CloudreveMiddleLayer.DataSet;
 using CloudreveMiddleLayer.JsonEntiryClass;
+using ComponentControls.Controls;
 using ComponentControls.Helper.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -159,7 +160,9 @@ namespace CloudreveMiddleLayer.Entiry
             return false;
         }
 
-        public static bool DownloadFile(DataSetDownloadUpload.TBL_DownloadInfoRow dr, out int returnCode, out string returnMessage)
+        #region Download
+
+        public static bool DownloadFile(DataSetDownloadUpload.TBL_DownloadInfoRow dr, TransferFileProgressBar pb, out int returnCode, out string returnMessage)
         {
             string url = Util.GLOBLE_URL;
             if (!url.EndsWith("/"))
@@ -182,17 +185,21 @@ namespace CloudreveMiddleLayer.Entiry
                     //开始下载文件
                     if (!DownLoadFile(downloadURL,
                                       dr.DownloadFilePath,
-                                      dr.FileID,
-                                      new Action<double>(
-                                                            (double value)
-                                                            =>
-                                                            {
-                                                                //更新进度条
-                                                                dr.DownloadPercent = value;
-                                                                //Console.WriteLine(value);
-                                                                //dr.AcceptChanges();
-                                                                Application.DoEvents();
-                                                            })
+                                      dr.FileID
+                                        , new Action<int>(
+                                                              (int value)
+                                                              =>
+                                                              {
+
+                                                                  try
+                                                                  {
+                                                                      pb.SetProgressBarValue(value, dr.FileID);
+                                                                  }
+                                                                  catch (Exception ex)
+                                                                  {
+                                                                      Console.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
+                                                                  }
+                                                              })
                     ))
                     {
                         //下载文件出错的处理
@@ -215,7 +222,7 @@ namespace CloudreveMiddleLayer.Entiry
             return true;
         }
 
-        private static bool DownLoadFile(string URL, string fileNameWithPath, string fileID, Action<double> updateProgress = null)
+        private static bool DownLoadFile(string URL, string fileNameWithPath, string fileID, Action<int> updateProgress = null)
         {
             Stream st = null;
             Stream so = null;
@@ -226,7 +233,7 @@ namespace CloudreveMiddleLayer.Entiry
             {
                 Myrq = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(URL); //从URL地址得到一个WEB请求     
                 myrp = (System.Net.HttpWebResponse)Myrq.GetResponse(); //从WEB请求得到WEB响应     
-                long totalBytes = myrp.ContentLength; //从WEB响应得到总字节数
+                double totalBytes = myrp.ContentLength; //从WEB响应得到总字节数
                 //更新进度
                 if (updateProgress != null)
                 {
@@ -234,7 +241,7 @@ namespace CloudreveMiddleLayer.Entiry
                 }
                 st = myrp.GetResponseStream(); //从WEB请求创建流（读）     
                 so = new System.IO.FileStream(fileNameWithPath, System.IO.FileMode.Create); //创建文件流（写）     
-                double totalDownloadedByte = 0; //下载文件大小     
+                Int64 totalDownloadedByte = 0; //下载文件大小     
                 byte[] by = new byte[1024*1024];
                 int osize = st.Read(by, 0, (int)by.Length); //读流     
                 while (osize > 0)
@@ -242,11 +249,13 @@ namespace CloudreveMiddleLayer.Entiry
                     totalDownloadedByte = osize + totalDownloadedByte; //更新文件大小     
                     so.Write(by, 0, osize); //写流     
                     //更新进度
+                    Application.DoEvents();
+                    
                     if (updateProgress != null)
                     {
-                        updateProgress(Math.Round(totalDownloadedByte / totalBytes * 100, 2));//更新进度条 
+                        updateProgress(Convert.ToInt32(totalDownloadedByte / totalBytes * 100.0));//更新进度条 
                     }
-                    if(!Util.Paused_Download_Task.Contains(fileID))
+                    if (!Util.Paused_Download_Task.Contains(fileID))
                     {
                         osize = st.Read(by, 0, (int)by.Length); //读流     
                     }
@@ -258,14 +267,13 @@ namespace CloudreveMiddleLayer.Entiry
                 //更新进度
                 if (updateProgress != null)
                 {
-                    updateProgress(Math.Round(totalDownloadedByte / totalBytes * 100.0, 2));
+                    updateProgress(Convert.ToInt32(totalDownloadedByte / totalBytes * 100.0));
                 }
                 flag = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 flag = false;
-                throw;
                 //return false;
             }
             finally
@@ -289,6 +297,8 @@ namespace CloudreveMiddleLayer.Entiry
             }
             return flag;
         }
+
+        #endregion
 
         public static bool DeleteFile(List<string> fileID , out int returnCode, out string returnMessage)
         {
@@ -330,6 +340,86 @@ namespace CloudreveMiddleLayer.Entiry
                 return returnCode == 0;
             }
             return false;
+        }
+
+        public static bool RenameFile(string fileID, string newName, bool isDir, out int returnCode, out string returnMessage)
+        {
+            JObject requestJsonObj = new JObject();
+            requestJsonObj.Add("action", "rename");
+
+            JObject pathJson = new JObject();
+            pathJson.Add("dirs", new JArray() { });
+            pathJson.Add("items", new JArray() { fileID });
+
+            requestJsonObj.Add("src", pathJson);
+            requestJsonObj.Add("new_name", newName);
+
+            string url = Util.GLOBLE_URL;
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
+            url += Util.CloudreveWebURL.GET_RENAME_FILE_URL;
+            string temp = Util.GLOBLE_COOKIE;
+            string responseContent = HttpClientHelper.Post(url, requestJsonObj.ToString(), ref temp);
+            returnCode = -1;
+            returnMessage = String.Empty;
+            if (!string.IsNullOrEmpty(responseContent))
+            {
+                JObject returnObj = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+                returnMessage = returnObj["msg"].ToString();
+                returnCode = Convert.ToInt32(returnObj["code"].ToString());
+                return returnCode == 0;
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Share
+
+        public static string GenerateShareJson(string fileID, bool isDir, string password, 
+                                               int downloadExpireCount, int downloadExpireDayCount,
+                                               bool allowPreview)
+        {
+            JObject requestObj = new JObject();
+            requestObj.Add("downloads", downloadExpireCount);
+            requestObj.Add("expire", downloadExpireDayCount * 60 * 60 * 24);  //转换成秒
+            requestObj.Add("id", fileID);
+            requestObj.Add("is_dir", isDir);
+            requestObj.Add("password", password);
+            requestObj.Add("preview", allowPreview);
+
+            return requestObj.ToString();
+        }
+
+        public static bool CreateShareFile(string jsonString, out int returnCode, out string returnMessage)
+        {
+            string url = Util.GLOBLE_URL;
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
+            url += Util.CloudreveWebURL.SHARE_FILE_URL;
+            string temp = Util.GLOBLE_COOKIE;
+            string responseContent = HttpClientHelper.Post(url, jsonString, ref temp);
+            returnCode = -1;
+            returnMessage = String.Empty;
+            if (!string.IsNullOrEmpty(responseContent))
+            {
+                JObject returnObj = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+                returnMessage = returnObj["data"].ToString();
+                returnCode = Convert.ToInt32(returnObj["code"].ToString());
+                return returnCode == 0;
+            }
+            return false;
+        }
+
+        public static List<JsonEntiryClass.GetShareFileJson.ItemsItem>  GetShareFileList(, out int returnCode, out string returnMessage)
+        {
+
         }
 
         #endregion
