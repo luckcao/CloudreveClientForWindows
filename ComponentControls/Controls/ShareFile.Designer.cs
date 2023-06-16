@@ -1,7 +1,7 @@
 ﻿
 namespace ComponentControls.Controls
 {
-    partial class TransferFile
+    partial class ShareFile
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -31,11 +31,11 @@ namespace ComponentControls.Controls
         {
             this.SuspendLayout();
             // 
-            // TransferFile
+            // ShareFile
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoScroll = true;
-            this.Name = "TransferFile";
+            this.Name = "ShareFile";
             this.Size = new System.Drawing.Size(378, 174);
             this.ResumeLayout(false);
 

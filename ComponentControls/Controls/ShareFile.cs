@@ -10,28 +10,50 @@ using System.Windows.Forms;
 
 namespace ComponentControls.Controls
 {
-    public partial class TransferFile : UserControl
+    public partial class ShareFile : UserControl
     {
-        List<TransferFileItem> items = new List<TransferFileItem>();
+        List<ShareFileItem> items = new List<ShareFileItem>();
         int itemSpace = 12;
 
-        public TransferFile()
+        public ShareFile()
         {
             InitializeComponent();
         }
 
-        public void SetDataSource(List<TransferFileItem> items)
+
+        public void SetDataSource(List<ShareFileItem> items)
         {
             this.items = items;
         }
 
-        public List<TransferFileItem> GetDataSource()
+        public List<ShareFileItem> GetDataSource()
         {
             return this.items;
         }
 
-        public void AddTransferFile(TransferFileItem item)
+        public void AddShareFile(ShareFileItem item)
         {
+            item.Location = new Point(4, (item.Height + itemSpace) * items.Count);
+            item.Width = this.Width - 28;
+            item.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right | AnchorStyles.Left;
+            items.Add(item);
+            this.Controls.Add(item);
+        }
+
+        public void AddShareFile(string fileID,
+                             string fileName,
+                             bool isDir,
+                             string fileSize,
+                             string createShareDate,
+                             string expireDate,
+                             string password,
+                             int downloadCount,
+                             int leftDownloadCount,
+                             int viewCount,
+                             bool allowPreview,
+                             object tag)
+        {
+            ShareFileItem item = new ShareFileItem(fileID, fileName, isDir, fileSize, createShareDate, Convert.ToInt32(expireDate), password, downloadCount, leftDownloadCount, viewCount, allowPreview, tag);
             item.Location = new Point(4, (item.Height + itemSpace) * items.Count);
             item.Width = this.Width - 8;
             item.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right | AnchorStyles.Left;
@@ -39,17 +61,7 @@ namespace ComponentControls.Controls
             this.Controls.Add(item);
         }
 
-        public void AddTransferFile(string fileID, string fileName, string filePath, string fileSize, int percent, object tag)
-        {
-            TransferFileItem item = new TransferFileItem(fileID, fileName, filePath, fileSize, 0, tag);
-            item.Location = new Point(4, (item.Height + itemSpace) * items.Count);
-            item.Width = this.Width - 8;
-            item.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right | AnchorStyles.Left;
-            items.Add(item);
-            this.Controls.Add(item);
-        }
-
-        public void RemoveTransferFileAt(int index)
+        public void RemoveShareFileAt(int index)
         {
             for (int i = index + 1; i < items.Count; i++)
             {
@@ -59,13 +71,13 @@ namespace ComponentControls.Controls
             items.RemoveAt(index);
         }
 
-        public void RemoveTransferFile(string fileID)
+        public void RemoveShareFile(string fileID)
         {
             for (int i = 0; i < items.Count; i++)
             {
-                if(items[i].FileID.Equals(fileID))
+                if (items[i].FileID.Equals(fileID))
                 {
-                    RemoveTransferFileAt(i);
+                    RemoveShareFileAt(i);
                     break;
                 }
             }
@@ -73,14 +85,15 @@ namespace ComponentControls.Controls
 
         public void Clear()
         {
-            while(items.Count > 0)
+            while (items.Count > 0)
             {
                 this.Controls.Remove(items[0]);
+                items.RemoveAt(0);
             }
             items.Clear();
         }
 
-        public TransferFileItem GetItems(string fileID)
+        public ShareFileItem GetItems(string fileID)
         {
             for (int i = 0; i < items.Count; i++)
             {

@@ -118,6 +118,8 @@ namespace CloudreveMiddleLayer.Entiry
 
         #region API Method
 
+        #region FileList
+
         public static List<CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.ObjectsItem> GetFileList(string path)
         {
             string url = Util.GLOBLE_URL;
@@ -134,6 +136,10 @@ namespace CloudreveMiddleLayer.Entiry
             }
             return null;
         }
+
+        #endregion
+
+        #region Create Directory
 
         public static bool CreateDirectory(string dirFullName, out int returnCode, out string returnMessage)
         {
@@ -159,6 +165,8 @@ namespace CloudreveMiddleLayer.Entiry
             }
             return false;
         }
+
+        #endregion
 
         #region Download
 
@@ -300,6 +308,8 @@ namespace CloudreveMiddleLayer.Entiry
 
         #endregion
 
+        #region Delete File
+
         public static bool DeleteFile(List<string> fileID , out int returnCode, out string returnMessage)
         {
             JObject obj = new JObject();
@@ -342,6 +352,10 @@ namespace CloudreveMiddleLayer.Entiry
             return false;
         }
 
+        #endregion
+
+        #region Rename File
+
         public static bool RenameFile(string fileID, string newName, bool isDir, out int returnCode, out string returnMessage)
         {
             JObject requestJsonObj = new JObject();
@@ -379,7 +393,7 @@ namespace CloudreveMiddleLayer.Entiry
 
         #region Share
 
-        public static string GenerateShareJson(string fileID, bool isDir, string password, 
+        public static string GenerateShareJson(string fileID, bool isDir, string password,
                                                int downloadExpireCount, int downloadExpireDayCount,
                                                bool allowPreview)
         {
@@ -417,12 +431,168 @@ namespace CloudreveMiddleLayer.Entiry
             return false;
         }
 
-        public static List<JsonEntiryClass.GetShareFileJson.ItemsItem>  GetShareFileList(out int returnCode, out string returnMessage)
+        public static List<JsonEntiryClass.GetShareFileJson.ItemsItem> GetShareFileList(out int returnCode, out string returnMessage)
         {
+            returnCode = 0;
+            returnMessage = String.Empty;
+            string responseContent = String.Empty;
+            List<JsonEntiryClass.GetShareFileJson.ItemsItem> results = new List<GetShareFileJson.ItemsItem>();
+            int pageCount = 1;
+            bool getNextPageData = false, getWithError = false;
+
+            do
+            {
+                string url = Util.GLOBLE_URL;
+                if (!url.EndsWith("/"))
+                {
+                    url += "/";
+                }
+                url += string.Format(Util.CloudreveWebURL.GET_SHARE_FILE_LIST_URL, pageCount.ToString().Trim());
+                string tmpCookie = Util.GLOBLE_COOKIE;
+                responseContent = HttpClientHelper.Get(url, ref tmpCookie);
+                JObject returnObj = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+
+                if (!string.IsNullOrEmpty(responseContent))
+                {
+                    CloudreveMiddleLayer.JsonEntiryClass.GetShareFileJson.Root root = JsonConvert.DeserializeObject<CloudreveMiddleLayer.JsonEntiryClass.GetShareFileJson.Root>(responseContent);
+                    if(root.code != 0)
+                    {
+                        getWithError = true;
+                    }
+                    else if(Convert.ToInt32(root.data.items.Count) > 0)
+                    {
+                        for (int i = 0; i < root.data.items.Count; i++)
+                        {
+                            results.Add(root.data.items[i]);
+                        }
+                        getNextPageData = true;
+                        pageCount++;
+                    }
+                    else
+                    {
+                        getNextPageData = false;
+                    }
+                }
+                else
+                {
+                    getWithError = true;
+                }
+            }
+            while (!getWithError && getNextPageData);
+            
+            if(getWithError)
+            {
+                return null;
+            }
+            else
+            {
+                return results;
+            }
+        }
+
+        public static bool ShareSetPublicPrivate(string key, string password, out int returnCode, out string returnMessage)
+        {
+            JObject obj = new JObject();
+            obj.Add("prop", "password");
+            obj.Add("value", password);
+
+            string url = Util.GLOBLE_URL;
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
+            url += Util.CloudreveWebURL.SHARE_FILE_URL + "/" + key;
+            string temp = Util.GLOBLE_COOKIE;
+            string responseContent = HttpClientHelper.Patch(url, obj.ToString(), ref temp);
             returnCode = -1;
             returnMessage = String.Empty;
-            return null;
+            if (!string.IsNullOrEmpty(responseContent))
+            {
+                JObject returnObj = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+                returnMessage = returnObj["msg"].ToString();
+                returnCode = Convert.ToInt32(returnObj["code"].ToString());
+                return returnCode == 0;
+            }
+            return false;
         }
+
+        public static string GenerateRandomSharePassword(int length)
+        {
+            StringBuilder charList = new StringBuilder();
+            for(int i=48; i<=57; i++)
+            {
+                charList.Append(Convert.ToChar(i));
+            }
+            for (int i = 65; i <= 90; i++)
+            {
+                charList.Append(Convert.ToChar(i));
+            }
+            for (int i = 97; i <= 122; i++)
+            {
+                charList.Append(Convert.ToChar(i));
+            }
+
+            Random random = new Random();
+            return new string(Enumerable.Repeat(charList.ToString(), length).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public static bool ShareSetPreview(string key, bool allowPreview, out int returnCode, out string returnMessage)
+        {
+            JObject obj = new JObject();
+            obj.Add("prop", "preview_enabled");
+            obj.Add("value", allowPreview.ToString().ToLower());
+
+            string url = Util.GLOBLE_URL;
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
+            url += Util.CloudreveWebURL.SHARE_FILE_URL + "/" + key;
+            string temp = Util.GLOBLE_COOKIE;
+            string responseContent = HttpClientHelper.Patch(url, obj.ToString(), ref temp);
+            returnCode = -1;
+            returnMessage = String.Empty;
+            if (!string.IsNullOrEmpty(responseContent))
+            {
+                JObject returnObj = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+                returnMessage = returnObj["msg"].ToString();
+                returnCode = Convert.ToInt32(returnObj["code"].ToString());
+                return returnCode == 0;
+            }
+            return false;
+        }
+
+        public static bool ShareSetCancel(string key, out int returnCode, out string returnMessage)
+        {
+            //JObject obj = new JObject();
+            //obj.Add("prop", "preview_enabled");
+            //obj.Add("value", allowPreview.ToString().ToLower());
+
+            string url = Util.GLOBLE_URL;
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
+            url += Util.CloudreveWebURL.SHARE_FILE_URL + "/" + key;
+            string temp = Util.GLOBLE_COOKIE;
+            string responseContent = HttpClientHelper.Delete(url, String.Empty, ref temp);
+            returnCode = -1;
+            returnMessage = String.Empty;
+            if (!string.IsNullOrEmpty(responseContent))
+            {
+                JObject returnObj = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+                returnMessage = returnObj["msg"].ToString();
+                returnCode = Convert.ToInt32(returnObj["code"].ToString());
+                return returnCode == 0;
+            }
+            return false;
+        }
+
+        #endregion
 
         #endregion
     }

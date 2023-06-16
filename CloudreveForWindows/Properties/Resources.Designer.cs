@@ -83,6 +83,16 @@ namespace CloudreveForWindows.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap allow_preview {
+            get {
+                object obj = ResourceManager.GetObject("allow_preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap audio_file {
             get {
                 object obj = ResourceManager.GetObject("audio_file", resourceCulture);
@@ -136,6 +146,16 @@ namespace CloudreveForWindows.Properties {
         internal static System.Drawing.Bitmap dir {
             get {
                 object obj = ResourceManager.GetObject("dir", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap disallow_preview {
+            get {
+                object obj = ResourceManager.GetObject("disallow_preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

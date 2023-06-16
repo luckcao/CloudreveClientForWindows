@@ -657,6 +657,169 @@ namespace CloudreveForWindows.Forms
 
         #endregion
 
+        #region Share List Panel
+
+        private void RefreshShareFileList()
+        {
+            sfList.Clear();
+
+            int returnCode;
+            string returnMsg;
+            List<GetShareFileJson.ItemsItem> items = FileList.GetShareFileList(out returnCode, out returnMsg);
+            if(returnCode == 0)
+            {
+                int dirCount = 0, fileCount = 0;
+                for (int i = 0; i < items.Count; i++)
+                {
+                    ShareFileItem sfi = new ShareFileItem(items[i].key,
+                                                          items[i].source.name,
+                                                          Convert.ToBoolean(items[i].is_dir),
+                                                          Convert.ToBoolean(items[i].is_dir) ? "" : ComponentControls.Helper.IO.FileInfo.GetSizeInShortFormat(items[i].source.size),
+                                                          Convert.ToDateTime(items[i].create_date).ToString("yyyy-MM-dd HH:mm:ss"),
+                                                          Convert.ToInt32(items[i].expire.ToString()),
+                                                          items[i].password,
+                                                          items[i].downloads,
+                                                          items[i].remain_downloads,
+                                                          items[i].views,
+                                                          Convert.ToBoolean(items[i].preview),
+                                                          items[i]
+                                                          );
+                    if(Convert.ToBoolean(items[i].is_dir))
+                    {
+                        dirCount++;
+                    }
+                    else
+                    {
+                        fileCount++;
+                    }
+                    sfi.ShareCancelClicked += Sfi_ShareCancelClicked;
+                    sfi.ShareCannotPreviewClicked += Sfi_SharePreviewClicked;
+                    sfi.ShareCanPreviewClicked += Sfi_SharePreviewClicked;
+                    sfi.SharePrivateClicked += Sfi_SharePrivateClicked;
+                    sfi.SharePublicClicked += Sfi_SharePublicClicked;
+                    sfList.AddShareFile(sfi);
+                }
+
+                lblMyShareFileCount.Text = "本页共有 {0} 个分享（ {1} 个文件夹，{2} 个文件）";
+                lblMyShareFileCount.Text = string.Format(lblMyShareFileCount.Text, items.Count.ToString().Trim(), dirCount.ToString().Trim(), fileCount.ToString().Trim());
+            }
+            else
+            {
+                ExMessageBox.Show("获取分享文件列表出错，错误信息如下：\r\n" + returnMsg, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Sfi_SharePublicClicked(object sender, ShareFileItem.ClickedEventArgs e)
+        {
+            //用户点击了设为公开分享
+            ShareFileItem sfi = (ShareFileItem)sender;
+            int returnCode;
+            string returnMsg;
+            StartWait();
+            if (FileList.ShareSetPublicPrivate(sfi.FileID, "", out returnCode, out returnMsg))
+            {
+                RefreshShareFileList();
+            }
+            else
+            {
+                ExMessageBox.Show("设为公开分享出错，错误信息如下：\r\n" + returnMsg, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+            EndWait();
+        }
+
+        private void Sfi_SharePrivateClicked(object sender, ShareFileItem.ClickedEventArgs e)
+        {
+            //用户点击了设为私密分享
+            //用户点击了设为公开分享
+            ShareFileItem sfi = (ShareFileItem)sender;
+            string password = FileList.GenerateRandomSharePassword(5);
+            int returnCode;
+            string returnMsg;
+            StartWait();
+            if (FileList.ShareSetPublicPrivate(sfi.FileID, password, out returnCode, out returnMsg))
+            {
+                ExMessageBox.Show("设为私密分享成功，分享密码是： " + password, "成功！", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RefreshShareFileList();
+            }
+            else
+            {
+                ExMessageBox.Show("设为私密分享出错，错误信息如下：\r\n" + returnMsg, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+            EndWait();
+        }
+
+        private void Sfi_SharePreviewClicked(object sender, ShareFileItem.ClickedEventArgs e)
+        {
+            //用户点击了设为（不）允许预览
+            ShareFileItem sfi = (ShareFileItem)sender;
+            int returnCode;
+            string returnMsg;
+            StartWait();
+            if (FileList.ShareSetPreview(sfi.FileID, !sfi.AllowPreview, out returnCode, out returnMsg))
+            {
+                RefreshShareFileList();
+            }
+            else
+            {
+                ExMessageBox.Show("出错，错误信息如下：\r\n" + returnMsg, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+            EndWait();
+        }
+
+        private void Sfi_ShareCancelClicked(object sender, ShareFileItem.ClickedEventArgs e)
+        {
+            //用户点击了取消分享
+            ShareFileItem sfi = (ShareFileItem)sender;
+            int returnCode;
+            string returnMsg;
+            StartWait();
+            if (FileList.ShareSetCancel(sfi.FileID, out returnCode, out returnMsg))
+            {
+                RefreshShareFileList();
+            }
+            else
+            {
+                ExMessageBox.Show("取消分享出错，错误信息如下：\r\n" + returnMsg, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+            EndWait();
+        }
+
+        private void btnRefreshShareFileList_Click(object sender, EventArgs e)
+        {
+            StartWait();
+
+            RefreshShareFileList();
+
+            EndWait();
+        }
+
+
+        private void btnDeleteAllShareFile_Click(object sender, EventArgs e)
+        {
+            if(ExMessageBox.Show("您确定要取消所有分享么？", "提醒", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)== DialogResult.Yes)
+            {
+                StartWait();
+                for (int i=0;i<sfList.GetDataSource().Count; i++)
+                {
+                    ShareFileItem sfi = sfList.GetDataSource()[i];
+                    int returnCode;
+                    string returnMsg;
+                    if (!FileList.ShareSetCancel(sfi.FileID, out returnCode, out returnMsg))
+                    {
+                        ExMessageBox.Show(sfi.FileName + "取消分享出错，错误信息如下：\r\n" + returnMsg, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                RefreshShareFileList();
+                EndWait();
+            }
+        }
+
+        #endregion
+
         #region File List Panel
 
         #region 文件列表
@@ -1269,7 +1432,12 @@ namespace CloudreveForWindows.Forms
                     filterType = "Doc";
                     break;
                 case 7:
+                    //我的分享
+                    ShowScrollBar(sfList.Handle, 1, 1);
+                    StartWait();
                     DisplayMiddlePanleContent(DisplayPanel.MyShare);
+                    RefreshShareFileList();
+                    EndWait();
                     break;
                 case 8:
                     DisplayMiddlePanleContent(DisplayPanel.Download);

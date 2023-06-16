@@ -287,28 +287,23 @@
         oLQKaAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <metadata name="dataGridViewImageColumn2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewTextBoxColumn5.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewTextBoxColumn6.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewTextBoxColumn7.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewTextBoxColumn8.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewButtonColumn3.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewButtonColumn4.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="pictureBox4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnRefreshShareFileList.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAlpJREFUOE99
+        lT2vTUEUhnehoqKRIBGhcO89iUJBoxWljisiEom/IEJuoWK+9t6NQikhQSFCiEanOBQo/AMlchKh4l7P
+        Ox9nzz32UbyZzJq1nllrzczeTdt1jXd+Ljdoj3Nuw1o7RbOs99huob0IH9d0xNdaAnRnCf6Otpboh7Xu
+        nHzHgRaYJJh1F0YA/8gYs8XGG6PA4EOU9/6wsaYO/MQGV8hkjeBVdBnbO5t98DchEFspAgudgKl2zrAH
+        qKG00oY8emz2JXoeQrsNFoFd3wPrNTkuWCrFv25bnLPIJAIT3MW5Nhs2GqSAY2S5n8mTmJ0xm8DPtH2/
+        G/tBwEe1c4JkICCfWhTnqZIkGe5VZRZ9Rb9lJ/CS2tK29DqXpexzix4BXatL1+IugmeL0FS6e9MBEkyQ
+        MgoG6Gb2mQ7rrYDauV0dyfIbgTsUXJyL8J/M/RmBX2/bnGFKNTb+Wg3FflKweDCxpAHI+pfiJynOh7Cq
+        1mRgEum/TWV4lzJJ/UpKpePz1Jg7c1gBMs7w21kBlWVY4SSfJVicR6UM46muVyCen90s85SIu59hgwgi
+        i3KBuRJcC9m7LmY6oawV7u4BbKetsX8y6BX2I7TnxAgwRFC5tAJqVNbzniLWHwsm8WxP6YFwd5t5WXV5
+        ztmHlPGiZBrBfDw0SsbYu1WZn3teml5bPJRFICXrG1j6NCVgHR0CjNx52cp6zC6ESel5BKqMWgTdkGMJ
+        +p/wvZp6TuaetowD42HoNH8uAir9AnJRvgIWLQXyDdS4jwO5TfAHVH4BHwEZ1viYpP5uB3bNX9BjIKCY
+        rUL0AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="btnShareSetting.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAspJREFUOE+N
         VEtrE1EUPtaFGhAEEenKhRV3RVwJIviA7qQo0pWuuvAPuLMGbZhJZu5MMpNMmomtWrTgL3CpQn1UROui
@@ -326,7 +321,7 @@
         RU5ErkJggg==
 </value>
   </data>
-  <data name="pictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnDeleteAllShareFile.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAqJJREFUOE/l
         VMtqFEEULUP2Bl1IfCyNi2QVcCFG3UriJyQuBgIBF/oD6sz0+11VXZ3JZDAQcOfCjzCIEMEPiAER/8CA
@@ -486,7 +481,7 @@
   <metadata name="colModifyDate.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="btnRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnRefreshFileList.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAlpJREFUOE99
         lT2vTUEUhnehoqKRIBGhcO89iUJBoxWljisiEom/IEJuoWK+9t6NQikhQSFCiEanOBQo/AMlchKh4l7P
