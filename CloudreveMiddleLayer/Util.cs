@@ -11,11 +11,11 @@ namespace CloudreveMiddleLayer
 {
     public class Util
     {
-        public static string GLOBLE_COOKIE = "";
-        public static string GLOBLE_URL = "";
+        public static string GLOBLE_COOKIE = String.Empty;
+        public static string GLOBLE_URL = String.Empty;
         public static CloudreveMiddleLayer.JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;
         public static List<string> Paused_Download_Task = new List<string>();
-
+        public static string Current_Path_Storage_Policy = String.Empty;
         public class CloudreveWebURL
         {
             /// <summary>
@@ -107,6 +107,16 @@ namespace CloudreveMiddleLayer
             /// 设置分享文件访问级别（Private/Public）URL
             /// </summary>
             public const string SET_SHARE_FILE_PROTECTED_LEVEL_URL = "api/v3/share/";
+
+            /// <summary>
+            /// 获取上传时的SessionID URL
+            /// </summary>
+            public const string GET_UPLOAD_SESSION_ID_URL = "api/v3/file/upload";
+
+            /// <summary>
+            /// 获取上传文件URL
+            /// </summary>
+            public const string GET_UPLOAD_FILE_URL = "api/v3/file/upload/{0}/{1}";
         }
 
         public static string DataBaseFullPath

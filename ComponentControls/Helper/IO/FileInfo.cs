@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,7 +64,57 @@ namespace ComponentControls.Helper.IO
                 strSize1 = Math.Round((size1 / 1024.0 / 1024.0 / 1024.0 / 1024.0), 2).ToString() + " TB";
                 strSize2 = Math.Round((size2 / 1024.0 / 1024.0 / 1024.0 / 1024.0), 2).ToString() + " TB";
             }
+        }
 
+        public static byte[] ReadFromFile(string fileName, Int64 position, Int64? length = null)
+        {
+            // Check if the arguments are valid
+            if (fileName == null || fileName == "")
+            {
+                throw new ArgumentException("File name cannot be null or empty.");
+            }
+            if (position < 0)
+            {
+                throw new ArgumentOutOfRangeException("Position cannot be negative.");
+            }
+            if (length != null && length < 0)
+            {
+                throw new ArgumentOutOfRangeException("Length cannot be negative.");
+            }
+
+            // Create a file stream to read from the file
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                // Check if the position is within the file size
+                if (position > fs.Length)
+                {
+                    throw new ArgumentException("Position is beyond the end of the file.");
+                }
+
+                // If length is not specified, use the remaining file size
+                if (length == null)
+                {
+                    length = (int)fs.Length - position;
+                }
+
+                // Check if the length is too large for the remaining file
+                if (position + length > fs.Length)
+                {
+                    throw new ArgumentException("Length is too large for the remaining file.");
+                }
+
+                // Create a byte array to store the data
+                byte[] buffer = new byte[length.Value];
+
+                // Seek to the position in the file
+                fs.Seek(position, SeekOrigin.Begin);
+
+                // Read the data from the file
+                fs.Read(buffer, 0, (int)length.Value);
+
+                // Convert the byte array to a string
+                return buffer;
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ComponentControls.Controls
     public partial class TransferFileItem : UserControl
     {
         string fileID = String.Empty;
-        string filePath = String.Empty;
+        string filePathFrom = String.Empty, filePathTo = String.Empty;
 
         public delegate void TransferItemStartClickedEvent(object sender, EventArgs e);
         public event TransferItemStartClickedEvent TransferItemStartClicked;
@@ -33,13 +33,31 @@ namespace ComponentControls.Controls
             
         }
 
-        public TransferFileItem(string fileID, string fileName, string filePath, string fileSize, int percent, object tag)
+        public TransferFileItem(string fileID, string fileName, string filePathFrom, string filePathTo, string fileSize, int percent, object tag)
         {
             InitializeComponent();
             this.fileID = fileID;
             lblFileName.Text = fileName;
             this.toolTip1.SetToolTip(lblFileName, fileName);
-            this.filePath = filePath;
+            this.filePathFrom = filePathFrom;
+            this.filePathTo = filePathTo;
+            lblFileSize.Text = fileSize;
+            pbPercent.Value = percent;
+            if (pbPercent.Value == 100)
+            {
+                btnStartOrPause.Image = global::ComponentControls.Properties.Resources.finished_task;
+                pbPercent.Value = 0;
+            }
+            this.Tag = tag;
+        }
+
+        public TransferFileItem(string fileID, string fileName, string filePathFrom, string fileSize, int percent, object tag)
+        {
+            InitializeComponent();
+            this.fileID = fileID;
+            lblFileName.Text = fileName;
+            this.toolTip1.SetToolTip(lblFileName, fileName);
+            this.filePathFrom = filePathFrom;
             lblFileSize.Text = fileSize;
             pbPercent.Value = percent;
             if (pbPercent.Value == 100)
@@ -81,10 +99,16 @@ namespace ComponentControls.Controls
             }
         }
 
-        public string FilePath
+        public string FilePathFrom
         {
-            get { return filePath; }
-            set { filePath = value; }
+            get { return filePathFrom; }
+            set { filePathFrom = value; }
+        }
+
+        public string FilePathTo
+        {
+            get { return filePathTo; }
+            set { filePathTo = value; }
         }
 
         public TransferFileProgressBar ProgressBar
@@ -158,11 +182,23 @@ namespace ComponentControls.Controls
 
         public void TransferOpenFolder()
         {
-            DirectoryInfo dir = new DirectoryInfo(filePath);
-            System.Diagnostics.Process.Start("Explorer.exe", dir.Parent.FullName);
-            if (TransferItemOpenFolderClicked != null)
+            if(!string.IsNullOrEmpty(filePathFrom))
             {
-                TransferItemOpenFolderClicked(this, new EventArgs());
+                DirectoryInfo dir = new DirectoryInfo(filePathFrom);
+                System.Diagnostics.Process.Start("Explorer.exe", dir.Parent.FullName);
+                if (TransferItemOpenFolderClicked != null)
+                {
+                    TransferItemOpenFolderClicked(this, new EventArgs());
+                }
+            }
+            else
+            {
+                DirectoryInfo dir = new DirectoryInfo(filePathTo);
+                System.Diagnostics.Process.Start("Explorer.exe", dir.Parent.FullName);
+                if (TransferItemOpenFolderClicked != null)
+                {
+                    TransferItemOpenFolderClicked(this, new EventArgs());
+                }
             }
         }
     }

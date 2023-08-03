@@ -26,6 +26,8 @@ namespace CloudreveMiddleLayer.DataSet {
         
         private TBL_DownloadInfoDataTable tableTBL_DownloadInfo;
         
+        private TBL_UploadInfoDataTable tableTBL_UploadInfo;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -57,6 +59,9 @@ namespace CloudreveMiddleLayer.DataSet {
                 if ((ds.Tables["TBL_DownloadInfo"] != null)) {
                     base.Tables.Add(new TBL_DownloadInfoDataTable(ds.Tables["TBL_DownloadInfo"]));
                 }
+                if ((ds.Tables["TBL_UploadInfo"] != null)) {
+                    base.Tables.Add(new TBL_UploadInfoDataTable(ds.Tables["TBL_UploadInfo"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -82,6 +87,16 @@ namespace CloudreveMiddleLayer.DataSet {
         public TBL_DownloadInfoDataTable TBL_DownloadInfo {
             get {
                 return this.tableTBL_DownloadInfo;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public TBL_UploadInfoDataTable TBL_UploadInfo {
+            get {
+                return this.tableTBL_UploadInfo;
             }
         }
         
@@ -155,6 +170,9 @@ namespace CloudreveMiddleLayer.DataSet {
                 if ((ds.Tables["TBL_DownloadInfo"] != null)) {
                     base.Tables.Add(new TBL_DownloadInfoDataTable(ds.Tables["TBL_DownloadInfo"]));
                 }
+                if ((ds.Tables["TBL_UploadInfo"] != null)) {
+                    base.Tables.Add(new TBL_UploadInfoDataTable(ds.Tables["TBL_UploadInfo"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -194,6 +212,12 @@ namespace CloudreveMiddleLayer.DataSet {
                     this.tableTBL_DownloadInfo.InitVars();
                 }
             }
+            this.tableTBL_UploadInfo = ((TBL_UploadInfoDataTable)(base.Tables["TBL_UploadInfo"]));
+            if ((initTable == true)) {
+                if ((this.tableTBL_UploadInfo != null)) {
+                    this.tableTBL_UploadInfo.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -206,11 +230,19 @@ namespace CloudreveMiddleLayer.DataSet {
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableTBL_DownloadInfo = new TBL_DownloadInfoDataTable();
             base.Tables.Add(this.tableTBL_DownloadInfo);
+            this.tableTBL_UploadInfo = new TBL_UploadInfoDataTable();
+            base.Tables.Add(this.tableTBL_UploadInfo);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private bool ShouldSerializeTBL_DownloadInfo() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private bool ShouldSerializeTBL_UploadInfo() {
             return false;
         }
         
@@ -271,6 +303,9 @@ namespace CloudreveMiddleLayer.DataSet {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public delegate void TBL_DownloadInfoRowChangeEventHandler(object sender, TBL_DownloadInfoRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public delegate void TBL_UploadInfoRowChangeEventHandler(object sender, TBL_UploadInfoRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -632,6 +667,365 @@ namespace CloudreveMiddleLayer.DataSet {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class TBL_UploadInfoDataTable : global::System.Data.TypedTableBase<TBL_UploadInfoRow> {
+            
+            private global::System.Data.DataColumn columnFileID;
+            
+            private global::System.Data.DataColumn columnFileName;
+            
+            private global::System.Data.DataColumn columnFileSizeDesc;
+            
+            private global::System.Data.DataColumn columnUploadPercent;
+            
+            private global::System.Data.DataColumn columnUploadStatus;
+            
+            private global::System.Data.DataColumn columnFilePathFrom;
+            
+            private global::System.Data.DataColumn columnUploadFilePath;
+            
+            private global::System.Data.DataColumn columnOpenFolderDesc;
+            
+            private global::System.Data.DataColumn columnDeleteDesc;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_UploadInfoDataTable() {
+                this.TableName = "TBL_UploadInfo";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal TBL_UploadInfoDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected TBL_UploadInfoDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn FileIDColumn {
+                get {
+                    return this.columnFileID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn FileNameColumn {
+                get {
+                    return this.columnFileName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn FileSizeDescColumn {
+                get {
+                    return this.columnFileSizeDesc;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn UploadPercentColumn {
+                get {
+                    return this.columnUploadPercent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn UploadStatusColumn {
+                get {
+                    return this.columnUploadStatus;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn FilePathFromColumn {
+                get {
+                    return this.columnFilePathFrom;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn UploadFilePathColumn {
+                get {
+                    return this.columnUploadFilePath;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn OpenFolderDescColumn {
+                get {
+                    return this.columnOpenFolderDesc;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DeleteDescColumn {
+                get {
+                    return this.columnDeleteDesc;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_UploadInfoRow this[int index] {
+                get {
+                    return ((TBL_UploadInfoRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TBL_UploadInfoRowChangeEventHandler TBL_UploadInfoRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TBL_UploadInfoRowChangeEventHandler TBL_UploadInfoRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TBL_UploadInfoRowChangeEventHandler TBL_UploadInfoRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TBL_UploadInfoRowChangeEventHandler TBL_UploadInfoRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void AddTBL_UploadInfoRow(TBL_UploadInfoRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_UploadInfoRow AddTBL_UploadInfoRow(string FileID, string FileName, string FileSizeDesc, double UploadPercent, byte[] UploadStatus, string FilePathFrom, string UploadFilePath, string OpenFolderDesc, string DeleteDesc) {
+                TBL_UploadInfoRow rowTBL_UploadInfoRow = ((TBL_UploadInfoRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        FileID,
+                        FileName,
+                        FileSizeDesc,
+                        UploadPercent,
+                        UploadStatus,
+                        FilePathFrom,
+                        UploadFilePath,
+                        OpenFolderDesc,
+                        DeleteDesc};
+                rowTBL_UploadInfoRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTBL_UploadInfoRow);
+                return rowTBL_UploadInfoRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                TBL_UploadInfoDataTable cln = ((TBL_UploadInfoDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new TBL_UploadInfoDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal void InitVars() {
+                this.columnFileID = base.Columns["FileID"];
+                this.columnFileName = base.Columns["FileName"];
+                this.columnFileSizeDesc = base.Columns["FileSizeDesc"];
+                this.columnUploadPercent = base.Columns["UploadPercent"];
+                this.columnUploadStatus = base.Columns["UploadStatus"];
+                this.columnFilePathFrom = base.Columns["FilePathFrom"];
+                this.columnUploadFilePath = base.Columns["UploadFilePath"];
+                this.columnOpenFolderDesc = base.Columns["OpenFolderDesc"];
+                this.columnDeleteDesc = base.Columns["DeleteDesc"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitClass() {
+                this.columnFileID = new global::System.Data.DataColumn("FileID", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFileID);
+                this.columnFileName = new global::System.Data.DataColumn("FileName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFileName);
+                this.columnFileSizeDesc = new global::System.Data.DataColumn("FileSizeDesc", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFileSizeDesc);
+                this.columnUploadPercent = new global::System.Data.DataColumn("UploadPercent", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUploadPercent);
+                this.columnUploadStatus = new global::System.Data.DataColumn("UploadStatus", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUploadStatus);
+                this.columnFilePathFrom = new global::System.Data.DataColumn("FilePathFrom", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFilePathFrom);
+                this.columnUploadFilePath = new global::System.Data.DataColumn("UploadFilePath", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUploadFilePath);
+                this.columnOpenFolderDesc = new global::System.Data.DataColumn("OpenFolderDesc", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOpenFolderDesc);
+                this.columnDeleteDesc = new global::System.Data.DataColumn("DeleteDesc", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDeleteDesc);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_UploadInfoRow NewTBL_UploadInfoRow() {
+                return ((TBL_UploadInfoRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new TBL_UploadInfoRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(TBL_UploadInfoRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.TBL_UploadInfoRowChanged != null)) {
+                    this.TBL_UploadInfoRowChanged(this, new TBL_UploadInfoRowChangeEvent(((TBL_UploadInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.TBL_UploadInfoRowChanging != null)) {
+                    this.TBL_UploadInfoRowChanging(this, new TBL_UploadInfoRowChangeEvent(((TBL_UploadInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.TBL_UploadInfoRowDeleted != null)) {
+                    this.TBL_UploadInfoRowDeleted(this, new TBL_UploadInfoRowChangeEvent(((TBL_UploadInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.TBL_UploadInfoRowDeleting != null)) {
+                    this.TBL_UploadInfoRowDeleting(this, new TBL_UploadInfoRowChangeEvent(((TBL_UploadInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void RemoveTBL_UploadInfoRow(TBL_UploadInfoRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DataSetDownloadUpload ds = new DataSetDownloadUpload();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "TBL_UploadInfoDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class TBL_DownloadInfoRow : global::System.Data.DataRow {
@@ -899,6 +1293,273 @@ namespace CloudreveMiddleLayer.DataSet {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class TBL_UploadInfoRow : global::System.Data.DataRow {
+            
+            private TBL_UploadInfoDataTable tableTBL_UploadInfo;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal TBL_UploadInfoRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableTBL_UploadInfo = ((TBL_UploadInfoDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string FileID {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_UploadInfo.FileIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“FileID”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.FileIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string FileName {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_UploadInfo.FileNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“FileName”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.FileNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string FileSizeDesc {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_UploadInfo.FileSizeDescColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“FileSizeDesc”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.FileSizeDescColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public double UploadPercent {
+                get {
+                    try {
+                        return ((double)(this[this.tableTBL_UploadInfo.UploadPercentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“UploadPercent”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.UploadPercentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public byte[] UploadStatus {
+                get {
+                    try {
+                        return ((byte[])(this[this.tableTBL_UploadInfo.UploadStatusColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“UploadStatus”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.UploadStatusColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string FilePathFrom {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_UploadInfo.FilePathFromColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“FilePathFrom”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.FilePathFromColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string UploadFilePath {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_UploadInfo.UploadFilePathColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“UploadFilePath”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.UploadFilePathColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string OpenFolderDesc {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_UploadInfo.OpenFolderDescColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“OpenFolderDesc”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.OpenFolderDescColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DeleteDesc {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_UploadInfo.DeleteDescColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“DeleteDesc”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.DeleteDescColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsFileIDNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.FileIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetFileIDNull() {
+                this[this.tableTBL_UploadInfo.FileIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsFileNameNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.FileNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetFileNameNull() {
+                this[this.tableTBL_UploadInfo.FileNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsFileSizeDescNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.FileSizeDescColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetFileSizeDescNull() {
+                this[this.tableTBL_UploadInfo.FileSizeDescColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsUploadPercentNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.UploadPercentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetUploadPercentNull() {
+                this[this.tableTBL_UploadInfo.UploadPercentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsUploadStatusNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.UploadStatusColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetUploadStatusNull() {
+                this[this.tableTBL_UploadInfo.UploadStatusColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsFilePathFromNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.FilePathFromColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetFilePathFromNull() {
+                this[this.tableTBL_UploadInfo.FilePathFromColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsUploadFilePathNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.UploadFilePathColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetUploadFilePathNull() {
+                this[this.tableTBL_UploadInfo.UploadFilePathColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsOpenFolderDescNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.OpenFolderDescColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetOpenFolderDescNull() {
+                this[this.tableTBL_UploadInfo.OpenFolderDescColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDeleteDescNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.DeleteDescColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDeleteDescNull() {
+                this[this.tableTBL_UploadInfo.DeleteDescColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -918,6 +1579,40 @@ namespace CloudreveMiddleLayer.DataSet {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TBL_DownloadInfoRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public class TBL_UploadInfoRowChangeEvent : global::System.EventArgs {
+            
+            private TBL_UploadInfoRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_UploadInfoRowChangeEvent(TBL_UploadInfoRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_UploadInfoRow Row {
                 get {
                     return this.eventRow;
                 }

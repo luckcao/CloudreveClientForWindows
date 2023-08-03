@@ -27,6 +27,21 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="TBL_UploadInfo" msprop:Generator_TableClassName="TBL_UploadInfoDataTable" msprop:Generator_TableVarName="tableTBL_UploadInfo" msprop:Generator_RowChangedName="TBL_UploadInfoRowChanged" msprop:Generator_TablePropName="TBL_UploadInfo" msprop:Generator_RowDeletingName="TBL_UploadInfoRowDeleting" msprop:Generator_RowChangingName="TBL_UploadInfoRowChanging" msprop:Generator_RowEvHandlerName="TBL_UploadInfoRowChangeEventHandler" msprop:Generator_RowDeletedName="TBL_UploadInfoRowDeleted" msprop:Generator_RowClassName="TBL_UploadInfoRow" msprop:Generator_UserTableName="TBL_UploadInfo" msprop:Generator_RowEvArgName="TBL_UploadInfoRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FileID" msprop:Generator_ColumnVarNameInTable="columnFileID" msprop:Generator_ColumnPropNameInRow="FileID" msprop:Generator_ColumnPropNameInTable="FileIDColumn" msprop:Generator_UserColumnName="FileID" type="xs:string" minOccurs="0" />
+              <xs:element name="FileName" msprop:Generator_ColumnVarNameInTable="columnFileName" msprop:Generator_ColumnPropNameInRow="FileName" msprop:Generator_ColumnPropNameInTable="FileNameColumn" msprop:Generator_UserColumnName="FileName" type="xs:string" minOccurs="0" />
+              <xs:element name="FileSizeDesc" msprop:Generator_ColumnVarNameInTable="columnFileSizeDesc" msprop:Generator_ColumnPropNameInRow="FileSizeDesc" msprop:Generator_ColumnPropNameInTable="FileSizeDescColumn" msprop:Generator_UserColumnName="FileSizeDesc" type="xs:string" minOccurs="0" />
+              <xs:element name="UploadPercent" msprop:Generator_ColumnVarNameInTable="columnUploadPercent" msprop:Generator_ColumnPropNameInRow="UploadPercent" msprop:Generator_ColumnPropNameInTable="UploadPercentColumn" msprop:Generator_UserColumnName="UploadPercent" type="xs:double" minOccurs="0" />
+              <xs:element name="UploadStatus" msprop:Generator_ColumnVarNameInTable="columnUploadStatus" msprop:Generator_ColumnPropNameInRow="UploadStatus" msprop:Generator_ColumnPropNameInTable="UploadStatusColumn" msprop:Generator_UserColumnName="UploadStatus" type="xs:base64Binary" minOccurs="0" />
+              <xs:element name="FilePathFrom" msprop:Generator_ColumnVarNameInTable="columnFilePathFrom" msprop:Generator_ColumnPropNameInRow="FilePathFrom" msprop:Generator_ColumnPropNameInTable="FilePathFromColumn" msprop:Generator_UserColumnName="FilePathFrom" type="xs:string" minOccurs="0" />
+              <xs:element name="UploadFilePath" msprop:Generator_ColumnVarNameInTable="columnUploadFilePath" msprop:Generator_ColumnPropNameInRow="UploadFilePath" msprop:Generator_ColumnPropNameInTable="UploadFilePathColumn" msprop:Generator_UserColumnName="UploadFilePath" type="xs:string" minOccurs="0" />
+              <xs:element name="OpenFolderDesc" msprop:Generator_ColumnVarNameInTable="columnOpenFolderDesc" msprop:Generator_ColumnPropNameInRow="OpenFolderDesc" msprop:Generator_ColumnPropNameInTable="OpenFolderDescColumn" msprop:Generator_UserColumnName="OpenFolderDesc" type="xs:string" minOccurs="0" />
+              <xs:element name="DeleteDesc" msprop:Generator_ColumnVarNameInTable="columnDeleteDesc" msprop:Generator_ColumnPropNameInRow="DeleteDesc" msprop:Generator_ColumnPropNameInTable="DeleteDescColumn" msprop:Generator_UserColumnName="DeleteDesc" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>

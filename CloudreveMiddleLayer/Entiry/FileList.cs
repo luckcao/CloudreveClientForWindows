@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +20,8 @@ namespace CloudreveMiddleLayer.Entiry
     public class FileList
     {
         #region DB Method
+
+        #region Download
 
         public static bool GetDownloadFileInfo(DataSetDownloadUpload.TBL_DownloadInfoDataTable dt)
         {
@@ -111,8 +114,101 @@ namespace CloudreveMiddleLayer.Entiry
                 }
                 return true;
             }
-
         }
+
+        #endregion
+
+        #region Upload
+
+        public static bool GetUploadFileInfo(DataSetDownloadUpload.TBL_UploadInfoDataTable dt)
+        {
+            using (DataHelper da = new DataHelper())
+            {
+                string sql = "Select " +
+                             "      FileID, " +
+                             "      FileName, " +
+                             "      FileSizeDesc, " +
+                             "      Case UploadPercent When 100 Then UploadPercent Else 0 End UploadPercent, " +
+                             "      UploadStatus, " +
+                             "      FilePathFrom, " +
+                             "      UploadFilePath, " +
+                             "      '打开下载目录' OpenFolderDesc, " +
+                             "      '删除' DeleteDesc " +
+                             " From TBL_UploadInfo";
+                return da.GetData(sql, dt);
+            }
+        }
+
+        public static int AddUploadTask(string fileName, string fileSizeDesc, double uploadPercent, byte[] uploadStatus, string filePathFrom, string uploadFilePath)
+        {
+            using (DataHelper da = new DataHelper())
+            {
+                da.AddParameter("@FileName", fileName);
+                da.AddParameter("@FileSizeDesc", fileSizeDesc);
+                da.AddParameter("@UploadPercent", uploadPercent);
+                da.AddParameter("@UploadStatus", uploadStatus);
+                da.AddParameter("@FilePathFrom", filePathFrom);
+                da.AddParameter("@UploadFilePath", uploadFilePath);
+                //da.AddParameter("@ID", DataHelper.SqlNull(-1), System.Data.ParameterDirection.Output);
+
+                string sql = "INSERT INTO TBL_UploadInfo " +
+                            "       (" +
+                            "           FileName, " +
+                            "           FileSizeDesc, " +
+                            "           UploadPercent, " +
+                            "           UploadStatus, " +
+                            "           FilePathFrom, " +
+                            "           UploadFilePath" +
+                            "       ) " +
+                            " VALUES" +
+                            "       (" +
+                            "           @FileName, " +
+                            "           @FileSizeDesc, " +
+                            "           @UploadPercent, " +
+                            "           @UploadStatus, " +
+                            "           @FilePathFrom, " +
+                            "           @UploadFilePath" +
+                            "       );" +
+                            " SELECT LAST_INSERT_ROWID() FROM TBL_UploadInfo;";
+                int fileID = da.ExecuteReader(sql);
+                return fileID;
+            }
+        }
+
+        public static bool UpdateUploadStatus(string fileID, byte[] status)
+        {
+            using (DataHelper da = new DataHelper())
+            {
+                da.AddParameter("@FileID", fileID);
+                da.AddParameter("@UploadStatus", status);
+
+                string sql = "Update TBL_UploadInfo " +
+                             " Set " +
+                             "      UploadStatus = @UploadStatus, " +
+                             "      UploadPercent = '100' " +
+                             " Where " +
+                             "      FileID = @FileID";
+
+                return da.ExecuteSQL(sql);
+            }
+        }
+
+        public static bool DeleteUploadTask(string fileID, string filePath)
+        {
+            using (DataHelper da = new DataHelper())
+            {
+                da.AddParameter("@FileID", fileID);
+
+                string sql = "DELETE FROM TBL_UploadInfo WHERE FileID = @FileID";
+                if (!da.ExecuteSQL(sql))
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -132,7 +228,9 @@ namespace CloudreveMiddleLayer.Entiry
             string responseContent = HttpClientHelper.Get(url, ref tmpCookie);
             if (!string.IsNullOrEmpty(responseContent))
             {
-                return JsonConvert.DeserializeObject<CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root>(responseContent).data.objects;
+                CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root root = JsonConvert.DeserializeObject<CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root>(responseContent);
+                Util.Current_Path_Storage_Policy = root.data.policy.id;
+                return root.data.objects;
             }
             return null;
         }
@@ -590,6 +688,162 @@ namespace CloudreveMiddleLayer.Entiry
                 return returnCode == 0;
             }
             return false;
+        }
+
+        #endregion
+
+        #region Upload
+
+        private static bool GetUploadSessionID(string fileName, 
+                                                 string uploadPath,
+                                                 Int64 fileSize,
+                                                 Int64 lastModified,
+                                                 string storagePolicyID,
+                                                 string mimeType,
+                                                 out string sessionID,
+                                                 out Int64 chunkSize,
+                                                 out Int64 expires,
+                                                 out string returnMessage)
+        {
+            JObject obj = new JObject();
+            obj.Add("path", uploadPath);
+            obj.Add("size", fileSize);
+            obj.Add("name", fileName);
+            obj.Add("policy_id", storagePolicyID);
+            obj.Add("last_modified", lastModified);
+            obj.Add("mime_type", mimeType);
+
+
+            string url = Util.GLOBLE_URL;
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
+            url += Util.CloudreveWebURL.GET_UPLOAD_SESSION_ID_URL;
+            string temp = Util.GLOBLE_COOKIE;
+            string responseContent = HttpClientHelper.Put(url, obj.ToString(), ref temp);
+            int returnCode = -1;
+            sessionID = String.Empty;
+            chunkSize = 0;
+            expires = 0;
+            returnMessage = String.Empty;
+            if (!string.IsNullOrEmpty(responseContent))
+            {
+                JObject returnObj = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+                returnMessage = returnObj["msg"].ToString();
+                returnCode = Convert.ToInt32(returnObj["code"].ToString());
+
+                if(returnCode == 0)
+                {
+                    //获取SessionID和其他的值
+                    sessionID = returnObj["data"]["sessionID"].ToString();
+                    chunkSize = Convert.ToInt32(returnObj["data"]["chunkSize"].ToString());
+                    expires = Convert.ToInt32(returnObj["data"]["expires"].ToString());
+                }
+            }
+
+            return returnCode == 0;
+        }
+
+        public static bool UploadFile(string fileName,
+                                  string uploadPath,
+                                  string mimeType,
+                                  TransferFileProgressBar pb,
+                                  out int returnCode, 
+                                  out string returnMessage)
+        {
+            FileInfo f = new FileInfo(fileName);
+            Int64 fileSize = f.Length;
+            Int64 lastModified = (long)(f.LastWriteTime - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+
+            string sessionID = String.Empty;
+            Int64 chunkSize = 0;
+            Int64 expires = 0;
+            returnCode = -1;
+            if (!GetUploadSessionID(new FileInfo(fileName).Name, 
+                                   uploadPath, 
+                                   fileSize, 
+                                   lastModified, 
+                                   Util.Current_Path_Storage_Policy, 
+                                   "",
+                                   out sessionID,
+                                   out chunkSize,
+                                   out expires,
+                                   out returnMessage))
+            {
+                return false;
+            }
+
+            int uploadChunkCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(fileSize) / chunkSize));
+            bool hasError = false;
+
+            for (int i=0;i<uploadChunkCount;i++)
+            {
+                string url = Util.GLOBLE_URL;
+                if (!url.EndsWith("/"))
+                {
+                    url += "/";
+                }
+                url += string.Format(Util.CloudreveWebURL.GET_UPLOAD_FILE_URL, sessionID, i);
+                byte[] content = null;
+                if (i == uploadChunkCount - 1)
+                {
+                    content = ComponentControls.Helper.IO.FileInfo.ReadFromFile(fileName,
+                                                                                i * chunkSize);
+                }
+                else
+                {
+                    content = ComponentControls.Helper.IO.FileInfo.ReadFromFile(fileName,
+                                                                                i * chunkSize,
+                                                                                chunkSize);
+                }
+                
+                if(!HttpClientHelper.UploadFile(url, content, Util.GLOBLE_COOKIE))
+                {
+                    hasError = true;
+                    break;
+                }
+                // Update the label text using Invoke method
+                pb.Invoke(new Action(() => pb.SetProgressBarValue((i + 1) / uploadChunkCount * 100, fileName)));
+            }
+
+            if (!hasError)
+            {
+                return NotifyServerUploadFinished(sessionID, uploadChunkCount, out returnCode, out returnMessage);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private static bool NotifyServerUploadFinished(string sessionID, int chunkCount, out int returnCode, out string returnMessage)
+        {
+            JObject obj = new JObject();
+            obj.Add("id", sessionID);
+            obj.Add("parts", chunkCount);
+
+            string url = Util.GLOBLE_URL;
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
+            url += Util.CloudreveWebURL.GET_UPLOAD_FILE_URL;
+            string temp = Util.GLOBLE_COOKIE;
+            string responseContent = HttpClientHelper.Post(url, obj.ToString(), ref temp);
+            returnMessage = String.Empty;
+            returnCode = -1;
+            if (!string.IsNullOrEmpty(responseContent))
+            {
+                JObject returnObj = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+                returnMessage = returnObj["msg"].ToString();
+                returnCode = Convert.ToInt32(returnObj["code"].ToString());
+                return returnCode == 0;
+            }
+            return false;
+
         }
 
         #endregion

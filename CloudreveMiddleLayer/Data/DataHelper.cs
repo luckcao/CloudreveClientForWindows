@@ -510,6 +510,34 @@ namespace CloudreveMiddleLayer.Data
             }
         }
 
+        public int ExecuteReader(string sql)
+        {
+            int id = -1;
+            try
+            {
+                if (BuildCommand(sql))
+                {
+                    SQLiteDataReader r = cmd.ExecuteReader();
+                    if(r.Read())
+                    {
+                        id = int.Parse(r[0].ToString());
+                        r.Close();
+                    }
+                }
+
+                return id;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+            finally
+            {
+                CloseConnection();
+                ClearParameter();
+            }
+        }
+
         #endregion
 
         #region Execute SQL

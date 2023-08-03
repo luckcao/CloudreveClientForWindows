@@ -95,6 +95,7 @@ namespace CloudreveForWindows.Forms
             RefreshFileList();
             RefreshStorage();
             InitialDownloadTask();
+            InitialUploadTask();
 
             EndWait();
         }
@@ -654,6 +655,129 @@ namespace CloudreveForWindows.Forms
         //}
 
         #endregion
+
+        #endregion
+
+        #region Upload
+
+        private void InitialUploadTask()
+        {
+            DataSetDownloadUpload.TBL_UploadInfoDataTable dtUpload = new DataSetDownloadUpload.TBL_UploadInfoDataTable();
+            if (FileList.GetUploadFileInfo(dtUpload))
+            {
+                for (int i = 0; i < dtUpload.Count; i++)
+                {
+                    //完成状态的图标不变，其余的变成start_task图标
+                    if (!dtUpload[i].UploadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
+                    {
+                        dtUpload[i].UploadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task);
+                    }
+                    AddUploadTaskToTransferFileControl(dtUpload[i]);
+                }
+            }
+        }
+
+        #region Add Upload Task
+
+        private void AddUploadTaskToTransferFileControl(DataSetDownloadUpload.TBL_UploadInfoRow dr, bool needAddToDB = false)
+        {
+            TransferFileItem tfi = new TransferFileItem(dr.FileID,
+                                           dr.FileName,
+                                           dr.FilePathFrom,
+                                           dr.UploadFilePath,
+                                           dr.FileSizeDesc,
+                                           dr.UploadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)) ? 100 : 0,
+                                           dr);
+            tfi.TransferItemStartClicked += Tfi_UploadTransferItemStartClicked;
+            tfi.TransferItemPauseClicked += Tfi_UploadTransferItemPauseClicked;
+            tfi.TransferItemDeleteClicked += Tfi_UploadTransferItemDeleteClicked;
+            tfUpload.AddTransferFile(tfi);
+
+            if (needAddToDB && FileList.AddUploadTask(dr.FileName,
+                                                       dr.FileSizeDesc,
+                                                       0.0,
+                                                       ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task),
+                                                       dr.FileName,
+                                                       dr.UploadFilePath) == -1)
+            {
+                ExMessageBox.Show("添加下载任务到数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        #endregion
+
+        private void 上传文件UToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(openFileDialog1.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            System.IO.FileInfo f = new System.IO.FileInfo(openFileDialog1.FileName);
+
+            int fileID = FileList.AddUploadTask(f.Name,
+                                                ComponentControls.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
+                                                0,
+                                                ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task),
+                                                f.FullName,
+                                                directoryPath1.CurrentFullPath);
+
+            if(fileID == -1)
+            {
+                ExMessageBox.Show("添加上传任务至数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                TransferFileItem tfi = new TransferFileItem(fileID.ToString().Trim(),
+                                                               f.Name,
+                                                               f.FullName,
+                                                               directoryPath1.CurrentFullPath,
+                                                               ComponentControls.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
+                                                               0,
+                                                               null);
+                tfi.TransferItemStartClicked += Tfi_UploadTransferItemStartClicked;
+                tfi.TransferItemPauseClicked += Tfi_UploadTransferItemPauseClicked;
+                tfi.TransferItemDeleteClicked += Tfi_UploadTransferItemDeleteClicked;
+
+                tfUpload.AddTransferFile(tfi);
+            }
+        }
+
+        private void Tfi_UploadTransferItemDeleteClicked(object sender, EventArgs e)
+        {
+            //点击了删除上传按钮
+        }
+
+        private void Tfi_UploadTransferItemPauseClicked(object sender, EventArgs e)
+        {
+            //点击了暂停上传按钮
+        }
+
+        private void Tfi_UploadTransferItemStartClicked(object sender, EventArgs e)
+        {
+            //点击了开始上传
+            Thread thread = new Thread(new ParameterizedThreadStart(StartOneFileUpload));
+            thread.IsBackground = true;
+            thread.Start((TransferFileItem)sender);
+        }
+
+        private void StartOneFileUpload(object sender)
+        {
+            TransferFileItem item = (TransferFileItem)sender;
+            int returnCode = -1;
+            string returnMessage = String.Empty;
+            if(FileList.UploadFile(item.FilePathFrom, item.FilePathTo, "", item.ProgressBar, out returnCode, out returnMessage))
+            {
+                if(!FileList.UpdateUploadStatus(item.FileID, ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
+                {
+                    ExMessageBox.Show("上传完成，更新状态失败!", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                ExMessageBox.Show("上传失败，错误信息如下：\r\n" + returnMessage, "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         #endregion
 
@@ -1247,6 +1371,7 @@ namespace CloudreveForWindows.Forms
             if (FileList.DeleteFile(fileNames, out returnCode, out returnMsg))
             {
                 RefreshFileList();
+                RefreshStorage();
             }
             else
             {
