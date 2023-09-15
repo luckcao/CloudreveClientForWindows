@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace ComponentControls.Helper.Web
+namespace CloudreveMiddleLayer.Helper.Web
 {
     public class HttpClientHelper
     {

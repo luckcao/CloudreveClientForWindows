@@ -1,11 +1,8 @@
 ﻿using CloudreveMiddleLayer;
 using CloudreveMiddleLayer.DataSet;
 using ComponentControls.Forms;
-using ComponentControls.Helper.IO;
-using ComponentControls.Helper.String;
+using CloudreveMiddleLayer.Helper.String;
 using System;
-using System.Data;
-using System.IO;
 using System.Windows.Forms;
 
 namespace CloudreveForWindows.Forms
@@ -41,7 +38,7 @@ namespace CloudreveForWindows.Forms
                         cboDB.SelectedIndex = 0;
                         txtUserName.Text = dtDB[autoLoginRowIndex].UserName;
                         txtPWD.Text = DecryptAndEncryptionHelper.Decrypto(dtDB[autoLoginRowIndex].Password);
-                        Util.GLOBLE_COOKIE = DecryptAndEncryptionHelper.Decrypto(dtDB[autoLoginRowIndex].Cookie);
+                        //Util.GLOBLE_COOKIE = DecryptAndEncryptionHelper.Decrypto(dtDB[autoLoginRowIndex].Cookie);
                         chkRememberInfo.Checked = true;
                         chkAutoLogin.Checked = true;
 
@@ -73,7 +70,7 @@ namespace CloudreveForWindows.Forms
             }
             catch(Exception ex)
             {
-                ExMessageBox.Show("发生了错误，错误信息为: \r\n" + ex.Message, "出误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExMessageBox.Show("发生了错误，错误信息为: \r\n" + ex.Message, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 cboDB.Focus();
             }
 

@@ -1,7 +1,7 @@
 ﻿using CloudreveMiddleLayer.Data;
 using CloudreveMiddleLayer.DataSet;
-using ComponentControls.Helper.Media;
-using ComponentControls.Helper.Web;
+using CloudreveMiddleLayer.Helper.Media;
+using CloudreveMiddleLayer.Helper.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;

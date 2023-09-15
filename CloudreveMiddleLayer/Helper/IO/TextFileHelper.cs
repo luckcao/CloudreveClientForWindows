@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComponentControls.Helper.IO
+namespace CloudreveMiddleLayer.Helper.IO
 {
     public class TextFileHelper
     {

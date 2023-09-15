@@ -1,6 +1,4 @@
-﻿using ComponentControls.Helper.Web;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -13,9 +11,9 @@ namespace CloudreveMiddleLayer
     {
         public static string GLOBLE_COOKIE = String.Empty;
         public static string GLOBLE_URL = String.Empty;
-        public static CloudreveMiddleLayer.JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;
-        public static List<string> Paused_Download_Task = new List<string>();
+        public static JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;
         public static string Current_Path_Storage_Policy = String.Empty;
+
         public class CloudreveWebURL
         {
             /// <summary>
@@ -117,6 +115,11 @@ namespace CloudreveMiddleLayer
             /// 获取上传文件URL
             /// </summary>
             public const string GET_UPLOAD_FILE_URL = "api/v3/file/upload/{0}/{1}";
+
+            /// <summary>
+            /// 获取文件或者目录属性URL
+            /// </summary>
+            public const string GET_PROPERTY_URL = "api/v3/object/property/{0}?trace_root={1}&is_folder={2}";
         }
 
         public static string DataBaseFullPath

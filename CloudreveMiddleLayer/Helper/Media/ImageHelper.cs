@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace ComponentControls.Helper.Media
+namespace CloudreveMiddleLayer.Helper.Media
 {
     public class ImageHelper
     {
@@ -93,6 +93,12 @@ namespace ComponentControls.Helper.Media
                 ms.Read(buffer, 0, buffer.Length);
                 return buffer;
             }
+        }
+        public static System.Drawing.Image BytesToImage(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
+            return image;
         }
     }
 }

@@ -65,6 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\TransferFileProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TransferFileProgressBar.Designer.cs">
+      <DependentUpon>TransferFileProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataSet\DataSetDownloadUpload.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -82,20 +88,21 @@
     </Compile>
     <Compile Include="Data\DataHelper.cs" />
     <Compile Include="Entiry\FileList.cs" />
+    <Compile Include="Entiry\FileTransfer.cs" />
     <Compile Include="Entiry\Login.cs" />
     <Compile Include="Entiry\SystemEnvironment.cs" />
+    <Compile Include="Helper\IO\FileInfo.cs" />
+    <Compile Include="Helper\IO\TextFileHelper.cs" />
+    <Compile Include="Helper\Media\ImageHelper.cs" />
+    <Compile Include="Helper\String\DecryptAndEncryptionHelper.cs" />
+    <Compile Include="Helper\Web\HttpClientHelper.cs" />
     <Compile Include="JsonEntiryClass\GetAuthConfigJson.cs" />
     <Compile Include="JsonEntiryClass\GetFileListJson.cs" />
     <Compile Include="JsonEntiryClass\GetLoginCaptchaJson.cs" />
+    <Compile Include="JsonEntiryClass\GetPropertyJson.cs" />
     <Compile Include="JsonEntiryClass\GetShareFileJson.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ComponentControls\ComponentControls.csproj">
-      <Project>{86574990-869f-41af-ac33-1e6f22bda7c5}</Project>
-      <Name>ComponentControls</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -138,6 +145,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\pause_task.png" />
     <Content Include="SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

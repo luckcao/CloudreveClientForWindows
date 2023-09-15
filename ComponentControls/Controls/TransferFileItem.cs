@@ -1,14 +1,13 @@
-﻿using ComponentControls.Helper.Media;
+﻿using CloudreveMiddleLayer.Controls;
+using CloudreveMiddleLayer.DataSet;
+using CloudreveMiddleLayer.Entiry;
+using ComponentControls.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
+using MessageBox = ComponentControls.Forms.MessageBox;
 
 namespace ComponentControls.Controls
 {
@@ -22,18 +21,38 @@ namespace ComponentControls.Controls
         public event TransferItemStartClickedEvent TransferItemStartClicked;
         public delegate void TransferItemPauseClickedEvent(object sender, EventArgs e);
         public event TransferItemPauseClickedEvent TransferItemPauseClicked;
-        public delegate void TransferItemDeleteClickedEvent(object sender, EventArgs e);
+        public delegate void TransferItemDeleteClickedEvent(object sender, bool removeLocalFile);
         public event TransferItemDeleteClickedEvent TransferItemDeleteClicked;
         public delegate void TransferItemOpenPathClickedEvent(object sender, EventArgs e);
         public event TransferItemOpenPathClickedEvent TransferItemOpenFolderClicked;
+        public delegate void TransferItemCompletedEvent(object sender, string fileID);
+        public event TransferItemCompletedEvent TransferItemCompleted;
+
+        private Status status = Status.暂停;
+        private TransferType transType = TransferType.下载;
+        private Thread thread = null;
+
+        public enum Status
+        {
+            所有状态 = -1,
+            暂停 = 0,
+            正在传输 = 1,
+            传输完毕 = 2
+        }
+
+        public enum TransferType
+        {
+            下载 = 0,
+            上传 = 1
+        }
 
         public TransferFileItem()
         {
             InitializeComponent();
-            
         }
 
-        public TransferFileItem(string fileID, string fileName, string filePathFrom, string filePathTo, string fileSize, int percent, object tag)
+        public TransferFileItem(string fileID, string fileName, string filePathFrom, string filePathTo, 
+                                string fileSize, int percent, object tag, TransferType transType)
         {
             InitializeComponent();
             this.fileID = fileID;
@@ -43,29 +62,21 @@ namespace ComponentControls.Controls
             this.filePathTo = filePathTo;
             lblFileSize.Text = fileSize;
             pbPercent.Value = percent;
+            this.transType = transType;
             if (pbPercent.Value == 100)
             {
-                btnStartOrPause.Image = global::ComponentControls.Properties.Resources.finished_task;
-                pbPercent.Value = 0;
+                CurrentStatus = Status.传输完毕;
             }
             this.Tag = tag;
-        }
-
-        public TransferFileItem(string fileID, string fileName, string filePathFrom, string fileSize, int percent, object tag)
-        {
-            InitializeComponent();
-            this.fileID = fileID;
-            lblFileName.Text = fileName;
-            this.toolTip1.SetToolTip(lblFileName, fileName);
-            this.filePathFrom = filePathFrom;
-            lblFileSize.Text = fileSize;
-            pbPercent.Value = percent;
-            if (pbPercent.Value == 100)
+            if (transType == TransferType.下载)
             {
-                btnStartOrPause.Image = global::ComponentControls.Properties.Resources.finished_task;
-                pbPercent.Value = 0;
+                thread = new Thread(StartDownload);
             }
-            this.Tag = tag;
+            else if(transType == TransferType.上传)
+            {
+                thread = new Thread(StartUpload);
+            }
+            thread.IsBackground = true;
         }
 
         public Image DownloadStatusImage
@@ -116,68 +127,141 @@ namespace ComponentControls.Controls
             get { return pbPercent; }
         }
 
-        public bool IsTransferComplete
+        public Status CurrentStatus
         {
-            get { return ImageHelper.ImageToBytes(btnStartOrPause.Image).SequenceEqual(ImageHelper.ImageToBytes(global::ComponentControls.Properties.Resources.finished_task)); }
-        }
-
-        public bool IsTransferStart
-        {
-            get { return ImageHelper.ImageToBytes(btnStartOrPause.Image).SequenceEqual(ImageHelper.ImageToBytes(global::ComponentControls.Properties.Resources.pause_task)); }
+            get { return status; }
+            set
+            {
+                status = value;
+                switch (status)
+                {
+                    case Status.正在传输:
+                        btnStartOrPause.Image = global::ComponentControls.Properties.Resources.pause_task;
+                        //timerUpdateProgressBarValue.Enabled = true;
+                        thread.Start();
+                        break;
+                    case Status.暂停:
+                        btnStartOrPause.Image = global::ComponentControls.Properties.Resources.start_task;
+                        //timerUpdateProgressBarValue.Enabled = false;
+                        thread.Abort();
+                        break;
+                    case Status.传输完毕:
+                        btnStartOrPause.Image = global::ComponentControls.Properties.Resources.finished_task;
+                        pbPercent.Value = 100;
+                        //timerUpdateProgressBarValue.Enabled = false;
+                        if (TransferItemCompleted!=null)
+                        {
+                            TransferItemCompleted(this, fileID);
+                        }
+                        break;
+                }
+            }
         }
 
         private void btnStartOrPause_Click(object sender, EventArgs e)
         {
-            if (ImageHelper.ImageToBytes(btnStartOrPause.Image).SequenceEqual(ImageHelper.ImageToBytes(global::ComponentControls.Properties.Resources.start_task)))
+            switch(status)
             {
-                TransferStart();
-            }
-            else if(ImageHelper.ImageToBytes(btnStartOrPause.Image).SequenceEqual(ImageHelper.ImageToBytes(global::ComponentControls.Properties.Resources.pause_task)))
-            {
-                TransferPause();
+                case Status.暂停:
+                    if (TransferItemStartClicked != null)
+                    {
+                        TransferItemStartClicked(this, new EventArgs());
+                    }
+                    CurrentStatus = Status.正在传输;
+                    break;
+                case Status.正在传输:
+                    if (TransferItemPauseClicked != null)
+                    {
+                        TransferItemPauseClicked(this, new EventArgs());
+                    }
+                    CurrentStatus = Status.暂停;
+                    break;
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            TransferDelete();
+            MessageBox msg = null;
+            if(transType == TransferType.下载)
+            {
+                msg = new MessageBox("您确定要删除该任务么？", "提醒", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, true, true, "同时删除本地文件");
+            }
+            else
+            {
+                msg = new MessageBox("您确定要删除该任务么？", "提醒", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            }
+            
+            if(msg.ShowDialog() == DialogResult.Yes)
+            {
+                Remove(msg.Checked);
+            }
         }
+
+        public void Remove(bool removeLocalFile)
+        {
+            CurrentStatus = Status.暂停;
+            if (TransferItemDeleteClicked != null)
+            {
+                TransferItemDeleteClicked(this, removeLocalFile);
+            }
+        }
+
+        #region Start 
+
+        private void StartDownload()
+        {
+            int returnCode;
+            DataSetDownloadUpload.TBL_DownloadInfoRow dr = (DataSetDownloadUpload.TBL_DownloadInfoRow)this.Tag;
+            string returnMessage;
+            if (new FileTransfer().DownloadFile(dr, this.ProgressBar, out returnCode, out returnMessage))
+            {
+                //下载成功
+                UpdateCurrentStatusToFinish();
+            }
+        }
+
+        private void StartUpload()
+        {
+            int returnCode = -1;
+            string returnMessage = String.Empty;
+            if (new FileTransfer().UploadFile(this.FilePathFrom, this.FilePathTo, "", this.ProgressBar, out returnCode, out returnMessage))
+            {
+                //下载成功
+                UpdateCurrentStatusToFinish();
+            }
+            else
+            {
+                ExMessageBox.Show("上传失败，错误信息如下：\r\n" + returnMessage, "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
+        private void UpdateCurrentStatusToFinish()
+        {
+            try
+            {
+                this.Invoke((MethodInvoker)delegate ()
+                {
+                    try
+                    {
+                        CurrentStatus = Status.传输完毕;
+                    }
+                    catch
+                    { }
+                });
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        #region Open Folder
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
             TransferOpenFolder();
-        }
-
-        public void TransferStart()
-        {
-            btnStartOrPause.Image = global::ComponentControls.Properties.Resources.pause_task;
-            if (TransferItemStartClicked != null)
-            {
-                TransferItemStartClicked(this, new EventArgs());
-            }
-        }
-
-        public void TransferPause(bool raisEvents = true)
-        {
-            btnStartOrPause.Image = global::ComponentControls.Properties.Resources.start_task;
-            if (raisEvents && TransferItemPauseClicked != null)
-            {
-                TransferItemPauseClicked(this, new EventArgs());
-            }
-        }
-
-        public void TransferDelete()
-        {
-            btnStartOrPause.Image = global::ComponentControls.Properties.Resources.start_task;
-            if (TransferItemDeleteClicked != null)
-            {
-                TransferItemDeleteClicked(this, new EventArgs());
-            }
-        }
-
-        public void TransferComplete()
-        {
-            btnStartOrPause.Image = global::ComponentControls.Properties.Resources.finished_task;
         }
 
         public void TransferOpenFolder()
@@ -201,5 +285,7 @@ namespace ComponentControls.Controls
                 }
             }
         }
+
+        #endregion
     }
 }

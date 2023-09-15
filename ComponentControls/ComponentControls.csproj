@@ -105,12 +105,6 @@
     <Compile Include="Controls\TransferFileItem.Designer.cs">
       <DependentUpon>TransferFileItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TransferFileProgressBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\TransferFileProgressBar.Designer.cs">
-      <DependentUpon>TransferFileProgressBar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ExMessageBox.cs" />
     <Compile Include="Forms\MessageBox.cs">
       <SubType>Form</SubType>
@@ -118,11 +112,6 @@
     <Compile Include="Forms\MessageBox.Designer.cs">
       <DependentUpon>MessageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helper\IO\FileInfo.cs" />
-    <Compile Include="Helper\IO\TextFileHelper.cs" />
-    <Compile Include="Helper\Media\ImageHelper.cs" />
-    <Compile Include="Helper\String\DecryptAndEncryptionHelper.cs" />
-    <Compile Include="Helper\Web\HttpClientHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -243,6 +232,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\set_public.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudreveMiddleLayer\CloudreveMiddleLayer.csproj">
+      <Project>{ca22615b-2f0c-480e-b104-5f6f80115c14}</Project>
+      <Name>CloudreveMiddleLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

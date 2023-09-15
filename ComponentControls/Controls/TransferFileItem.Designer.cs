@@ -1,4 +1,6 @@
 ﻿
+using CloudreveMiddleLayer.Controls;
+
 namespace ComponentControls.Controls
 {
     partial class TransferFileItem
@@ -31,13 +33,13 @@ namespace ComponentControls.Controls
         {
             this.components = new System.ComponentModel.Container();
             this.lblFileName = new System.Windows.Forms.Label();
-            this.pbPercent = new TransferFileProgressBar();
             this.panOperation = new System.Windows.Forms.Panel();
             this.btnStartOrPause = new System.Windows.Forms.PictureBox();
             this.btnDelete = new System.Windows.Forms.PictureBox();
             this.btnOpenFolder = new System.Windows.Forms.PictureBox();
             this.lblFileSize = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.pbPercent = new CloudreveMiddleLayer.Controls.TransferFileProgressBar(this.components);
             this.panOperation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnStartOrPause)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnDelete)).BeginInit();
@@ -54,16 +56,6 @@ namespace ComponentControls.Controls
             this.lblFileName.Size = new System.Drawing.Size(89, 27);
             this.lblFileName.TabIndex = 0;
             this.lblFileName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // pbPercent
-            // 
-            this.pbPercent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbPercent.Location = new System.Drawing.Point(8, 37);
-            this.pbPercent.Name = "pbPercent";
-            this.pbPercent.Size = new System.Drawing.Size(311, 7);
-            this.pbPercent.Step = 1;
-            this.pbPercent.TabIndex = 1;
             // 
             // panOperation
             // 
@@ -120,6 +112,16 @@ namespace ComponentControls.Controls
             this.lblFileSize.Size = new System.Drawing.Size(118, 27);
             this.lblFileSize.TabIndex = 3;
             this.lblFileSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pbPercent
+            // 
+            this.pbPercent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbPercent.Location = new System.Drawing.Point(8, 37);
+            this.pbPercent.Name = "pbPercent";
+            this.pbPercent.Size = new System.Drawing.Size(311, 7);
+            this.pbPercent.Step = 1;
+            this.pbPercent.TabIndex = 1;
             // 
             // TransferFileItem
             // 

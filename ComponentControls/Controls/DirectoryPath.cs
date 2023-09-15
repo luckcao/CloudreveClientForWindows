@@ -62,7 +62,7 @@ namespace ComponentControls.Controls
             controlList.Add(new EachPathControl(pathName, btnPath, label));
 
             btnPath.AutoSize = true;
-            btnPath.BorderStyle = BorderStyle.FixedSingle;
+            //btnPath.BorderStyle = BorderStyle.FixedSingle;
             btnPath.Font = this.Font;
             btnPath.Size = new System.Drawing.Size(74, 21);
             btnPath.Location = new System.Drawing.Point(nextPosition.X, (Height - btnPath.Height) / 2);

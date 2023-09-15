@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComponentControls.Helper.String
+namespace CloudreveMiddleLayer.Helper.String
 {
     public class DecryptAndEncryptionHelper
     {

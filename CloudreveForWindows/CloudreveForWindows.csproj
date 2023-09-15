@@ -279,5 +279,14 @@
   <ItemGroup>
     <None Include="Resources\allow_preview.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information_menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\min.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

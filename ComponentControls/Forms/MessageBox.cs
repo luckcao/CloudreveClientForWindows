@@ -17,7 +17,7 @@ namespace ComponentControls.Forms
 
         }
 
-        public MessageBox(string message = "", string title = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Information, MessageBoxDefaultButton defaultButton = MessageBoxDefaultButton.Button1, bool readOnly = true, bool multiLine = true)
+        public MessageBox(string message = "", string title = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Information, MessageBoxDefaultButton defaultButton = MessageBoxDefaultButton.Button1, bool readOnly = true, bool multiLine = true, string checkBoxText = "")
         {
             InitializeComponent();
             this.txtMessage.Text = message;
@@ -94,11 +94,21 @@ namespace ComponentControls.Forms
                     this.btnCancel.Focus();
                     break;
             }
+            if(!checkBoxText.Trim().Equals(String.Empty))
+            {
+                chk.Text = checkBoxText;
+                chk.Visible = true;
+            }
         }
 
         public string InputText
         {
             get { return txtMessage.Text.Trim(); }
+        }
+
+        public bool Checked
+        {
+            get { return chk.Checked; }
         }
 
         private void btn_Click(object sender, EventArgs e)

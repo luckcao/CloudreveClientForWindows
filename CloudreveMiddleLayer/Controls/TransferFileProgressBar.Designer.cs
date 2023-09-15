@@ -1,5 +1,5 @@
 ﻿
-namespace ComponentControls.Controls
+namespace CloudreveMiddleLayer.Controls
 {
     partial class TransferFileProgressBar
     {

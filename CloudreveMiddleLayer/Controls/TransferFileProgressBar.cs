@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ComponentControls.Controls
+namespace CloudreveMiddleLayer.Controls
 {
     public partial class TransferFileProgressBar : ProgressBar
     {
-        public delegate void SetValueEvent(object sender, int newValue, string fileID);
-        public event SetValueEvent SetValue;
+        public delegate void ValueChangedEvent(object sender, int newValue);
+        public event ValueChangedEvent ValueChanged;
 
         public TransferFileProgressBar()
         {
@@ -26,12 +26,15 @@ namespace ComponentControls.Controls
             InitializeComponent();
         }
 
-        public void SetProgressBarValue(int value, string fileID)
+        public void SetProgressBarValueInThread(int value)
         {
-            if (SetValue != null)
+            Action t = () =>
             {
-                SetValue(this, value, fileID);
-            }
+                this.Value = value;
+            };
+
+            //跨线程操作
+            this.BeginInvoke(t);
         }
     }
 }

@@ -39,6 +39,7 @@ namespace ComponentControls.Forms
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.requirementErrorProvider1 = new ComponentControls.Components.RequirementErrorProvider(this.components);
+            this.chk = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
@@ -73,6 +74,7 @@ namespace ComponentControls.Forms
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.chk);
             this.panel2.Controls.Add(this.txtMessage);
             this.panel2.Controls.Add(this.picIcon);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -89,7 +91,7 @@ namespace ComponentControls.Forms
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.ReadOnly = true;
-            this.txtMessage.Size = new System.Drawing.Size(377, 112);
+            this.txtMessage.Size = new System.Drawing.Size(377, 83);
             this.txtMessage.TabIndex = 0;
             // 
             // picIcon
@@ -144,6 +146,16 @@ namespace ComponentControls.Forms
             this.requirementErrorProvider1.ContainerControl = this;
             this.requirementErrorProvider1.ErrorMessage = "不能为空";
             // 
+            // chk
+            // 
+            this.chk.AutoSize = true;
+            this.chk.Location = new System.Drawing.Point(116, 103);
+            this.chk.Name = "chk";
+            this.chk.Size = new System.Drawing.Size(15, 14);
+            this.chk.TabIndex = 2;
+            this.chk.UseVisualStyleBackColor = true;
+            this.chk.Visible = false;
+            // 
             // MessageBox
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -181,5 +193,6 @@ namespace ComponentControls.Forms
         private System.Windows.Forms.PictureBox picIcon;
         private System.Windows.Forms.TextBox txtMessage;
         private Components.RequirementErrorProvider requirementErrorProvider1;
+        private System.Windows.Forms.CheckBox chk;
     }
 }

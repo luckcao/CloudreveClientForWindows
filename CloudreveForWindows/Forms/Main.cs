@@ -4,9 +4,9 @@ using CloudreveMiddleLayer.Entiry;
 using CloudreveMiddleLayer.JsonEntiryClass;
 using ComponentControls.Controls;
 using ComponentControls.Forms;
-using ComponentControls.Helper.IO;
-using ComponentControls.Helper.Media;
-using ComponentControls.Helper.String;
+using CloudreveMiddleLayer.Helper.IO;
+using CloudreveMiddleLayer.Helper.Media;
+using CloudreveMiddleLayer.Helper.String;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,6 +17,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using static CloudreveMiddleLayer.Entiry.SystemEnvironment;
+using CloudreveMiddleLayer.Controls;
+using MessageBox = ComponentControls.Forms.MessageBox;
 
 namespace CloudreveForWindows.Forms
 {
@@ -30,43 +32,12 @@ namespace CloudreveForWindows.Forms
             MyShare = 3
         }
 
-        private class ProgressBarInfo
-        {
-            public TransferFileProgressBar ProgressBar = null;
-            public int Value;
-            public string FileID = String.Empty;
-
-            public ProgressBarInfo(TransferFileProgressBar progressBar, int value, string fileID)
-            {
-                this.ProgressBar = progressBar;
-                this.Value = value;
-                this.FileID = fileID;
-            }
-        }
-
-        private class ThreadInfo
-        {
-            public Thread Thread = null;
-            public int Index;
-            public DataSetDownloadUpload.TBL_DownloadInfoRow Row = null;
-
-            public ThreadInfo(Thread thread, int index, DataSetDownloadUpload.TBL_DownloadInfoRow row)
-            {
-                this.Thread = thread;
-                this.Index = index;
-                this.Row = row;
-            }
-        }
-
         string filterType = "all", sortString = "";
-        //string downloadDBFile = Util.GetApplicationPath() + "DownloadTask.config";
         List<GetFileListJson.ObjectsItem> currentFileList = new List<GetFileListJson.ObjectsItem>();
         DataSetFileInfo.TBL_FileInfoDataTable dtFileList = new DataSetFileInfo.TBL_FileInfoDataTable();
         DataSetDownloadUpload.TBL_DownloadInfoDataTable dtDownload = new DataSetDownloadUpload.TBL_DownloadInfoDataTable();
+        DataSetDownloadUpload.TBL_UploadInfoDataTable dtUpload = new DataSetDownloadUpload.TBL_UploadInfoDataTable();
         List<ToolStripMenuItem> sortMenu = new List<ToolStripMenuItem>();
-        List<ProgressBarInfo> pbi = new List<ProgressBarInfo>();
-        List<ThreadInfo> threadList = new List<ThreadInfo>();
-        bool showMessageDeleteDownloadTaskForEachTask = true;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int ShowScrollBar(IntPtr hWnd, int bar, int show);
@@ -162,7 +133,7 @@ namespace CloudreveForWindows.Forms
                 for (int i = 0; i < dtDownload.Count; i++)
                 {
                     //完成状态的图标不变，其余的变成start_task图标
-                    if (!dtDownload[i].DownloadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
+                    if (dtDownload[i].DownloadPercent != 100)
                     {
                         dtDownload[i].DownloadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task);
                     }
@@ -175,18 +146,9 @@ namespace CloudreveForWindows.Forms
 
         private void AddDownloadTaskToTransferFileControl(DataSetDownloadUpload.TBL_DownloadInfoRow dr, bool needAddToDB = false)
         {
-            TransferFileItem tfi = new TransferFileItem(dr.FileID,
-                                           dr.FileName,
-                                           dr.DownloadFilePath,
-                                           dr.FileSizeDesc,
-                                           dr.DownloadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)) ? 100 : 0,
-                                           dr);
-            tfi.TransferItemStartClicked += Tfi_TransferItemStartClicked;
-            tfi.TransferItemPauseClicked += Tfi_TransferItemPauseClicked;
-            tfi.TransferItemDeleteClicked += Tfi_TransferItemDeleteClicked;
-            tfi.ProgressBar.SetValue += ProgressBar_SetValue;
-            pbi.Add(new ProgressBarInfo(tfi.ProgressBar, 0, dr.FileID));
-            tfDownload.AddTransferFile(tfi);
+            tfDownload.Add(dr.FileID, dr.FileName, "", dr.DownloadFilePath, dr.FileSizeDesc,
+                           dr.DownloadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)) ? 100 : 0,
+                           dr, TransferFileItem.TransferType.下载);
 
             if (needAddToDB && !FileList.AddDownloadTask(dr))
             {
@@ -219,6 +181,7 @@ namespace CloudreveForWindows.Forms
 
         private void 下载WToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //对单个文件点击鼠标右键进行下载
             //判断要下载的文件是否已经存在于下载列表里
             //如果存在，则提示用户。
             //如果不在，则添加到下载列表里，并启动下载。
@@ -244,6 +207,7 @@ namespace CloudreveForWindows.Forms
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
+            //从文件列表中选择文件（允许多选）之后，点击下载按钮进行多文件下载
             dtFileList.AcceptChanges();
             DataSetFileInfo.TBL_FileInfoRow[] rows = (DataSetFileInfo.TBL_FileInfoRow[])dtFileList.Select("Tick=true");
             if (rows == null || rows.Length == 0)
@@ -296,233 +260,40 @@ namespace CloudreveForWindows.Forms
             }
         }
 
-        #endregion
-
-        #region Update Download Percent Value
-
-        private void ProgressBar_SetValue(object sender, int newValue, string fileID)
+        private void tfDownload_TransferItemDeleted(object sender, int index, bool removeLocalFile)
         {
-            ProgressBarInfo p = pbi.Find(t => t.FileID == fileID);
-            if (p != null)
+            dtDownload.Rows.RemoveAt(index);
+            if(!removeLocalFile)
             {
-                p.Value = newValue;
-            }
-        }
-
-        private void timerUpdateProgressBarValue_Tick(object sender, EventArgs e)
-        {
-            for (int i = 0; i < pbi.Count; i++)
-            {
-                pbi[i].ProgressBar.Value = pbi[i].Value;
-                pbi[i].ProgressBar.Update();
-            }
-        }
-
-        #endregion
-
-        #region Start Download Task
-
-        private void btnStartAllDownloadTask_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < dtDownload.Count; i++)
-            {
-                if (dtDownload[i].DownloadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task)))
-                {
-                    tfDownload.GetDataSource()[i].TransferStart();
-                }
-            }
-        }
-
-        private void Tfi_TransferItemStartClicked(object sender, EventArgs e)
-        {
-            //点击了开始下载
-            //开始下载
-            DataSetDownloadUpload.TBL_DownloadInfoRow row = (DataSetDownloadUpload.TBL_DownloadInfoRow)(((TransferFileItem)sender).Tag);
-            row.DownloadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.pause_task);
-            Util.Paused_Download_Task.Remove(row.FileID);
-            Thread thread = new Thread(new ParameterizedThreadStart(StartOneFileDownload));
-            thread.IsBackground = true;
-            thread.Start(row);
-            ThreadInfo t = new ThreadInfo(thread, threadList.Count, row);
-            threadList.Add(t);
-            timerUpdateProgressBarValue.Enabled = true;
-        }
-
-        #region Start Thread
-
-        private void StartOneFileDownload(object obj)
-        {
-            int returnCode;
-            DataSetDownloadUpload.TBL_DownloadInfoRow dr = (DataSetDownloadUpload.TBL_DownloadInfoRow)obj;
-            string returnMessage;
-            if (FileList.DownloadFile(dr, tfDownload.GetItems(dr.FileID).ProgressBar, out returnCode, out returnMessage))
-            {
-                //下载成功
-                dr.DownloadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task);
-                try
-                {
-                    this.Invoke((MethodInvoker)delegate ()
-                    {
-                        try
-                        {
-                            tfDownload.GetItems(dr.FileID).TransferComplete();
-                        }
-                        catch
-                        { }
-                    });
-                }
-                catch (Exception ex)
-                {
-
-                }
-                if (!FileList.UpdateDownloadStatus(dr.FileID, ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
-                {
-                    //ExMessageBox.Show("保存下载状态到数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                FileList.DeleteDownloadTask(tfDownload[index].FileID, String.Empty);
             }
             else
             {
-                if (Util.Paused_Download_Task.Count == 0 || Util.Paused_Download_Task.Contains(dr.FileID))
-                {
-                    //说明用户点了暂停
-                    dr.DownloadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task);
-                    try
-                    {
-                        this.Invoke((MethodInvoker)delegate ()
-                        {
-                            try
-                            {
-                                tfDownload.GetItems(dr.FileID).DownloadStatusImage = global::CloudreveForWindows.Properties.Resources.start_task;
-                            }
-                            catch
-                            { }
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                }
-                else
-                {
-                    //说明出错了，提示错误信息
-                    //ExMessageBox.Show("下载出错。错误信息如下：\r\n" + returnMessage, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    dr.DownloadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task);
-                    this.Invoke((MethodInvoker)delegate ()
-                    {
-                        try
-                        {
-                            tfDownload.GetItems(dr.FileID).DownloadStatusImage = global::CloudreveForWindows.Properties.Resources.start_task;
-                        }
-                        catch
-                        { }
-                    });
-                    //dgvDownload.Refresh();
-                }
+                FileList.DeleteDownloadTask(tfDownload[index].FileID, tfDownload[index].FilePathTo);
             }
-            dtDownload.AcceptChanges();
         }
 
-        //private void StartOneFileDownload(object obj)
-        //{
-        //    int returnCode;
-        //    DataSetDownloadUpload.TBL_DownloadInfoRow dr = (DataSetDownloadUpload.TBL_DownloadInfoRow)obj;
-        //    string returnMessage;
-        //    if (FileList.DownloadFile(dr, tfDownload.GetItems(dr.FileID).ProgressBar, out returnCode, out returnMessage))
-        //    {
-        //        //下载成功
-        //        dr.DownloadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task);
-        //        try
-        //        {
-        //            this.Invoke((MethodInvoker)delegate ()
-        //            {
-        //                try
-        //                {
-        //                    tfDownload.GetItems(dr.FileID).TransferComplete();
-        //                }
-        //                catch
-        //                { }
-        //            });
-        //        }
-        //        catch (Exception ex)
-        //        {
+        private void tfDownload_TransferItemCompleted(object sender, string fileID)
+        {
+            if (!FileList.UpdateDownloadStatus(fileID, ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
+            {
+                ExMessageBox.Show("保存下载状态到数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-        //        }
-        //        if (!FileList.UpdateDownloadStatus(dr.FileID, ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
-        //        {
-        //            //ExMessageBox.Show("保存下载状态到数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (Util.Paused_Download_Task.Count == 0 || Util.Paused_Download_Task.Contains(dr.FileID))
-        //        {
-        //            //说明用户点了暂停，判断是否需要删除该任务
-        //            if (!needDeleteFileID.Contains(dr.FileID))
-        //            {
-        //                dr.DownloadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task);
-        //                try
-        //                {
-        //                    this.Invoke((MethodInvoker)delegate ()
-        //                    {
-        //                        try
-        //                        {
-        //                            tfDownload.GetItems(dr.FileID).DownloadStatusImage = global::CloudreveForWindows.Properties.Resources.start_task;
-        //                        }
-        //                        catch
-        //                        { }
-        //                    });
-        //                }
-        //                catch (Exception ex)
-        //                {
 
-        //                }
-        //            }
-        //            else if (FileList.DeleteDownloadTask(dr.FileID, dr.DownloadFilePath, true))
-        //            {
-        //                needDeleteFileID.Remove(dr.FileID);
-        //                dtDownload.Rows.Remove(dr);
-        //                dtDownload.AcceptChanges();
-        //                try
-        //                {
-        //                    this.Invoke((MethodInvoker)delegate ()
-        //                    {
-        //                        try
-        //                        {
-        //                            tfDownload.RemoveTransferFile(dr.FileID);
-        //                        }
-        //                        catch
-        //                        { }
-        //                    });
-        //                }
-        //                catch (Exception ex)
-        //                {
+        #region Start All Download Task
 
-        //                }
-        //            }
-        //            //dgvDownload.Refresh();
-        //        }
-        //        else
-        //        {
-        //            //说明出错了，提示错误信息
-        //            //ExMessageBox.Show("下载出错。错误信息如下：\r\n" + returnMessage, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            dr.DownloadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task);
-        //            this.Invoke((MethodInvoker)delegate ()
-        //            {
-        //                try
-        //                {
-        //                    tfDownload.GetItems(dr.FileID).DownloadStatusImage = global::CloudreveForWindows.Properties.Resources.start_task;
-        //                }
-        //                catch
-        //                { }
-        //            });
-        //            //dgvDownload.Refresh();
-        //        }
-        //    }
-        //    dtDownload.AcceptChanges();
-        //}
-
-        #endregion
+        private void btnStartAllDownloadTask_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < tfDownload.ItemCount(TransferFileItem.Status.所有状态); i++)
+            {
+                if (tfDownload[i].CurrentStatus == TransferFileItem.Status.暂停)
+                {
+                    tfDownload[i].CurrentStatus = TransferFileItem.Status.正在传输;
+                }
+            }
+        }
 
         #endregion
 
@@ -532,127 +303,30 @@ namespace CloudreveForWindows.Forms
         {
             if (ExMessageBox.Show("您确定要取消全部的下载么？\r\n本次下载不支持断点续传，\r\n下次下载将从头开始下载。", "提醒", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
-                for (int i = 0; i < dtDownload.Count; i++)
+                for (int i = 0; i < tfDownload.ItemCount(TransferFileItem.Status.所有状态); i++)
                 {
-                    if (dtDownload[i].DownloadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.pause_task)))
+                    if (tfDownload[i].CurrentStatus == TransferFileItem.Status.正在传输)
                     {
-                        if (Util.Paused_Download_Task.Count == 0 || !Util.Paused_Download_Task.Contains(dtDownload[i].FileID))
-                        {
-                            Util.Paused_Download_Task.Add(dtDownload[i].FileID);
-                        }
+                        tfDownload[i].CurrentStatus = TransferFileItem.Status.暂停;
                     }
                 }
-            }
-        }
-
-        private void Tfi_TransferItemPauseClicked(object sender, EventArgs e)
-        {
-            //点击了暂停下载
-            TransferFileItem item = (TransferFileItem)sender;
-            DataSetDownloadUpload.TBL_DownloadInfoRow row = (DataSetDownloadUpload.TBL_DownloadInfoRow)((item).Tag);
-            if (ExMessageBox.Show("您确定要停止下载么？\r\n此次下载不支持断点续传，您下次下载时，将从新下载该文件。", "提醒", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-            {
-                Util.Paused_Download_Task.Add(row.FileID);
-            }
-            else
-            {
-                item.TransferPause(false);
             }
         }
 
         #endregion
 
-        #region Delete Download Task
+        #region Delete All Download Task
 
         private void btnDeleteAllDownloadTask_Click(object sender, EventArgs e)
         {
-            if (ExMessageBox.Show("您确定要清空下载列表么？\r\n清空后，下载完的文件不会从磁盘中删除，\r\n但未下载完的文件会从磁盘中删除。", "提醒", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            MessageBox msg = new MessageBox("您确定要清空下载列表么？", "提醒", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, true, true, "同时删除本地文件");
+            if (msg.ShowDialog() == DialogResult.Yes)
             {
-                showMessageDeleteDownloadTaskForEachTask = false;
-
-                while (tfDownload.GetDataSource().Count > 0)
-                {
-                    tfDownload.GetDataSource()[0].TransferDelete();
-                }
-
-                showMessageDeleteDownloadTaskForEachTask = true;
+                tfDownload.Clear(msg.Checked);
             }
         }
 
-        private void Tfi_TransferItemDeleteClicked(object sender, EventArgs e)
-        {
-            //点击了删除下载
-            //提示用户是否确定删除(如果状态为正在下载，也提示用户。)
-            TransferFileItem item = (TransferFileItem)sender;
-            DataSetDownloadUpload.TBL_DownloadInfoRow row = (DataSetDownloadUpload.TBL_DownloadInfoRow)((item).Tag);
-            if (!showMessageDeleteDownloadTaskForEachTask || ExMessageBox.Show("您确定要删除该任务么？\r\n删除已完成的任务并不会从磁盘中删除已下载的文件。\r\n但删除未完成的任务会从磁盘中删除。", "提醒", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
-            {
-                ThreadInfo tmp = threadList.Find(t => t.Row.FileID == row.FileID);
-                if(tmp == null)
-                {
-                    tmp = new ThreadInfo(null, 0, row);
-                }
-                DeleteOneDownloadTask(tmp);
-            }
-        }
-
-
-        private void DeleteOneDownloadTask(ThreadInfo t)
-        {
-            try
-            {
-                if (t.Thread != null && t.Row.DownloadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.pause_task)))
-                {
-                    //说明正在下载
-                    t.Thread.Abort();
-                    while(t.Thread.ThreadState != ThreadState.Aborted)
-                    {
-
-                    }
-                    threadList.Remove(t);
-                }
-                if (FileList.DeleteDownloadTask(t.Row.FileID, t.Row.DownloadFilePath, true))
-                {
-                    tfDownload.RemoveTransferFile(t.Row.FileID);
-                    dtDownload.Rows.Remove(t.Row);
-                    dtDownload.AcceptChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        //private void DeleteOneDownloadTask(DataSetDownloadUpload.TBL_DownloadInfoRow dr, byte[] pauseTaskImg)
-        //{
-        //    try
-        //    {
-        //        if (dr.DownloadStatus.SequenceEqual(pauseTaskImg))
-        //        {
-        //            //说明正在下载
-        //            needDeleteFileID.Add(dr.FileID);
-        //            Util.Paused_Download_Task.Add(dr.FileID);
-        //        }
-        //        else
-        //        {
-        //            if (FileList.DeleteDownloadTask(dr.FileID, dr.DownloadFilePath, true))
-        //            {
-        //                if (needDeleteFileID.Count != 0 && needDeleteFileID.Contains(dr.FileID))
-        //                {
-        //                    needDeleteFileID.Remove(dr.FileID);
-        //                }
-        //                tfDownload.RemoveTransferFile(dr.FileID);
-        //                dtDownload.Rows.Remove(dr);
-        //                dtDownload.AcceptChanges();
-        //            }
-        //        }
-        //    }
-        //    catch(Exception ex)
-        //    {
-
-        //    }
-        //}
+        #endregion
 
         #endregion
 
@@ -662,15 +336,18 @@ namespace CloudreveForWindows.Forms
 
         private void InitialUploadTask()
         {
-            DataSetDownloadUpload.TBL_UploadInfoDataTable dtUpload = new DataSetDownloadUpload.TBL_UploadInfoDataTable();
             if (FileList.GetUploadFileInfo(dtUpload))
             {
                 for (int i = 0; i < dtUpload.Count; i++)
                 {
                     //完成状态的图标不变，其余的变成start_task图标
-                    if (!dtUpload[i].UploadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
+                    if (dtUpload[i].UploadPercent != 100)
                     {
                         dtUpload[i].UploadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task);
+                    }
+                    else
+                    {
+                        dtUpload[i].UploadStatus = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task);
                     }
                     AddUploadTaskToTransferFileControl(dtUpload[i]);
                 }
@@ -681,17 +358,14 @@ namespace CloudreveForWindows.Forms
 
         private void AddUploadTaskToTransferFileControl(DataSetDownloadUpload.TBL_UploadInfoRow dr, bool needAddToDB = false)
         {
-            TransferFileItem tfi = new TransferFileItem(dr.FileID,
+            tfUpload.Add(dr.FileID,
                                            dr.FileName,
                                            dr.FilePathFrom,
                                            dr.UploadFilePath,
                                            dr.FileSizeDesc,
                                            dr.UploadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)) ? 100 : 0,
-                                           dr);
-            tfi.TransferItemStartClicked += Tfi_UploadTransferItemStartClicked;
-            tfi.TransferItemPauseClicked += Tfi_UploadTransferItemPauseClicked;
-            tfi.TransferItemDeleteClicked += Tfi_UploadTransferItemDeleteClicked;
-            tfUpload.AddTransferFile(tfi);
+                                           dr,
+                                           TransferFileItem.TransferType.上传);
 
             if (needAddToDB && FileList.AddUploadTask(dr.FileName,
                                                        dr.FileSizeDesc,
@@ -708,74 +382,86 @@ namespace CloudreveForWindows.Forms
 
         private void 上传文件UToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(openFileDialog1.ShowDialog() != DialogResult.OK)
+            if (openFileDialog1.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
-            System.IO.FileInfo f = new System.IO.FileInfo(openFileDialog1.FileName);
-
-            int fileID = FileList.AddUploadTask(f.Name,
-                                                ComponentControls.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
-                                                0,
-                                                ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task),
-                                                f.FullName,
-                                                directoryPath1.CurrentFullPath);
-
-            if(fileID == -1)
+            for(int i=0;i<openFileDialog1.FileNames.Length;i++)
             {
-                ExMessageBox.Show("添加上传任务至数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                TransferFileItem tfi = new TransferFileItem(fileID.ToString().Trim(),
-                                                               f.Name,
-                                                               f.FullName,
-                                                               directoryPath1.CurrentFullPath,
-                                                               ComponentControls.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
-                                                               0,
-                                                               null);
-                tfi.TransferItemStartClicked += Tfi_UploadTransferItemStartClicked;
-                tfi.TransferItemPauseClicked += Tfi_UploadTransferItemPauseClicked;
-                tfi.TransferItemDeleteClicked += Tfi_UploadTransferItemDeleteClicked;
+                System.IO.FileInfo f = new System.IO.FileInfo(openFileDialog1.FileNames[i]);
 
-                tfUpload.AddTransferFile(tfi);
-            }
-        }
+                int fileID = FileList.AddUploadTask(f.Name,
+                                                    CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
+                                                    0,
+                                                    ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task),
+                                                    f.FullName,
+                                                    directoryPath1.CurrentFullPath);
 
-        private void Tfi_UploadTransferItemDeleteClicked(object sender, EventArgs e)
-        {
-            //点击了删除上传按钮
-        }
-
-        private void Tfi_UploadTransferItemPauseClicked(object sender, EventArgs e)
-        {
-            //点击了暂停上传按钮
-        }
-
-        private void Tfi_UploadTransferItemStartClicked(object sender, EventArgs e)
-        {
-            //点击了开始上传
-            Thread thread = new Thread(new ParameterizedThreadStart(StartOneFileUpload));
-            thread.IsBackground = true;
-            thread.Start((TransferFileItem)sender);
-        }
-
-        private void StartOneFileUpload(object sender)
-        {
-            TransferFileItem item = (TransferFileItem)sender;
-            int returnCode = -1;
-            string returnMessage = String.Empty;
-            if(FileList.UploadFile(item.FilePathFrom, item.FilePathTo, "", item.ProgressBar, out returnCode, out returnMessage))
-            {
-                if(!FileList.UpdateUploadStatus(item.FileID, ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
+                if (fileID == -1)
                 {
-                    ExMessageBox.Show("上传完成，更新状态失败!", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExMessageBox.Show("添加上传任务至数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    tfUpload.Add(fileID.ToString().Trim(),
+                                 f.Name,
+                                 f.FullName,
+                                 directoryPath1.CurrentFullPath,
+                                 CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
+                                 0,
+                                 null,
+                                 TransferFileItem.TransferType.上传,
+                                 true);
                 }
             }
-            else
+        }
+
+        private void tfUpload_TransferItemDeleted(object sender, int index, bool removeLocalFile)
+        {
+            dtUpload.Rows.RemoveAt(index);
+            FileList.DeleteUploadTask(tfUpload[index].FileID);
+        }
+
+        private void tfUpload_TransferItemCompleted(object sender, string fileID)
+        {
+            if (!FileList.UpdateUploadStatus(fileID, ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
             {
-                ExMessageBox.Show("上传失败，错误信息如下：\r\n" + returnMessage, "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExMessageBox.Show("上传完成，更新状态失败!", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnPauseAllUploadTask_Click(object sender, EventArgs e)
+        {
+            if (ExMessageBox.Show("您确定要暂停全部的上传么？\r\n本次下载不支持断点续传，\r\n下次上传将从头开始上传。", "提醒", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            {
+                for (int i = 0; i < tfUpload.ItemCount(TransferFileItem.Status.所有状态); i++)
+                {
+                    if (tfUpload[i].CurrentStatus == TransferFileItem.Status.正在传输)
+                    {
+                        tfUpload[i].CurrentStatus = TransferFileItem.Status.暂停;
+                    }
+                }
+            }
+        }
+
+        private void btnStartAllUploadTask_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < tfUpload.ItemCount(TransferFileItem.Status.所有状态); i++)
+            {
+                if (tfUpload[i].CurrentStatus == TransferFileItem.Status.暂停)
+                {
+                    tfUpload[i].CurrentStatus = TransferFileItem.Status.正在传输;
+                }
+            }
+        }
+
+        private void btnDeleteAllUploadTask_Click(object sender, EventArgs e)
+        {
+            MessageBox msg = new MessageBox("您确定要清空上传列表么？", "提醒", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, true, true, "同时删除本地文件");
+            if (msg.ShowDialog() == DialogResult.Yes)
+            {
+                tfUpload.Clear(msg.Checked);
             }
         }
 
@@ -798,7 +484,7 @@ namespace CloudreveForWindows.Forms
                     ShareFileItem sfi = new ShareFileItem(items[i].key,
                                                           items[i].source.name,
                                                           Convert.ToBoolean(items[i].is_dir),
-                                                          Convert.ToBoolean(items[i].is_dir) ? "" : ComponentControls.Helper.IO.FileInfo.GetSizeInShortFormat(items[i].source.size),
+                                                          Convert.ToBoolean(items[i].is_dir) ? "" : CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(items[i].source.size),
                                                           Convert.ToDateTime(items[i].create_date).ToString("yyyy-MM-dd HH:mm:ss"),
                                                           Convert.ToInt32(items[i].expire.ToString()),
                                                           items[i].password,
@@ -1007,7 +693,7 @@ namespace CloudreveForWindows.Forms
                 }
                 else
                 {
-                    dr.SizeDesc = ComponentControls.Helper.IO.FileInfo.GetSizeInShortFormat(dr.Size);
+                    dr.SizeDesc = CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(dr.Size);
                 }
                 switch (currentFileList[i].type.Trim().ToUpper())
                 {
@@ -1174,6 +860,47 @@ namespace CloudreveForWindows.Forms
         private void 打开OToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileListDoubleClick();
+        }
+
+        private void 属性PToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRowView drv = dgvFileList.SelectedRows[0].DataBoundItem as DataRowView;
+            int index = dtFileList.Rows.IndexOf(drv.Row);
+
+            Int64 dirSize = 0;
+            int subDirCount = 0, subFileCount = 0;
+            string policy = String.Empty;
+            if (FileList.GetDirectorySizeAndSubDirFileCount(dtFileList[index].ID, out dirSize, out subDirCount, out subFileCount, out policy, dtFileList[index].Type == (int)Util.CloudreveFileListType.Dir))
+            {
+                picDetail_FileTypeImage.Image = ImageHelper.BytesToImage(dtFileList[index].TypeImage);
+                lblDetail_FileName.Text = dtFileList[index].FileName;
+
+                switch (dtFileList[index].Type)
+                {
+                    case (int)Util.CloudreveFileListType.Dir:
+                        lblDetail_Type.Text = "目录";
+                        panDetail_DirFileCount.Visible = true;
+                        lblDetail_Size.Text = CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(dirSize) + " (" + dirSize + "字节)";
+                        lblDetail_SubDirCount.Text = subDirCount.ToString();
+                        lblDetail_SubFileCount.Text = subFileCount.ToString();
+                        break;
+                    case (int)Util.CloudreveFileListType.File:
+                        lblDetail_Type.Text = "文件";
+                        panDetail_DirFileCount.Visible = false;
+                        lblDetail_Size.Text = dtFileList[index].SizeDesc + " (" +
+                                              dtFileList[index].Size + "字节)";
+                        lblDetail_StoragePolicy.Text = policy;
+                        break;
+                }
+                lblDetail_CreateDate.Text = dtFileList[index].CreateDate;
+                lblDetail_ModifyDate.Text = dtFileList[index].ModifyDate;
+
+                panRightMenu.Visible = true;
+            }
+            else
+            {
+                ExMessageBox.Show("获取属性失败，请稍后重试！", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void dgvFileList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
