@@ -91,6 +91,7 @@
     <Compile Include="Entiry\FileTransfer.cs" />
     <Compile Include="Entiry\Login.cs" />
     <Compile Include="Entiry\SystemEnvironment.cs" />
+    <Compile Include="Entiry\SystemSetting.cs" />
     <Compile Include="Helper\IO\FileInfo.cs" />
     <Compile Include="Helper\IO\TextFileHelper.cs" />
     <Compile Include="Helper\Media\ImageHelper.cs" />

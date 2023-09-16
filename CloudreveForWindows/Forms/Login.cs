@@ -229,6 +229,8 @@ namespace CloudreveForWindows.Forms
         {
             if(StartLogin())
             {
+                //读取配置，如果没有读取到，则使用配置默认值为当前ServerUrl当前用户添加所有配置
+
                 //登录成功，打开主页面
                 Util.GLOBLE_URL = cboDB.Text.Trim();
                 this.Hide();

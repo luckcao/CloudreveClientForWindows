@@ -120,6 +120,11 @@ namespace CloudreveMiddleLayer
             /// 获取文件或者目录属性URL
             /// </summary>
             public const string GET_PROPERTY_URL = "api/v3/object/property/{0}?trace_root={1}&is_folder={2}";
+
+            /// <summary>
+            /// 获取图片的缩略图URL
+            /// </summary>
+            public const string GET_IMAGE_THUMB = "api/v3/file/thumb/{0}";
         }
 
         public static string DataBaseFullPath
@@ -131,6 +136,15 @@ namespace CloudreveMiddleLayer
         {
             Dir = 0,
             File = 1
+        }
+
+        public enum SettingType
+        {
+            文件列表相关 = 0,
+            分享相关 = 1,
+            上传相关 = 2,
+            下载相关 = 3,
+            系统相关 = 4
         }
 
         public static string GetApplicationPath()

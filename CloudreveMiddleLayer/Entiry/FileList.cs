@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CloudreveMiddleLayer.Helper.Media;
 
 namespace CloudreveMiddleLayer.Entiry
 {
@@ -580,6 +581,43 @@ namespace CloudreveMiddleLayer.Entiry
                 return returnCode == 0;
             }
             return false;
+        }
+
+        #endregion
+
+        #region Image Thumb
+
+        public static System.Drawing.Image GetImageThumb(string fileID)
+        {
+            string url = Util.GLOBLE_URL;
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
+            url += String.Format(Util.CloudreveWebURL.GET_IMAGE_THUMB, fileID);
+            string tmpCookie = Util.GLOBLE_COOKIE;
+            System.Drawing.Image responseContent = HttpClientHelper.GetImage(url, ref tmpCookie);
+            return responseContent;
+            //if (!string.IsNullOrEmpty(responseContent))
+            //{
+            //    JObject returnObj = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+            //    int returnCode = Convert.ToInt32(returnObj["code"].ToString());
+
+            //    if (returnCode == 0)
+            //    {
+            //        CloudreveMiddleLayer.JsonEntiryClass.GetPropertyJson.Root root = JsonConvert.DeserializeObject<CloudreveMiddleLayer.JsonEntiryClass.GetPropertyJson.Root>(responseContent);
+            //        dirSize = root.data.size;
+            //        subDirCount = root.data.child_folder_num;
+            //        subFileCount = root.data.child_file_num;
+            //        policy = root.data.policy;
+            //        return true;
+            //    }
+            //}
+            //dirSize = 0;
+            //subDirCount = 0;
+            //subFileCount = 0;
+            //policy = String.Empty;
         }
 
         #endregion

@@ -94,6 +94,7 @@ namespace CloudreveMiddleLayer.Helper.Media
                 return buffer;
             }
         }
+
         public static System.Drawing.Image BytesToImage(byte[] buffer)
         {
             MemoryStream ms = new MemoryStream(buffer);

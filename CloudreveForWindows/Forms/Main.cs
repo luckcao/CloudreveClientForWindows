@@ -749,6 +749,7 @@ namespace CloudreveForWindows.Forms
                             case "JPG":
                             case "TIFF":
                                 dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.img_file);
+                                dr.IsImage = true;
                                 break;
                             case "TXT":
                             case "INI":
@@ -864,6 +865,11 @@ namespace CloudreveForWindows.Forms
 
         private void 属性PToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DisplayFileDirectoryProperty();
+        }
+
+        private void DisplayFileDirectoryProperty()
+        {
             DataRowView drv = dgvFileList.SelectedRows[0].DataBoundItem as DataRowView;
             int index = dtFileList.Rows.IndexOf(drv.Row);
 
@@ -872,7 +878,15 @@ namespace CloudreveForWindows.Forms
             string policy = String.Empty;
             if (FileList.GetDirectorySizeAndSubDirFileCount(dtFileList[index].ID, out dirSize, out subDirCount, out subFileCount, out policy, dtFileList[index].Type == (int)Util.CloudreveFileListType.Dir))
             {
-                picDetail_FileTypeImage.Image = ImageHelper.BytesToImage(dtFileList[index].TypeImage);
+                //如果是图片类型，并且自动显示缩略图
+                if(dtFileList[index].IsImage && Convert.ToBoolean(SystemSetting.GetSettings(SystemSetting.SettingsName.点击图片文件时自动预览图片)))
+                {
+                    picDetail_FileTypeImage.Image = FileList.GetImageThumb(dtFileList[index].ID);
+                }
+                else
+                {
+                    picDetail_FileTypeImage.Image = ImageHelper.BytesToImage(dtFileList[index].TypeImage);
+                }
                 lblDetail_FileName.Text = dtFileList[index].FileName;
 
                 switch (dtFileList[index].Type)
@@ -896,6 +910,7 @@ namespace CloudreveForWindows.Forms
                 lblDetail_ModifyDate.Text = dtFileList[index].ModifyDate;
 
                 panRightMenu.Visible = true;
+                tabRightMenu.SelectedTab = tabDetail;
             }
             else
             {
@@ -915,6 +930,14 @@ namespace CloudreveForWindows.Forms
                 打开OToolStripMenuItem.Enabled = Convert.ToInt32(dv[e.RowIndex]["Type"]) == (int)Util.CloudreveFileListType.Dir;
                 下载WToolStripMenuItem.Enabled = Convert.ToInt32(dv[e.RowIndex]["Type"]) == (int)Util.CloudreveFileListType.File;
                 menuClickedFile.Show(MousePosition.X, MousePosition.Y);
+            }
+            else if(e.Button == MouseButtons.Left)
+            {
+                dgvFileList.Rows[e.RowIndex].Selected = true;
+            }
+            if (panRightMenu.Visible)
+            {
+                DisplayFileDirectoryProperty();
             }
         }
 
@@ -1346,6 +1369,11 @@ namespace CloudreveForWindows.Forms
             lblWait.Visible = true;
             lblWait.BringToFront();
             Application.DoEvents();
+        }
+
+        private void btnCloseDetail_Click(object sender, EventArgs e)
+        {
+            this.panRightMenu.Visible = false;
         }
 
         private void EndWait()

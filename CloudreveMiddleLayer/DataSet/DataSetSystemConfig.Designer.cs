@@ -26,6 +26,8 @@ namespace CloudreveMiddleLayer.DataSet {
         
         private TBL_ServerInfoDataTable tableTBL_ServerInfo;
         
+        private TBL_SettingsInfoDataTable tableTBL_SettingsInfo;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -57,6 +59,9 @@ namespace CloudreveMiddleLayer.DataSet {
                 if ((ds.Tables["TBL_ServerInfo"] != null)) {
                     base.Tables.Add(new TBL_ServerInfoDataTable(ds.Tables["TBL_ServerInfo"]));
                 }
+                if ((ds.Tables["TBL_SettingsInfo"] != null)) {
+                    base.Tables.Add(new TBL_SettingsInfoDataTable(ds.Tables["TBL_SettingsInfo"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -82,6 +87,16 @@ namespace CloudreveMiddleLayer.DataSet {
         public TBL_ServerInfoDataTable TBL_ServerInfo {
             get {
                 return this.tableTBL_ServerInfo;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public TBL_SettingsInfoDataTable TBL_SettingsInfo {
+            get {
+                return this.tableTBL_SettingsInfo;
             }
         }
         
@@ -155,6 +170,9 @@ namespace CloudreveMiddleLayer.DataSet {
                 if ((ds.Tables["TBL_ServerInfo"] != null)) {
                     base.Tables.Add(new TBL_ServerInfoDataTable(ds.Tables["TBL_ServerInfo"]));
                 }
+                if ((ds.Tables["TBL_SettingsInfo"] != null)) {
+                    base.Tables.Add(new TBL_SettingsInfoDataTable(ds.Tables["TBL_SettingsInfo"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -194,6 +212,12 @@ namespace CloudreveMiddleLayer.DataSet {
                     this.tableTBL_ServerInfo.InitVars();
                 }
             }
+            this.tableTBL_SettingsInfo = ((TBL_SettingsInfoDataTable)(base.Tables["TBL_SettingsInfo"]));
+            if ((initTable == true)) {
+                if ((this.tableTBL_SettingsInfo != null)) {
+                    this.tableTBL_SettingsInfo.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -206,11 +230,19 @@ namespace CloudreveMiddleLayer.DataSet {
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableTBL_ServerInfo = new TBL_ServerInfoDataTable();
             base.Tables.Add(this.tableTBL_ServerInfo);
+            this.tableTBL_SettingsInfo = new TBL_SettingsInfoDataTable();
+            base.Tables.Add(this.tableTBL_SettingsInfo);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private bool ShouldSerializeTBL_ServerInfo() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private bool ShouldSerializeTBL_SettingsInfo() {
             return false;
         }
         
@@ -272,6 +304,9 @@ namespace CloudreveMiddleLayer.DataSet {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public delegate void TBL_ServerInfoRowChangeEventHandler(object sender, TBL_ServerInfoRowChangeEvent e);
         
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public delegate void TBL_SettingsInfoRowChangeEventHandler(object sender, TBL_SettingsInfoRowChangeEvent e);
+        
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
@@ -290,6 +325,8 @@ namespace CloudreveMiddleLayer.DataSet {
             private global::System.Data.DataColumn columnRememberUserInfo;
             
             private global::System.Data.DataColumn columnAutoLogin;
+            
+            private global::System.Data.DataColumn columnServerID;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -374,6 +411,14 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ServerIDColumn {
+                get {
+                    return this.columnServerID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -409,7 +454,7 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TBL_ServerInfoRow AddTBL_ServerInfoRow(string ServerUrl, string UserName, string Password, string Cookie, bool RememberUserInfo, bool AutoLogin) {
+            public TBL_ServerInfoRow AddTBL_ServerInfoRow(string ServerUrl, string UserName, string Password, string Cookie, bool RememberUserInfo, bool AutoLogin, int ServerID) {
                 TBL_ServerInfoRow rowTBL_ServerInfoRow = ((TBL_ServerInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ServerUrl,
@@ -417,7 +462,8 @@ namespace CloudreveMiddleLayer.DataSet {
                         Password,
                         Cookie,
                         RememberUserInfo,
-                        AutoLogin};
+                        AutoLogin,
+                        ServerID};
                 rowTBL_ServerInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTBL_ServerInfoRow);
                 return rowTBL_ServerInfoRow;
@@ -446,6 +492,7 @@ namespace CloudreveMiddleLayer.DataSet {
                 this.columnCookie = base.Columns["Cookie"];
                 this.columnRememberUserInfo = base.Columns["RememberUserInfo"];
                 this.columnAutoLogin = base.Columns["AutoLogin"];
+                this.columnServerID = base.Columns["ServerID"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -463,6 +510,8 @@ namespace CloudreveMiddleLayer.DataSet {
                 base.Columns.Add(this.columnRememberUserInfo);
                 this.columnAutoLogin = new global::System.Data.DataColumn("AutoLogin", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAutoLogin);
+                this.columnServerID = new global::System.Data.DataColumn("ServerID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnServerID);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -549,6 +598,309 @@ namespace CloudreveMiddleLayer.DataSet {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "TBL_ServerInfoDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class TBL_SettingsInfoDataTable : global::System.Data.TypedTableBase<TBL_SettingsInfoRow> {
+            
+            private global::System.Data.DataColumn columnSettingID;
+            
+            private global::System.Data.DataColumn columnSettingDesc;
+            
+            private global::System.Data.DataColumn columnSettingType;
+            
+            private global::System.Data.DataColumn columnSettingValue;
+            
+            private global::System.Data.DataColumn columnValueType;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_SettingsInfoDataTable() {
+                this.TableName = "TBL_SettingsInfo";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal TBL_SettingsInfoDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected TBL_SettingsInfoDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SettingIDColumn {
+                get {
+                    return this.columnSettingID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SettingDescColumn {
+                get {
+                    return this.columnSettingDesc;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SettingTypeColumn {
+                get {
+                    return this.columnSettingType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SettingValueColumn {
+                get {
+                    return this.columnSettingValue;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ValueTypeColumn {
+                get {
+                    return this.columnValueType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_SettingsInfoRow this[int index] {
+                get {
+                    return ((TBL_SettingsInfoRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TBL_SettingsInfoRowChangeEventHandler TBL_SettingsInfoRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TBL_SettingsInfoRowChangeEventHandler TBL_SettingsInfoRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TBL_SettingsInfoRowChangeEventHandler TBL_SettingsInfoRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TBL_SettingsInfoRowChangeEventHandler TBL_SettingsInfoRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void AddTBL_SettingsInfoRow(TBL_SettingsInfoRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_SettingsInfoRow AddTBL_SettingsInfoRow(int SettingID, string SettingDesc, int SettingType, string SettingValue, string ValueType) {
+                TBL_SettingsInfoRow rowTBL_SettingsInfoRow = ((TBL_SettingsInfoRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        SettingID,
+                        SettingDesc,
+                        SettingType,
+                        SettingValue,
+                        ValueType};
+                rowTBL_SettingsInfoRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTBL_SettingsInfoRow);
+                return rowTBL_SettingsInfoRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                TBL_SettingsInfoDataTable cln = ((TBL_SettingsInfoDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new TBL_SettingsInfoDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal void InitVars() {
+                this.columnSettingID = base.Columns["SettingID"];
+                this.columnSettingDesc = base.Columns["SettingDesc"];
+                this.columnSettingType = base.Columns["SettingType"];
+                this.columnSettingValue = base.Columns["SettingValue"];
+                this.columnValueType = base.Columns["ValueType"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitClass() {
+                this.columnSettingID = new global::System.Data.DataColumn("SettingID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSettingID);
+                this.columnSettingDesc = new global::System.Data.DataColumn("SettingDesc", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSettingDesc);
+                this.columnSettingType = new global::System.Data.DataColumn("SettingType", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSettingType);
+                this.columnSettingValue = new global::System.Data.DataColumn("SettingValue", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSettingValue);
+                this.columnValueType = new global::System.Data.DataColumn("ValueType", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnValueType);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_SettingsInfoRow NewTBL_SettingsInfoRow() {
+                return ((TBL_SettingsInfoRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new TBL_SettingsInfoRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(TBL_SettingsInfoRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.TBL_SettingsInfoRowChanged != null)) {
+                    this.TBL_SettingsInfoRowChanged(this, new TBL_SettingsInfoRowChangeEvent(((TBL_SettingsInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.TBL_SettingsInfoRowChanging != null)) {
+                    this.TBL_SettingsInfoRowChanging(this, new TBL_SettingsInfoRowChangeEvent(((TBL_SettingsInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.TBL_SettingsInfoRowDeleted != null)) {
+                    this.TBL_SettingsInfoRowDeleted(this, new TBL_SettingsInfoRowChangeEvent(((TBL_SettingsInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.TBL_SettingsInfoRowDeleting != null)) {
+                    this.TBL_SettingsInfoRowDeleting(this, new TBL_SettingsInfoRowChangeEvent(((TBL_SettingsInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void RemoveTBL_SettingsInfoRow(TBL_SettingsInfoRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DataSetSystemConfig ds = new DataSetSystemConfig();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "TBL_SettingsInfoDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -701,6 +1053,22 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int ServerID {
+                get {
+                    try {
+                        return ((int)(this[this.tableTBL_ServerInfo.ServerIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_ServerInfo”中列“ServerID”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_ServerInfo.ServerIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsServerUrlNull() {
                 return this.IsNull(this.tableTBL_ServerInfo.ServerUrlColumn);
             }
@@ -770,6 +1138,173 @@ namespace CloudreveMiddleLayer.DataSet {
             public void SetAutoLoginNull() {
                 this[this.tableTBL_ServerInfo.AutoLoginColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsServerIDNull() {
+                return this.IsNull(this.tableTBL_ServerInfo.ServerIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetServerIDNull() {
+                this[this.tableTBL_ServerInfo.ServerIDColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class TBL_SettingsInfoRow : global::System.Data.DataRow {
+            
+            private TBL_SettingsInfoDataTable tableTBL_SettingsInfo;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal TBL_SettingsInfoRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableTBL_SettingsInfo = ((TBL_SettingsInfoDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int SettingID {
+                get {
+                    try {
+                        return ((int)(this[this.tableTBL_SettingsInfo.SettingIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_SettingsInfo”中列“SettingID”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_SettingsInfo.SettingIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string SettingDesc {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_SettingsInfo.SettingDescColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_SettingsInfo”中列“SettingDesc”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_SettingsInfo.SettingDescColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int SettingType {
+                get {
+                    try {
+                        return ((int)(this[this.tableTBL_SettingsInfo.SettingTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_SettingsInfo”中列“SettingType”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_SettingsInfo.SettingTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string SettingValue {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_SettingsInfo.SettingValueColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_SettingsInfo”中列“SettingValue”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_SettingsInfo.SettingValueColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ValueType {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_SettingsInfo.ValueTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_SettingsInfo”中列“ValueType”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_SettingsInfo.ValueTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSettingIDNull() {
+                return this.IsNull(this.tableTBL_SettingsInfo.SettingIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSettingIDNull() {
+                this[this.tableTBL_SettingsInfo.SettingIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSettingDescNull() {
+                return this.IsNull(this.tableTBL_SettingsInfo.SettingDescColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSettingDescNull() {
+                this[this.tableTBL_SettingsInfo.SettingDescColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSettingTypeNull() {
+                return this.IsNull(this.tableTBL_SettingsInfo.SettingTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSettingTypeNull() {
+                this[this.tableTBL_SettingsInfo.SettingTypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSettingValueNull() {
+                return this.IsNull(this.tableTBL_SettingsInfo.SettingValueColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSettingValueNull() {
+                this[this.tableTBL_SettingsInfo.SettingValueColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsValueTypeNull() {
+                return this.IsNull(this.tableTBL_SettingsInfo.ValueTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetValueTypeNull() {
+                this[this.tableTBL_SettingsInfo.ValueTypeColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -792,6 +1327,40 @@ namespace CloudreveMiddleLayer.DataSet {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TBL_ServerInfoRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public class TBL_SettingsInfoRowChangeEvent : global::System.EventArgs {
+            
+            private TBL_SettingsInfoRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_SettingsInfoRowChangeEvent(TBL_SettingsInfoRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TBL_SettingsInfoRow Row {
                 get {
                     return this.eventRow;
                 }

@@ -12,7 +12,7 @@
   <xs:element name="DataSetFileInfo" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSetFileInfo" msprop:Generator_UserDSName="DataSetFileInfo">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="TBL_FileInfo" msprop:Generator_TableClassName="TBL_FileInfoDataTable" msprop:Generator_TableVarName="tableTBL_FileInfo" msprop:Generator_RowChangedName="TBL_FileInfoRowChanged" msprop:Generator_TablePropName="TBL_FileInfo" msprop:Generator_RowDeletingName="TBL_FileInfoRowDeleting" msprop:Generator_RowChangingName="TBL_FileInfoRowChanging" msprop:Generator_RowEvHandlerName="TBL_FileInfoRowChangeEventHandler" msprop:Generator_RowDeletedName="TBL_FileInfoRowDeleted" msprop:Generator_RowClassName="TBL_FileInfoRow" msprop:Generator_UserTableName="TBL_FileInfo" msprop:Generator_RowEvArgName="TBL_FileInfoRowChangeEvent">
+        <xs:element name="TBL_FileInfo" msprop:Generator_TableClassName="TBL_FileInfoDataTable" msprop:Generator_TableVarName="tableTBL_FileInfo" msprop:Generator_TablePropName="TBL_FileInfo" msprop:Generator_RowDeletingName="TBL_FileInfoRowDeleting" msprop:Generator_RowChangingName="TBL_FileInfoRowChanging" msprop:Generator_RowEvHandlerName="TBL_FileInfoRowChangeEventHandler" msprop:Generator_RowDeletedName="TBL_FileInfoRowDeleted" msprop:Generator_UserTableName="TBL_FileInfo" msprop:Generator_RowChangedName="TBL_FileInfoRowChanged" msprop:Generator_RowEvArgName="TBL_FileInfoRowChangeEvent" msprop:Generator_RowClassName="TBL_FileInfoRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:string" minOccurs="0" />
@@ -27,6 +27,7 @@
               <xs:element name="SourceEnabled" msprop:Generator_ColumnVarNameInTable="columnSourceEnabled" msprop:Generator_ColumnPropNameInRow="SourceEnabled" msprop:Generator_ColumnPropNameInTable="SourceEnabledColumn" msprop:Generator_UserColumnName="SourceEnabled" type="xs:boolean" minOccurs="0" />
               <xs:element name="Tick" msprop:Generator_ColumnVarNameInTable="columnTick" msprop:Generator_ColumnPropNameInRow="Tick" msprop:Generator_ColumnPropNameInTable="TickColumn" msprop:Generator_UserColumnName="Tick" type="xs:boolean" minOccurs="0" />
               <xs:element name="SizeDesc" msprop:Generator_ColumnVarNameInTable="columnSizeDesc" msprop:Generator_ColumnPropNameInRow="SizeDesc" msprop:Generator_ColumnPropNameInTable="SizeDescColumn" msprop:Generator_UserColumnName="SizeDesc" type="xs:string" minOccurs="0" />
+              <xs:element name="IsImage" msprop:Generator_ColumnVarNameInTable="columnIsImage" msprop:Generator_ColumnPropNameInRow="IsImage" msprop:Generator_ColumnPropNameInTable="IsImageColumn" msprop:Generator_UserColumnName="IsImage" type="xs:boolean" default="false" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
