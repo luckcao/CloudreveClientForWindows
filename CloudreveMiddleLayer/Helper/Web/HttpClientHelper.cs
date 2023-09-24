@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -46,6 +47,55 @@ namespace CloudreveMiddleLayer.Helper.Web
                     myStreamReader.Close();
                 }
                 if(myResponseStream != null)
+                {
+                    myResponseStream.Close();
+                }
+                if (response != null)
+                {
+                    response.Close();
+                }
+                if (request != null)
+                {
+                    request.Abort();
+                }
+            }
+        }
+
+        public static string Get(string url, ref string cookie, ref string redirectURL)
+        {
+            HttpWebRequest request = null;
+            HttpWebResponse response = null;
+            Stream myResponseStream = null;
+            StreamReader myStreamReader = null;
+
+            try
+            {
+                request = (HttpWebRequest)WebRequest.Create(url);
+                request.Headers.Add("Cookie", cookie);
+                request.Proxy = null;
+                request.KeepAlive = false;
+                request.Method = "GET";
+                request.ContentType = "application/json; charset=UTF-8";
+                request.AutomaticDecompression = DecompressionMethods.GZip;
+
+                response = (HttpWebResponse)request.GetResponse();
+                redirectURL = response.ResponseUri.ToString();
+                cookie = response.Headers["Set-Cookie"];
+                myResponseStream = response.GetResponseStream();
+                myStreamReader = new StreamReader(myResponseStream, Encoding.UTF8);
+                return myStreamReader.ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                if (myStreamReader != null)
+                {
+                    myStreamReader.Close();
+                }
+                if (myResponseStream != null)
                 {
                     myResponseStream.Close();
                 }
@@ -402,124 +452,126 @@ namespace CloudreveMiddleLayer.Helper.Web
             }
         }
 
-        //public static string HttpUploadFile(string url, string poststr, string fileformname, string fileName, byte[] bt, Stream stream = null)
-        //{
-        //    try
-        //    {
-        //        // 这个可以是改变的，也可以是下面这个固定的字符串 
-        //        string boundary = "split";
+        #region 解析Url
 
-        //        // 创建request对象 
-        //        HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(url);
-        //        webrequest.ContentType = "multipart/form-data;boundary=" + boundary;
-        //        webrequest.Method = "POST";
+        public static string GetUrlParameterValue(string url, string paraName)
+        {
+            Uri uri = new Uri(url);
+            string queryString = uri.Fragment;
+            NameValueCollection col = GetQueryString(queryString);
+            if (col.Get(paraName) != null || col.AllKeys.Contains(paraName))
+            {
+                return col[paraName];
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-        //        // 构造发送数据
-        //        StringBuilder sb = new StringBuilder();
+        ///   <summary> 
+        ///  将查询字符串解析转换为名值集合.
+        ///   </summary> 
+        ///   <param name="queryString"></param> 
+        ///   <returns></returns> 
+        private static NameValueCollection GetQueryString(string queryString)
+        {
+            return GetQueryString(queryString, null, true);
+        }
 
-        //        // 文本域的数据，将user=eking&pass=123456 格式的文本域拆分 ，然后构造 
-        //        if (poststr.Contains("&"))
-        //        {
-        //            foreach (string c in poststr.Split('&'))
-        //            {
-        //                string[] item = c.Split('=');
-        //                if (item.Length != 2)
-        //                {
-        //                    break;
-        //                }
-        //                string name = item[0];
-        //                string value = item[1];
-        //                sb.Append("--" + boundary);
-        //                sb.Append("\r\n");
-        //                sb.Append("Content-Disposition: form-data; name=\"" + name + "\"");
-        //                sb.Append("\r\n\r\n");
-        //                sb.Append(value);
-        //                sb.Append("\r\n");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            string[] item = poststr.Split('=');
-        //            if (item.Length != 2)
-        //            {
-        //                return "";
-        //            }
-        //            string name = item[0];
-        //            string value = item[1];
-        //            sb.Append("--" + boundary);
-        //            sb.Append("\r\n");
-        //            sb.Append("Content-Disposition: form-data; name=\"" + name + "\"");
-        //            sb.Append("\r\n\r\n");
-        //            sb.Append(value);
-        //            sb.Append("\r\n");
-        //        }
+        ///   <summary> 
+        ///  将查询字符串解析转换为名值集合.
+        ///   </summary> 
+        ///   <param name="queryString"></param> 
+        ///   <param name="encoding"></param> 
+        ///   <param name="isEncoded"></param> 
+        ///   <returns></returns> 
+        private static NameValueCollection GetQueryString(string queryString, Encoding encoding, bool isEncoded)
+        {
+            queryString = queryString.Replace("?", "");
+            NameValueCollection result = new NameValueCollection(StringComparer.OrdinalIgnoreCase);
+            if (!string.IsNullOrEmpty(queryString))
+            {
+                int count = queryString.Length;
+                for (int i = 0; i < count; i++)
+                {
+                    int startIndex = i;
+                    int index = -1;
+                    while (i < count)
+                    {
+                        char item = queryString[i];
+                        if (item == '=')
+                        {
+                            if (index < 0)
+                            {
+                                index = i;
+                            }
+                        }
+                        else if (item == '&')
+                        {
+                            break;
+                        }
+                        i++;
+                    }
+                    string key = null;
+                    string value = null;
+                    if (index >= 0)
+                    {
+                        key = queryString.Substring(startIndex, index - startIndex);
+                        value = queryString.Substring(index + 1, (i - index) - 1);
+                    }
+                    else
+                    {
+                        key = queryString.Substring(startIndex, i - startIndex);
+                    }
+                    if(string.IsNullOrEmpty(key))
+                    {
+                        break;
+                    }
+                    if (isEncoded)
+                    {
+                        result[MyUrlDeCode(key, encoding)] = MyUrlDeCode(value, encoding);
+                    }
+                    else
+                    {
+                        result[key] = value;
+                    }
+                    if ((i == (count - 1)) && (queryString[i] == '&'))
+                    {
+                        result[key] = string.Empty;
+                    }
+                }
+            }
+            return result;
+        }
 
-        //        // 文件域的数据
-        //        sb.Append("--" + boundary);
-        //        sb.Append("\r\n");
-        //        sb.Append("Content-Type:application/octet-stream");
-        //        sb.Append("\r\n");
-        //        sb.Append("Content-Disposition: form-data; name=\"" + fileformname + "\"; filename=\"" + fileName + "\"");
-        //        sb.Append("\r\n\r\n");
+        ///   <summary> 
+        ///  解码URL.
+        ///   </summary> 
+        ///   <param name="encoding"> null为自动选择编码 </param> 
+        ///   <param name="str"></param> 
+        ///   <returns></returns> 
+        private static string MyUrlDeCode(string str, Encoding encoding)
+        {
+            if(string.IsNullOrEmpty(str))
+            {
+                return null;
+            }
+            if (encoding == null)
+            {
+                Encoding utf8 = Encoding.UTF8;
+                // 首先用utf-8进行解码                      
+                string code = HttpUtility.UrlDecode(str.ToUpper(), utf8);
+                // 将已经解码的字符再次进行编码. 
+                string encode = HttpUtility.UrlEncode(code, utf8).ToUpper();
+                if (str == encode)
+                    encoding = Encoding.UTF8;
+                else
+                    encoding = Encoding.GetEncoding("gb2312");
+            }
+            return HttpUtility.UrlDecode(str, encoding);
+        }
 
-        //        string postHeader = sb.ToString();
-        //        byte[] postHeaderBytes = Encoding.UTF8.GetBytes(postHeader);
-
-        //        //构造尾部数据 
-        //        byte[] boundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
-
-        //        //string filePath = @"C:/2.html";
-        //        //string fileName = "2.html";
-
-        //        //byte[] fileContentByte = new byte[1024]; // 文件内容二进制
-        //        if (bt != null && stream == null)
-        //        {
-        //            long length = postHeaderBytes.Length + bt.Length + boundaryBytes.Length;
-        //            webrequest.ContentLength = length;
-        //        }
-        //        else if (bt == null && stream != null)
-        //        {
-        //            long length = postHeaderBytes.Length + stream.Length + boundaryBytes.Length;
-        //            webrequest.ContentLength = length;
-        //        }
-
-        //        Stream requestStream = webrequest.GetRequestStream();
-
-        //        // 输入头部数据 要按顺序
-        //        requestStream.Write(postHeaderBytes, 0, postHeaderBytes.Length);
-
-        //        // 输入文件流数据 
-        //        if (bt != null && stream == null)
-        //        {
-        //            requestStream.Write(bt, 0, bt.Length);
-        //        }
-        //        else if (bt == null && stream != null)
-        //        {
-        //            stream.CopyTo(requestStream);
-        //        }
-
-        //        // 输入尾部数据 
-        //        requestStream.Write(boundaryBytes, 0, boundaryBytes.Length);
-        //        WebResponse responce = webrequest.GetResponse();
-        //        Stream s = responce.GetResponseStream();
-        //        StreamReader sr = new StreamReader(s);
-
-        //        // 返回数据流(源码) 
-        //        return sr.ReadToEnd();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //GlobalFunc.LogError("HttpUploadFile错误：" + ex.Message + ex.StackTrace);
-        //        return "";
-        //    }
-        //    finally
-        //    {
-        //        if (stream != null)
-        //        {
-        //            stream.Close();
-        //        }
-        //    }
-        //}
-
+        #endregion
     }
 }

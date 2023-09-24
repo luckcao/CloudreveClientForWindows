@@ -42,6 +42,12 @@ namespace ComponentControls.Controls
             public string PathName { get { return pathName; } }
         }
 
+        public void SetPadding(Padding value)
+        {
+            nextPosition.X = value.Left;
+            nextPosition.Y = value.Top;
+        }
+
         public DirectoryPath()
         {
             InitializeComponent();

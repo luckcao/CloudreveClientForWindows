@@ -38,12 +38,17 @@ namespace CloudreveForWindows.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panTop = new System.Windows.Forms.Panel();
             this.btnShowProfile = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnShowLeftMenu = new System.Windows.Forms.PictureBox();
             this.panLeftMenu = new System.Windows.Forms.Panel();
+            this.menuLeft = new ComponentControls.Controls.NavigateMenu();
             this.panStorageInfo = new System.Windows.Forms.Panel();
             this.lblStorage = new System.Windows.Forms.Label();
             this.prgStorage = new System.Windows.Forms.ProgressBar();
@@ -72,7 +77,33 @@ namespace CloudreveForWindows.Forms
             this.picDetail_FileTypeImage = new System.Windows.Forms.PictureBox();
             this.tabMy = new System.Windows.Forms.TabPage();
             this.panMiddle = new System.Windows.Forms.Panel();
+            this.panSyncBaidu = new System.Windows.Forms.Panel();
+            this.panBaiduLogin = new System.Windows.Forms.Panel();
+            this.wbBaiduLogin = new System.Windows.Forms.WebBrowser();
+            this.panBaiduFileList = new System.Windows.Forms.Panel();
+            this.chkBaiduSelectAll = new System.Windows.Forms.CheckBox();
+            this.lblWaitBaidu = new System.Windows.Forms.Label();
+            this.dgvBaiduFileList = new System.Windows.Forms.DataGridView();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblBaiduFileListFileCount = new System.Windows.Forms.Label();
+            this.panBaiduFileListTop = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.directoryPathBaidu = new ComponentControls.Controls.DirectoryPath();
+            this.panBaiduFileListToolBar = new System.Windows.Forms.Panel();
+            this.btnBaiduLogout = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.btnBaiduBack = new System.Windows.Forms.PictureBox();
             this.panMyShare = new System.Windows.Forms.Panel();
+            this.sfList = new ComponentControls.Controls.ShareFile();
             this.panMyShareFileCount = new System.Windows.Forms.Panel();
             this.lblMyShareFileCount = new System.Windows.Forms.Label();
             this.panMyShareTop = new System.Windows.Forms.Panel();
@@ -82,6 +113,7 @@ namespace CloudreveForWindows.Forms
             this.btnDeleteAllShareFile = new System.Windows.Forms.PictureBox();
             this.我的分享列表 = new System.Windows.Forms.Label();
             this.panUpload = new System.Windows.Forms.Panel();
+            this.tfUpload = new ComponentControls.Controls.TransferFile();
             this.panUploadFileCount = new System.Windows.Forms.Panel();
             this.lblUploadFileCount = new System.Windows.Forms.Label();
             this.panUploadTop = new System.Windows.Forms.Panel();
@@ -92,6 +124,7 @@ namespace CloudreveForWindows.Forms
             this.btnDeleteAllUploadTask = new System.Windows.Forms.PictureBox();
             this.btnPauseAllUploadTask = new System.Windows.Forms.PictureBox();
             this.panDownload = new System.Windows.Forms.Panel();
+            this.tfDownload = new ComponentControls.Controls.TransferFile();
             this.panDownloadFileCount = new System.Windows.Forms.Panel();
             this.lblDownloadFileCount = new System.Windows.Forms.Label();
             this.panDownloadTop = new System.Windows.Forms.Panel();
@@ -115,6 +148,7 @@ namespace CloudreveForWindows.Forms
             this.lblFileListFileCount = new System.Windows.Forms.Label();
             this.panFileListTop = new System.Windows.Forms.Panel();
             this.panMiddleTopMiddle = new System.Windows.Forms.Panel();
+            this.directoryPath1 = new ComponentControls.Controls.DirectoryPath();
             this.panFileListToolBar = new System.Windows.Forms.Panel();
             this.btnRefreshFileList = new System.Windows.Forms.PictureBox();
             this.btnSettings = new System.Windows.Forms.PictureBox();
@@ -134,7 +168,6 @@ namespace CloudreveForWindows.Forms
             this.最小ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.最大ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.imglstFileTypeIcon = new System.Windows.Forms.ImageList(this.components);
             this.menuUpload = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.创建目录DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -155,11 +188,6 @@ namespace CloudreveForWindows.Forms
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.sfList = new ComponentControls.Controls.ShareFile();
-            this.tfUpload = new ComponentControls.Controls.TransferFile();
-            this.tfDownload = new ComponentControls.Controls.TransferFile();
-            this.directoryPath1 = new ComponentControls.Controls.DirectoryPath();
-            this.menuLeft = new ComponentControls.Controls.NavigateMenu();
             this.panTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnShowProfile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -174,6 +202,21 @@ namespace CloudreveForWindows.Forms
             this.panDetail_DirFileCount.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picDetail_FileTypeImage)).BeginInit();
             this.panMiddle.SuspendLayout();
+            this.panSyncBaidu.SuspendLayout();
+            this.panBaiduLogin.SuspendLayout();
+            this.panBaiduFileList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBaiduFileList)).BeginInit();
+            this.panBaiduFileListTop.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panBaiduFileListToolBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBaiduLogout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBaiduBack)).BeginInit();
             this.panMyShare.SuspendLayout();
             this.panMyShareFileCount.SuspendLayout();
             this.panMyShareTop.SuspendLayout();
@@ -288,6 +331,20 @@ namespace CloudreveForWindows.Forms
             this.panLeftMenu.Name = "panLeftMenu";
             this.panLeftMenu.Size = new System.Drawing.Size(240, 699);
             this.panLeftMenu.TabIndex = 1;
+            // 
+            // menuLeft
+            // 
+            this.menuLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.menuLeft.Location = new System.Drawing.Point(0, 0);
+            this.menuLeft.MenuItemBackgroundColor = System.Drawing.Color.White;
+            this.menuLeft.MenuItemForeColor = System.Drawing.Color.Black;
+            this.menuLeft.MenuItemHeight = 40;
+            this.menuLeft.MenuItemMouseOnBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.menuLeft.MenuItemMouseOnForeColor = System.Drawing.Color.Black;
+            this.menuLeft.Name = "menuLeft";
+            this.menuLeft.Size = new System.Drawing.Size(240, 590);
+            this.menuLeft.TabIndex = 1;
+            this.menuLeft.MenuItemClick += new ComponentControls.Controls.NavigateMenu.MenuItemClickEvent(this.menuLeft_MenuItemClick);
             // 
             // panStorageInfo
             // 
@@ -409,7 +466,7 @@ namespace CloudreveForWindows.Forms
             this.panDetail_DirFileCount.Controls.Add(this.lblDetail_SubFileCount);
             this.panDetail_DirFileCount.Controls.Add(this.lblDetail_SubDirCount);
             this.panDetail_DirFileCount.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.panDetail_DirFileCount.Location = new System.Drawing.Point(0, 437);
+            this.panDetail_DirFileCount.Location = new System.Drawing.Point(0, 442);
             this.panDetail_DirFileCount.Name = "panDetail_DirFileCount";
             this.panDetail_DirFileCount.Size = new System.Drawing.Size(292, 68);
             this.panDetail_DirFileCount.TabIndex = 4;
@@ -452,7 +509,7 @@ namespace CloudreveForWindows.Forms
             // 
             this.lblDetail_Size.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblDetail_Size.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblDetail_Size.Location = new System.Drawing.Point(89, 385);
+            this.lblDetail_Size.Location = new System.Drawing.Point(89, 390);
             this.lblDetail_Size.Name = "lblDetail_Size";
             this.lblDetail_Size.Size = new System.Drawing.Size(193, 53);
             this.lblDetail_Size.TabIndex = 3;
@@ -462,7 +519,7 @@ namespace CloudreveForWindows.Forms
             this.lblDetail_Type.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblDetail_Type.AutoSize = true;
             this.lblDetail_Type.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblDetail_Type.Location = new System.Drawing.Point(90, 273);
+            this.lblDetail_Type.Location = new System.Drawing.Point(90, 278);
             this.lblDetail_Type.Name = "lblDetail_Type";
             this.lblDetail_Type.Size = new System.Drawing.Size(0, 20);
             this.lblDetail_Type.TabIndex = 3;
@@ -471,7 +528,7 @@ namespace CloudreveForWindows.Forms
             // 
             this.lblDetail_StoragePolicy.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblDetail_StoragePolicy.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblDetail_StoragePolicy.Location = new System.Drawing.Point(106, 445);
+            this.lblDetail_StoragePolicy.Location = new System.Drawing.Point(106, 450);
             this.lblDetail_StoragePolicy.Name = "lblDetail_StoragePolicy";
             this.lblDetail_StoragePolicy.Size = new System.Drawing.Size(179, 50);
             this.lblDetail_StoragePolicy.TabIndex = 3;
@@ -481,7 +538,7 @@ namespace CloudreveForWindows.Forms
             this.lblDetail_ModifyDate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblDetail_ModifyDate.AutoSize = true;
             this.lblDetail_ModifyDate.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblDetail_ModifyDate.Location = new System.Drawing.Point(90, 348);
+            this.lblDetail_ModifyDate.Location = new System.Drawing.Point(90, 353);
             this.lblDetail_ModifyDate.Name = "lblDetail_ModifyDate";
             this.lblDetail_ModifyDate.Size = new System.Drawing.Size(0, 20);
             this.lblDetail_ModifyDate.TabIndex = 3;
@@ -491,7 +548,7 @@ namespace CloudreveForWindows.Forms
             this.lblDetail_CreateDate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblDetail_CreateDate.AutoSize = true;
             this.lblDetail_CreateDate.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblDetail_CreateDate.Location = new System.Drawing.Point(90, 312);
+            this.lblDetail_CreateDate.Location = new System.Drawing.Point(90, 317);
             this.lblDetail_CreateDate.Name = "lblDetail_CreateDate";
             this.lblDetail_CreateDate.Size = new System.Drawing.Size(0, 20);
             this.lblDetail_CreateDate.TabIndex = 3;
@@ -501,7 +558,7 @@ namespace CloudreveForWindows.Forms
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label16.Location = new System.Drawing.Point(10, 273);
+            this.label16.Location = new System.Drawing.Point(10, 278);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(51, 20);
             this.label16.TabIndex = 3;
@@ -512,7 +569,7 @@ namespace CloudreveForWindows.Forms
             this.label18.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label18.Location = new System.Drawing.Point(10, 445);
+            this.label18.Location = new System.Drawing.Point(10, 450);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(79, 20);
             this.label18.TabIndex = 3;
@@ -523,7 +580,7 @@ namespace CloudreveForWindows.Forms
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label10.Location = new System.Drawing.Point(10, 348);
+            this.label10.Location = new System.Drawing.Point(10, 353);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(65, 20);
             this.label10.TabIndex = 3;
@@ -534,7 +591,7 @@ namespace CloudreveForWindows.Forms
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.Location = new System.Drawing.Point(10, 312);
+            this.label8.Location = new System.Drawing.Point(10, 317);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(65, 20);
             this.label8.TabIndex = 3;
@@ -545,7 +602,7 @@ namespace CloudreveForWindows.Forms
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(10, 385);
+            this.label6.Location = new System.Drawing.Point(10, 390);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(51, 20);
             this.label6.TabIndex = 3;
@@ -556,7 +613,7 @@ namespace CloudreveForWindows.Forms
             this.lblDetail_FileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDetail_FileName.ForeColor = System.Drawing.Color.Blue;
-            this.lblDetail_FileName.Location = new System.Drawing.Point(6, 228);
+            this.lblDetail_FileName.Location = new System.Drawing.Point(6, 440);
             this.lblDetail_FileName.Name = "lblDetail_FileName";
             this.lblDetail_FileName.Size = new System.Drawing.Size(278, 45);
             this.lblDetail_FileName.TabIndex = 2;
@@ -564,7 +621,7 @@ namespace CloudreveForWindows.Forms
             // 
             // picDetail_FileTypeImage
             // 
-            this.picDetail_FileTypeImage.Location = new System.Drawing.Point(42, 55);
+            this.picDetail_FileTypeImage.Location = new System.Drawing.Point(44, 57);
             this.picDetail_FileTypeImage.Name = "picDetail_FileTypeImage";
             this.picDetail_FileTypeImage.Size = new System.Drawing.Size(208, 172);
             this.picDetail_FileTypeImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -585,6 +642,7 @@ namespace CloudreveForWindows.Forms
             // 
             this.panMiddle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.panMiddle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panMiddle.Controls.Add(this.panSyncBaidu);
             this.panMiddle.Controls.Add(this.panMyShare);
             this.panMiddle.Controls.Add(this.panUpload);
             this.panMiddle.Controls.Add(this.panDownload);
@@ -595,16 +653,348 @@ namespace CloudreveForWindows.Forms
             this.panMiddle.Size = new System.Drawing.Size(777, 699);
             this.panMiddle.TabIndex = 3;
             // 
+            // panSyncBaidu
+            // 
+            this.panSyncBaidu.Controls.Add(this.panBaiduLogin);
+            this.panSyncBaidu.Controls.Add(this.panBaiduFileList);
+            this.panSyncBaidu.Location = new System.Drawing.Point(-1, 346);
+            this.panSyncBaidu.Name = "panSyncBaidu";
+            this.panSyncBaidu.Size = new System.Drawing.Size(769, 188);
+            this.panSyncBaidu.TabIndex = 5;
+            // 
+            // panBaiduLogin
+            // 
+            this.panBaiduLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panBaiduLogin.Controls.Add(this.wbBaiduLogin);
+            this.panBaiduLogin.Location = new System.Drawing.Point(344, 0);
+            this.panBaiduLogin.Name = "panBaiduLogin";
+            this.panBaiduLogin.Size = new System.Drawing.Size(423, 188);
+            this.panBaiduLogin.TabIndex = 5;
+            this.panBaiduLogin.Visible = false;
+            // 
+            // wbBaiduLogin
+            // 
+            this.wbBaiduLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.wbBaiduLogin.Location = new System.Drawing.Point(0, 0);
+            this.wbBaiduLogin.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbBaiduLogin.Name = "wbBaiduLogin";
+            this.wbBaiduLogin.ScriptErrorsSuppressed = true;
+            this.wbBaiduLogin.ScrollBarsEnabled = false;
+            this.wbBaiduLogin.Size = new System.Drawing.Size(423, 188);
+            this.wbBaiduLogin.TabIndex = 0;
+            this.wbBaiduLogin.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wbBaiduLogin_DocumentCompleted);
+            // 
+            // panBaiduFileList
+            // 
+            this.panBaiduFileList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panBaiduFileList.Controls.Add(this.chkBaiduSelectAll);
+            this.panBaiduFileList.Controls.Add(this.lblWaitBaidu);
+            this.panBaiduFileList.Controls.Add(this.dgvBaiduFileList);
+            this.panBaiduFileList.Controls.Add(this.lblBaiduFileListFileCount);
+            this.panBaiduFileList.Controls.Add(this.panBaiduFileListTop);
+            this.panBaiduFileList.Location = new System.Drawing.Point(0, 0);
+            this.panBaiduFileList.Name = "panBaiduFileList";
+            this.panBaiduFileList.Size = new System.Drawing.Size(318, 188);
+            this.panBaiduFileList.TabIndex = 4;
+            this.panBaiduFileList.Visible = false;
+            // 
+            // chkBaiduSelectAll
+            // 
+            this.chkBaiduSelectAll.AutoSize = true;
+            this.chkBaiduSelectAll.BackColor = System.Drawing.Color.Transparent;
+            this.chkBaiduSelectAll.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkBaiduSelectAll.Location = new System.Drawing.Point(7, 58);
+            this.chkBaiduSelectAll.Name = "chkBaiduSelectAll";
+            this.chkBaiduSelectAll.Size = new System.Drawing.Size(15, 14);
+            this.chkBaiduSelectAll.TabIndex = 20;
+            this.chkBaiduSelectAll.ThreeState = true;
+            this.chkBaiduSelectAll.UseVisualStyleBackColor = false;
+            // 
+            // lblWaitBaidu
+            // 
+            this.lblWaitBaidu.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblWaitBaidu.Image = ((System.Drawing.Image)(resources.GetObject("lblWaitBaidu.Image")));
+            this.lblWaitBaidu.Location = new System.Drawing.Point(143, 96);
+            this.lblWaitBaidu.Name = "lblWaitBaidu";
+            this.lblWaitBaidu.Size = new System.Drawing.Size(32, 32);
+            this.lblWaitBaidu.TabIndex = 19;
+            this.lblWaitBaidu.Visible = false;
+            // 
+            // dgvBaiduFileList
+            // 
+            this.dgvBaiduFileList.AllowUserToAddRows = false;
+            this.dgvBaiduFileList.AllowUserToDeleteRows = false;
+            this.dgvBaiduFileList.AllowUserToResizeColumns = false;
+            this.dgvBaiduFileList.AllowUserToResizeRows = false;
+            this.dgvBaiduFileList.BackgroundColor = System.Drawing.Color.White;
+            this.dgvBaiduFileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvBaiduFileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvBaiduFileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBaiduFileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewCheckBoxColumn1,
+            this.dataGridViewImageColumn1,
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3});
+            this.dgvBaiduFileList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvBaiduFileList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.dgvBaiduFileList.Location = new System.Drawing.Point(0, 50);
+            this.dgvBaiduFileList.MultiSelect = false;
+            this.dgvBaiduFileList.Name = "dgvBaiduFileList";
+            this.dgvBaiduFileList.RowHeadersVisible = false;
+            this.dgvBaiduFileList.RowTemplate.Height = 50;
+            this.dgvBaiduFileList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvBaiduFileList.Size = new System.Drawing.Size(318, 98);
+            this.dgvBaiduFileList.TabIndex = 18;
+            this.toolTip1.SetToolTip(this.dgvBaiduFileList, "下载");
+            this.dgvBaiduFileList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBaiduFileList_CellDoubleClick);
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.DataPropertyName = "Tick";
+            this.dataGridViewCheckBoxColumn1.HeaderText = "选择";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewCheckBoxColumn1.Width = 80;
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewImageColumn1.DataPropertyName = "TypeImage";
+            this.dataGridViewImageColumn1.HeaderText = "类型";
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ReadOnly = true;
+            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn1.Width = 48;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "FileName";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridViewTextBoxColumn1.HeaderText = "文件名";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "SizeDesc";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridViewTextBoxColumn2.HeaderText = "大小";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn2.Width = 48;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "ModifyDate";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridViewTextBoxColumn3.HeaderText = "修改日期";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn3.Width = 80;
+            // 
+            // lblBaiduFileListFileCount
+            // 
+            this.lblBaiduFileListFileCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblBaiduFileListFileCount.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblBaiduFileListFileCount.Location = new System.Drawing.Point(0, 148);
+            this.lblBaiduFileListFileCount.Name = "lblBaiduFileListFileCount";
+            this.lblBaiduFileListFileCount.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.lblBaiduFileListFileCount.Size = new System.Drawing.Size(318, 40);
+            this.lblBaiduFileListFileCount.TabIndex = 16;
+            this.lblBaiduFileListFileCount.Text = "共有 {0} 个项目（ {1} 个文件夹，{2} 个文件）";
+            this.lblBaiduFileListFileCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panBaiduFileListTop
+            // 
+            this.panBaiduFileListTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.panBaiduFileListTop.Controls.Add(this.panel3);
+            this.panBaiduFileListTop.Controls.Add(this.panBaiduFileListToolBar);
+            this.panBaiduFileListTop.Controls.Add(this.panel5);
+            this.panBaiduFileListTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panBaiduFileListTop.Location = new System.Drawing.Point(0, 0);
+            this.panBaiduFileListTop.Name = "panBaiduFileListTop";
+            this.panBaiduFileListTop.Size = new System.Drawing.Size(318, 50);
+            this.panBaiduFileListTop.TabIndex = 17;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panel3.Controls.Add(this.directoryPathBaidu);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(40, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(38, 50);
+            this.panel3.TabIndex = 2;
+            // 
+            // directoryPathBaidu
+            // 
+            this.directoryPathBaidu.AutoScroll = true;
+            this.directoryPathBaidu.AutoScrollMinSize = new System.Drawing.Size(670, 50);
+            this.directoryPathBaidu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.directoryPathBaidu.Location = new System.Drawing.Point(0, 0);
+            this.directoryPathBaidu.Name = "directoryPathBaidu";
+            this.directoryPathBaidu.Padding = new System.Windows.Forms.Padding(10, 0, 0, 4);
+            this.directoryPathBaidu.Size = new System.Drawing.Size(38, 50);
+            this.directoryPathBaidu.TabIndex = 0;
+            this.directoryPathBaidu.PathItemClick += new ComponentControls.Controls.DirectoryPath.PathItemClickedEvent(this.directoryPathBaidu_PathItemClick);
+            // 
+            // panBaiduFileListToolBar
+            // 
+            this.panBaiduFileListToolBar.BackColor = System.Drawing.Color.White;
+            this.panBaiduFileListToolBar.Controls.Add(this.btnBaiduLogout);
+            this.panBaiduFileListToolBar.Controls.Add(this.pictureBox4);
+            this.panBaiduFileListToolBar.Controls.Add(this.pictureBox5);
+            this.panBaiduFileListToolBar.Controls.Add(this.pictureBox6);
+            this.panBaiduFileListToolBar.Controls.Add(this.pictureBox7);
+            this.panBaiduFileListToolBar.Controls.Add(this.pictureBox8);
+            this.panBaiduFileListToolBar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panBaiduFileListToolBar.Location = new System.Drawing.Point(78, 0);
+            this.panBaiduFileListToolBar.MaximumSize = new System.Drawing.Size(240, 0);
+            this.panBaiduFileListToolBar.MinimumSize = new System.Drawing.Size(240, 0);
+            this.panBaiduFileListToolBar.Name = "panBaiduFileListToolBar";
+            this.panBaiduFileListToolBar.Size = new System.Drawing.Size(240, 50);
+            this.panBaiduFileListToolBar.TabIndex = 1;
+            // 
+            // btnBaiduLogout
+            // 
+            this.btnBaiduLogout.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnBaiduLogout.Image = global::CloudreveForWindows.Properties.Resources.logout;
+            this.btnBaiduLogout.Location = new System.Drawing.Point(10, 15);
+            this.btnBaiduLogout.Name = "btnBaiduLogout";
+            this.btnBaiduLogout.Size = new System.Drawing.Size(20, 20);
+            this.btnBaiduLogout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnBaiduLogout.TabIndex = 14;
+            this.btnBaiduLogout.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnBaiduLogout, "进入百度网盘网页版");
+            this.btnBaiduLogout.Click += new System.EventHandler(this.btnBaiduLogout_Click);
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(212, 15);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox4.TabIndex = 13;
+            this.pictureBox4.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox4, "设置");
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
+            this.pictureBox5.Location = new System.Drawing.Point(93, 15);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 12;
+            this.pictureBox5.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox5, "删除");
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
+            this.pictureBox6.Location = new System.Drawing.Point(133, 15);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox6.TabIndex = 11;
+            this.pictureBox6.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox6, "下载");
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pictureBox7.Image = global::CloudreveForWindows.Properties.Resources.synchronous;
+            this.pictureBox7.Location = new System.Drawing.Point(51, 15);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox7.TabIndex = 10;
+            this.pictureBox7.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox7, "转存至Cloudreve云盘");
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
+            this.pictureBox8.Location = new System.Drawing.Point(172, 15);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox8.TabIndex = 9;
+            this.pictureBox8.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox8, "排序");
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.White;
+            this.panel5.Controls.Add(this.btnBaiduBack);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel5.Location = new System.Drawing.Point(0, 0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(40, 50);
+            this.panel5.TabIndex = 0;
+            // 
+            // btnBaiduBack
+            // 
+            this.btnBaiduBack.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnBaiduBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBaiduBack.Image")));
+            this.btnBaiduBack.Location = new System.Drawing.Point(8, 14);
+            this.btnBaiduBack.Name = "btnBaiduBack";
+            this.btnBaiduBack.Size = new System.Drawing.Size(24, 24);
+            this.btnBaiduBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnBaiduBack.TabIndex = 8;
+            this.btnBaiduBack.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnBaiduBack, "返回上一层");
+            this.btnBaiduBack.Click += new System.EventHandler(this.btnBaiduBack_Click);
+            // 
             // panMyShare
             // 
             this.panMyShare.Controls.Add(this.sfList);
             this.panMyShare.Controls.Add(this.panMyShareFileCount);
             this.panMyShare.Controls.Add(this.panMyShareTop);
-            this.panMyShare.Location = new System.Drawing.Point(0, 180);
+            this.panMyShare.Location = new System.Drawing.Point(381, 0);
             this.panMyShare.Name = "panMyShare";
-            this.panMyShare.Size = new System.Drawing.Size(726, 166);
+            this.panMyShare.Size = new System.Drawing.Size(389, 166);
             this.panMyShare.TabIndex = 3;
             this.panMyShare.Visible = false;
+            // 
+            // sfList
+            // 
+            this.sfList.AutoScroll = true;
+            this.sfList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sfList.Location = new System.Drawing.Point(0, 50);
+            this.sfList.Name = "sfList";
+            this.sfList.Size = new System.Drawing.Size(389, 76);
+            this.sfList.TabIndex = 12;
             // 
             // panMyShareFileCount
             // 
@@ -612,7 +1002,7 @@ namespace CloudreveForWindows.Forms
             this.panMyShareFileCount.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panMyShareFileCount.Location = new System.Drawing.Point(0, 126);
             this.panMyShareFileCount.Name = "panMyShareFileCount";
-            this.panMyShareFileCount.Size = new System.Drawing.Size(726, 40);
+            this.panMyShareFileCount.Size = new System.Drawing.Size(389, 40);
             this.panMyShareFileCount.TabIndex = 11;
             // 
             // lblMyShareFileCount
@@ -622,7 +1012,7 @@ namespace CloudreveForWindows.Forms
             this.lblMyShareFileCount.Location = new System.Drawing.Point(0, 0);
             this.lblMyShareFileCount.Name = "lblMyShareFileCount";
             this.lblMyShareFileCount.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.lblMyShareFileCount.Size = new System.Drawing.Size(726, 40);
+            this.lblMyShareFileCount.Size = new System.Drawing.Size(389, 40);
             this.lblMyShareFileCount.TabIndex = 2;
             this.lblMyShareFileCount.Text = "本页共有 {0} 个分享（ {1} 个文件夹，{2} 个文件）";
             this.lblMyShareFileCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -634,7 +1024,7 @@ namespace CloudreveForWindows.Forms
             this.panMyShareTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panMyShareTop.Location = new System.Drawing.Point(0, 0);
             this.panMyShareTop.Name = "panMyShareTop";
-            this.panMyShareTop.Size = new System.Drawing.Size(726, 50);
+            this.panMyShareTop.Size = new System.Drawing.Size(389, 50);
             this.panMyShareTop.TabIndex = 10;
             // 
             // panel1
@@ -644,7 +1034,7 @@ namespace CloudreveForWindows.Forms
             this.panel1.Controls.Add(this.btnShareSetting);
             this.panel1.Controls.Add(this.btnDeleteAllShareFile);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(606, 0);
+            this.panel1.Location = new System.Drawing.Point(269, 0);
             this.panel1.MaximumSize = new System.Drawing.Size(120, 0);
             this.panel1.MinimumSize = new System.Drawing.Size(120, 0);
             this.panel1.Name = "panel1";
@@ -703,11 +1093,22 @@ namespace CloudreveForWindows.Forms
             this.panUpload.Controls.Add(this.tfUpload);
             this.panUpload.Controls.Add(this.panUploadFileCount);
             this.panUpload.Controls.Add(this.panUploadTop);
-            this.panUpload.Location = new System.Drawing.Point(-1, 541);
+            this.panUpload.Location = new System.Drawing.Point(381, 175);
             this.panUpload.Name = "panUpload";
-            this.panUpload.Size = new System.Drawing.Size(726, 156);
+            this.panUpload.Size = new System.Drawing.Size(389, 156);
             this.panUpload.TabIndex = 2;
             this.panUpload.Visible = false;
+            // 
+            // tfUpload
+            // 
+            this.tfUpload.AutoScroll = true;
+            this.tfUpload.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tfUpload.Location = new System.Drawing.Point(0, 50);
+            this.tfUpload.Name = "tfUpload";
+            this.tfUpload.Size = new System.Drawing.Size(389, 66);
+            this.tfUpload.TabIndex = 12;
+            this.tfUpload.TransferItemDeleted += new ComponentControls.Controls.TransferFile.TransferItemDeletedEvent(this.tfUpload_TransferItemDeleted);
+            this.tfUpload.TransferItemCompleted += new ComponentControls.Controls.TransferFile.TransferItemCompletedEvent(this.tfUpload_TransferItemCompleted);
             // 
             // panUploadFileCount
             // 
@@ -715,7 +1116,7 @@ namespace CloudreveForWindows.Forms
             this.panUploadFileCount.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panUploadFileCount.Location = new System.Drawing.Point(0, 116);
             this.panUploadFileCount.Name = "panUploadFileCount";
-            this.panUploadFileCount.Size = new System.Drawing.Size(726, 40);
+            this.panUploadFileCount.Size = new System.Drawing.Size(389, 40);
             this.panUploadFileCount.TabIndex = 11;
             // 
             // lblUploadFileCount
@@ -725,7 +1126,7 @@ namespace CloudreveForWindows.Forms
             this.lblUploadFileCount.Location = new System.Drawing.Point(0, 0);
             this.lblUploadFileCount.Name = "lblUploadFileCount";
             this.lblUploadFileCount.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.lblUploadFileCount.Size = new System.Drawing.Size(726, 40);
+            this.lblUploadFileCount.Size = new System.Drawing.Size(389, 40);
             this.lblUploadFileCount.TabIndex = 2;
             this.lblUploadFileCount.Text = "共有 {0} 个上传任务（ {1} 个停止，{2} 个正在上传， {3}个上传完成）";
             this.lblUploadFileCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -737,7 +1138,7 @@ namespace CloudreveForWindows.Forms
             this.panUploadTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panUploadTop.Location = new System.Drawing.Point(0, 0);
             this.panUploadTop.Name = "panUploadTop";
-            this.panUploadTop.Size = new System.Drawing.Size(726, 50);
+            this.panUploadTop.Size = new System.Drawing.Size(389, 50);
             this.panUploadTop.TabIndex = 10;
             // 
             // label4
@@ -757,7 +1158,7 @@ namespace CloudreveForWindows.Forms
             this.panUploadToolBar.Controls.Add(this.btnDeleteAllUploadTask);
             this.panUploadToolBar.Controls.Add(this.btnPauseAllUploadTask);
             this.panUploadToolBar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panUploadToolBar.Location = new System.Drawing.Point(566, 0);
+            this.panUploadToolBar.Location = new System.Drawing.Point(229, 0);
             this.panUploadToolBar.MaximumSize = new System.Drawing.Size(160, 0);
             this.panUploadToolBar.MinimumSize = new System.Drawing.Size(160, 0);
             this.panUploadToolBar.Name = "panUploadToolBar";
@@ -821,11 +1222,22 @@ namespace CloudreveForWindows.Forms
             this.panDownload.Controls.Add(this.tfDownload);
             this.panDownload.Controls.Add(this.panDownloadFileCount);
             this.panDownload.Controls.Add(this.panDownloadTop);
-            this.panDownload.Location = new System.Drawing.Point(-1, 361);
+            this.panDownload.Location = new System.Drawing.Point(-1, 175);
             this.panDownload.Name = "panDownload";
-            this.panDownload.Size = new System.Drawing.Size(726, 161);
+            this.panDownload.Size = new System.Drawing.Size(366, 161);
             this.panDownload.TabIndex = 1;
             this.panDownload.Visible = false;
+            // 
+            // tfDownload
+            // 
+            this.tfDownload.AutoScroll = true;
+            this.tfDownload.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tfDownload.Location = new System.Drawing.Point(0, 50);
+            this.tfDownload.Name = "tfDownload";
+            this.tfDownload.Size = new System.Drawing.Size(366, 71);
+            this.tfDownload.TabIndex = 11;
+            this.tfDownload.TransferItemDeleted += new ComponentControls.Controls.TransferFile.TransferItemDeletedEvent(this.tfDownload_TransferItemDeleted);
+            this.tfDownload.TransferItemCompleted += new ComponentControls.Controls.TransferFile.TransferItemCompletedEvent(this.tfDownload_TransferItemCompleted);
             // 
             // panDownloadFileCount
             // 
@@ -833,7 +1245,7 @@ namespace CloudreveForWindows.Forms
             this.panDownloadFileCount.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panDownloadFileCount.Location = new System.Drawing.Point(0, 121);
             this.panDownloadFileCount.Name = "panDownloadFileCount";
-            this.panDownloadFileCount.Size = new System.Drawing.Size(726, 40);
+            this.panDownloadFileCount.Size = new System.Drawing.Size(366, 40);
             this.panDownloadFileCount.TabIndex = 10;
             // 
             // lblDownloadFileCount
@@ -843,7 +1255,7 @@ namespace CloudreveForWindows.Forms
             this.lblDownloadFileCount.Location = new System.Drawing.Point(0, 0);
             this.lblDownloadFileCount.Name = "lblDownloadFileCount";
             this.lblDownloadFileCount.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.lblDownloadFileCount.Size = new System.Drawing.Size(726, 40);
+            this.lblDownloadFileCount.Size = new System.Drawing.Size(366, 40);
             this.lblDownloadFileCount.TabIndex = 1;
             this.lblDownloadFileCount.Text = "共有 {0} 个下载任务（ {1} 个停止，{2} 个正在下载， {3}个下载完成）";
             this.lblDownloadFileCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -855,7 +1267,7 @@ namespace CloudreveForWindows.Forms
             this.panDownloadTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panDownloadTop.Location = new System.Drawing.Point(0, 0);
             this.panDownloadTop.Name = "panDownloadTop";
-            this.panDownloadTop.Size = new System.Drawing.Size(726, 50);
+            this.panDownloadTop.Size = new System.Drawing.Size(366, 50);
             this.panDownloadTop.TabIndex = 9;
             // 
             // label3
@@ -875,7 +1287,7 @@ namespace CloudreveForWindows.Forms
             this.panDownloadToolBar.Controls.Add(this.btnDeleteAllDownloadTask);
             this.panDownloadToolBar.Controls.Add(this.btnPauseAllDownloadTask);
             this.panDownloadToolBar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panDownloadToolBar.Location = new System.Drawing.Point(566, 0);
+            this.panDownloadToolBar.Location = new System.Drawing.Point(206, 0);
             this.panDownloadToolBar.MaximumSize = new System.Drawing.Size(160, 0);
             this.panDownloadToolBar.MinimumSize = new System.Drawing.Size(160, 0);
             this.panDownloadToolBar.Name = "panDownloadToolBar";
@@ -940,7 +1352,7 @@ namespace CloudreveForWindows.Forms
             this.panFileList.Controls.Add(this.panFileListTop);
             this.panFileList.Location = new System.Drawing.Point(0, 0);
             this.panFileList.Name = "panFileList";
-            this.panFileList.Size = new System.Drawing.Size(726, 166);
+            this.panFileList.Size = new System.Drawing.Size(365, 166);
             this.panFileList.TabIndex = 0;
             // 
             // panFileList_FileList
@@ -953,14 +1365,14 @@ namespace CloudreveForWindows.Forms
             this.panFileList_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panFileList_FileList.Location = new System.Drawing.Point(0, 50);
             this.panFileList_FileList.Name = "panFileList_FileList";
-            this.panFileList_FileList.Size = new System.Drawing.Size(726, 116);
+            this.panFileList_FileList.Size = new System.Drawing.Size(365, 116);
             this.panFileList_FileList.TabIndex = 2;
             // 
             // lblWait
             // 
             this.lblWait.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblWait.Image = ((System.Drawing.Image)(resources.GetObject("lblWait.Image")));
-            this.lblWait.Location = new System.Drawing.Point(347, 37);
+            this.lblWait.Location = new System.Drawing.Point(166, 37);
             this.lblWait.Name = "lblWait";
             this.lblWait.Size = new System.Drawing.Size(32, 32);
             this.lblWait.TabIndex = 7;
@@ -986,14 +1398,14 @@ namespace CloudreveForWindows.Forms
             this.dgvFileList.AllowUserToResizeRows = false;
             this.dgvFileList.BackgroundColor = System.Drawing.Color.White;
             this.dgvFileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvFileList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFileList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colTick,
@@ -1009,7 +1421,7 @@ namespace CloudreveForWindows.Forms
             this.dgvFileList.RowHeadersVisible = false;
             this.dgvFileList.RowTemplate.Height = 50;
             this.dgvFileList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFileList.Size = new System.Drawing.Size(726, 76);
+            this.dgvFileList.Size = new System.Drawing.Size(365, 76);
             this.dgvFileList.TabIndex = 4;
             this.toolTip1.SetToolTip(this.dgvFileList, "下载");
             this.dgvFileList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFileList_CellDoubleClick);
@@ -1039,8 +1451,8 @@ namespace CloudreveForWindows.Forms
             // 
             this.colFileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colFileName.DataPropertyName = "FileName";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colFileName.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colFileName.DefaultCellStyle = dataGridViewCellStyle6;
             this.colFileName.HeaderText = "文件名";
             this.colFileName.Name = "colFileName";
             this.colFileName.ReadOnly = true;
@@ -1051,8 +1463,8 @@ namespace CloudreveForWindows.Forms
             // 
             this.colSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colSize.DataPropertyName = "SizeDesc";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSize.DefaultCellStyle = dataGridViewCellStyle7;
             this.colSize.HeaderText = "大小";
             this.colSize.Name = "colSize";
             this.colSize.ReadOnly = true;
@@ -1064,8 +1476,8 @@ namespace CloudreveForWindows.Forms
             // 
             this.colModifyDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colModifyDate.DataPropertyName = "ModifyDate";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colModifyDate.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colModifyDate.DefaultCellStyle = dataGridViewCellStyle8;
             this.colModifyDate.HeaderText = "修改日期";
             this.colModifyDate.Name = "colModifyDate";
             this.colModifyDate.ReadOnly = true;
@@ -1079,7 +1491,7 @@ namespace CloudreveForWindows.Forms
             this.panFileListFileCount.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panFileListFileCount.Location = new System.Drawing.Point(0, 76);
             this.panFileListFileCount.Name = "panFileListFileCount";
-            this.panFileListFileCount.Size = new System.Drawing.Size(726, 40);
+            this.panFileListFileCount.Size = new System.Drawing.Size(365, 40);
             this.panFileListFileCount.TabIndex = 3;
             // 
             // lblFileListFileCount
@@ -1089,7 +1501,7 @@ namespace CloudreveForWindows.Forms
             this.lblFileListFileCount.Location = new System.Drawing.Point(0, 0);
             this.lblFileListFileCount.Name = "lblFileListFileCount";
             this.lblFileListFileCount.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.lblFileListFileCount.Size = new System.Drawing.Size(726, 40);
+            this.lblFileListFileCount.Size = new System.Drawing.Size(365, 40);
             this.lblFileListFileCount.TabIndex = 0;
             this.lblFileListFileCount.Text = "共有 {0} 个项目（ {1} 个文件夹，{2} 个文件）";
             this.lblFileListFileCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1103,7 +1515,7 @@ namespace CloudreveForWindows.Forms
             this.panFileListTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panFileListTop.Location = new System.Drawing.Point(0, 0);
             this.panFileListTop.Name = "panFileListTop";
-            this.panFileListTop.Size = new System.Drawing.Size(726, 50);
+            this.panFileListTop.Size = new System.Drawing.Size(365, 50);
             this.panFileListTop.TabIndex = 1;
             // 
             // panMiddleTopMiddle
@@ -1113,8 +1525,20 @@ namespace CloudreveForWindows.Forms
             this.panMiddleTopMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panMiddleTopMiddle.Location = new System.Drawing.Point(40, 0);
             this.panMiddleTopMiddle.Name = "panMiddleTopMiddle";
-            this.panMiddleTopMiddle.Size = new System.Drawing.Size(446, 50);
+            this.panMiddleTopMiddle.Size = new System.Drawing.Size(85, 50);
             this.panMiddleTopMiddle.TabIndex = 2;
+            // 
+            // directoryPath1
+            // 
+            this.directoryPath1.AutoScroll = true;
+            this.directoryPath1.AutoScrollMinSize = new System.Drawing.Size(670, 50);
+            this.directoryPath1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.directoryPath1.Location = new System.Drawing.Point(0, 0);
+            this.directoryPath1.Name = "directoryPath1";
+            this.directoryPath1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 4);
+            this.directoryPath1.Size = new System.Drawing.Size(85, 50);
+            this.directoryPath1.TabIndex = 0;
+            this.directoryPath1.PathItemClick += new ComponentControls.Controls.DirectoryPath.PathItemClickedEvent(this.directoryPath1_PathItemClick);
             // 
             // panFileListToolBar
             // 
@@ -1126,7 +1550,7 @@ namespace CloudreveForWindows.Forms
             this.panFileListToolBar.Controls.Add(this.btnCreateDir);
             this.panFileListToolBar.Controls.Add(this.btnSort);
             this.panFileListToolBar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panFileListToolBar.Location = new System.Drawing.Point(486, 0);
+            this.panFileListToolBar.Location = new System.Drawing.Point(125, 0);
             this.panFileListToolBar.MaximumSize = new System.Drawing.Size(240, 0);
             this.panFileListToolBar.MinimumSize = new System.Drawing.Size(240, 0);
             this.panFileListToolBar.Name = "panFileListToolBar";
@@ -1313,12 +1737,6 @@ namespace CloudreveForWindows.Forms
             this.最大ToolStripMenuItem.Text = "最大";
             this.最大ToolStripMenuItem.Click += new System.EventHandler(this.SortMenuItem_Click);
             // 
-            // imglstFileTypeIcon
-            // 
-            this.imglstFileTypeIcon.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imglstFileTypeIcon.ImageSize = new System.Drawing.Size(16, 16);
-            this.imglstFileTypeIcon.TransparentColor = System.Drawing.Color.Transparent;
-            // 
             // menuUpload
             // 
             this.menuUpload.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1452,63 +1870,6 @@ namespace CloudreveForWindows.Forms
             this.openFileDialog1.Filter = "所有文件(*.*)|*.*";
             this.openFileDialog1.Multiselect = true;
             // 
-            // sfList
-            // 
-            this.sfList.AutoScroll = true;
-            this.sfList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sfList.Location = new System.Drawing.Point(0, 50);
-            this.sfList.Name = "sfList";
-            this.sfList.Size = new System.Drawing.Size(726, 76);
-            this.sfList.TabIndex = 12;
-            // 
-            // tfUpload
-            // 
-            this.tfUpload.AutoScroll = true;
-            this.tfUpload.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tfUpload.Location = new System.Drawing.Point(0, 50);
-            this.tfUpload.Name = "tfUpload";
-            this.tfUpload.Size = new System.Drawing.Size(726, 66);
-            this.tfUpload.TabIndex = 12;
-            this.tfUpload.TransferItemDeleted += new ComponentControls.Controls.TransferFile.TransferItemDeletedEvent(this.tfUpload_TransferItemDeleted);
-            this.tfUpload.TransferItemCompleted += new ComponentControls.Controls.TransferFile.TransferItemCompletedEvent(this.tfUpload_TransferItemCompleted);
-            // 
-            // tfDownload
-            // 
-            this.tfDownload.AutoScroll = true;
-            this.tfDownload.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tfDownload.Location = new System.Drawing.Point(0, 50);
-            this.tfDownload.Name = "tfDownload";
-            this.tfDownload.Size = new System.Drawing.Size(726, 71);
-            this.tfDownload.TabIndex = 11;
-            this.tfDownload.TransferItemDeleted += new ComponentControls.Controls.TransferFile.TransferItemDeletedEvent(this.tfDownload_TransferItemDeleted);
-            this.tfDownload.TransferItemCompleted += new ComponentControls.Controls.TransferFile.TransferItemCompletedEvent(this.tfDownload_TransferItemCompleted);
-            // 
-            // directoryPath1
-            // 
-            this.directoryPath1.AutoScroll = true;
-            this.directoryPath1.AutoScrollMinSize = new System.Drawing.Size(670, 50);
-            this.directoryPath1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.directoryPath1.Location = new System.Drawing.Point(0, 0);
-            this.directoryPath1.Name = "directoryPath1";
-            this.directoryPath1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.directoryPath1.Size = new System.Drawing.Size(446, 50);
-            this.directoryPath1.TabIndex = 0;
-            this.directoryPath1.PathItemClick += new ComponentControls.Controls.DirectoryPath.PathItemClickedEvent(this.directoryPath1_PathItemClick);
-            // 
-            // menuLeft
-            // 
-            this.menuLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.menuLeft.Location = new System.Drawing.Point(0, 0);
-            this.menuLeft.MenuItemBackgroundColor = System.Drawing.Color.White;
-            this.menuLeft.MenuItemForeColor = System.Drawing.Color.Black;
-            this.menuLeft.MenuItemHeight = 40;
-            this.menuLeft.MenuItemMouseOnBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.menuLeft.MenuItemMouseOnForeColor = System.Drawing.Color.Black;
-            this.menuLeft.Name = "menuLeft";
-            this.menuLeft.Size = new System.Drawing.Size(240, 590);
-            this.menuLeft.TabIndex = 1;
-            this.menuLeft.MenuItemClick += new ComponentControls.Controls.NavigateMenu.MenuItemClickEvent(this.menuLeft_MenuItemClick);
-            // 
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1546,6 +1907,22 @@ namespace CloudreveForWindows.Forms
             this.panDetail_DirFileCount.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picDetail_FileTypeImage)).EndInit();
             this.panMiddle.ResumeLayout(false);
+            this.panSyncBaidu.ResumeLayout(false);
+            this.panBaiduLogin.ResumeLayout(false);
+            this.panBaiduFileList.ResumeLayout(false);
+            this.panBaiduFileList.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBaiduFileList)).EndInit();
+            this.panBaiduFileListTop.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panBaiduFileListToolBar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnBaiduLogout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnBaiduBack)).EndInit();
             this.panMyShare.ResumeLayout(false);
             this.panMyShareFileCount.ResumeLayout(false);
             this.panMyShareTop.ResumeLayout(false);
@@ -1621,7 +1998,6 @@ namespace CloudreveForWindows.Forms
         private System.Windows.Forms.Label lblFileListFileCount;
         private System.Windows.Forms.PictureBox btnCreateDir;
         private System.Windows.Forms.PictureBox btnDownload;
-        private System.Windows.Forms.ImageList imglstFileTypeIcon;
         private System.Windows.Forms.ToolStripMenuItem aZToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zAToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 最早上传ToolStripMenuItem;
@@ -1725,5 +2101,30 @@ namespace CloudreveForWindows.Forms
         private System.Windows.Forms.ToolStripMenuItem 属性PToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.PictureBox btnCloseDetail;
+        private System.Windows.Forms.Panel panBaiduFileList;
+        private System.Windows.Forms.Label lblBaiduFileListFileCount;
+        private System.Windows.Forms.Panel panSyncBaidu;
+        private System.Windows.Forms.Panel panBaiduLogin;
+        private System.Windows.Forms.WebBrowser wbBaiduLogin;
+        private System.Windows.Forms.Panel panBaiduFileListTop;
+        private System.Windows.Forms.Panel panel3;
+        private DirectoryPath directoryPathBaidu;
+        private System.Windows.Forms.Panel panBaiduFileListToolBar;
+        private System.Windows.Forms.PictureBox btnBaiduLogout;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.PictureBox pictureBox7;
+        private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.PictureBox btnBaiduBack;
+        private System.Windows.Forms.Label lblWaitBaidu;
+        private System.Windows.Forms.DataGridView dgvBaiduFileList;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.CheckBox chkBaiduSelectAll;
     }
 }

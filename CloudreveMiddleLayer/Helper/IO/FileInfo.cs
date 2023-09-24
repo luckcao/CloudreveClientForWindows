@@ -116,5 +116,10 @@ namespace CloudreveMiddleLayer.Helper.IO
                 return buffer;
             }
         }
+
+        public static void OpenFile(string filePath)
+        {
+            System.Diagnostics.Process.Start(filePath);
+        }
     }
 }

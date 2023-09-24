@@ -19,6 +19,9 @@ using System.Windows.Forms;
 using static CloudreveMiddleLayer.Entiry.SystemEnvironment;
 using CloudreveMiddleLayer.Controls;
 using MessageBox = ComponentControls.Forms.MessageBox;
+using System.ComponentModel;
+using Microsoft.Win32;
+using CloudreveMiddleLayer.Helper.Web;
 
 namespace CloudreveForWindows.Forms
 {
@@ -29,22 +32,47 @@ namespace CloudreveForWindows.Forms
             FileList = 0,
             Download = 1,
             Upload = 2,
-            MyShare = 3
+            MyShare = 3,
+            SynchronousBaidu = 4
+        }
+
+        enum WebBrowserStatus
+        {
+            Unused = -1,
+            Login = 0,
+            Logout = 1
         }
 
         string filterType = "all", sortString = "";
-        List<GetFileListJson.ObjectsItem> currentFileList = new List<GetFileListJson.ObjectsItem>();
         DataSetFileInfo.TBL_FileInfoDataTable dtFileList = new DataSetFileInfo.TBL_FileInfoDataTable();
+        DataSetFileInfo.TBL_FileInfoDataTable dtBaiduFileList = new DataSetFileInfo.TBL_FileInfoDataTable();
         DataSetDownloadUpload.TBL_DownloadInfoDataTable dtDownload = new DataSetDownloadUpload.TBL_DownloadInfoDataTable();
         DataSetDownloadUpload.TBL_UploadInfoDataTable dtUpload = new DataSetDownloadUpload.TBL_UploadInfoDataTable();
         List<ToolStripMenuItem> sortMenu = new List<ToolStripMenuItem>();
+        WebBrowserStatus ws = WebBrowserStatus.Unused;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int ShowScrollBar(IntPtr hWnd, int bar, int show);
 
         public Main()
         {
+            //SetFeatures(6000);
             InitializeComponent();
+        }
+
+        private void SetFeatures(UInt32 ieMode)
+        {
+            if (LicenseManager.UsageMode != LicenseUsageMode.Runtime)
+            {
+                throw new ApplicationException();
+            }
+            //获取程序及名称
+            string appName = System.IO.Path.GetFileName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            string featureControlRegKey = "HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\";
+            //设置浏览器对应用程序(appName)以什么模式(ieMode)运行
+            Registry.SetValue(featureControlRegKey + "FEATURE_BROWSER_EMULATION", appName, ieMode, RegistryValueKind.DWord);
+            //不晓得设置有什么用
+            Registry.SetValue(featureControlRegKey + "FEATURE_ENABLE_CLIPCHILDREN_OPTIMIZATION", appName, 1, RegistryValueKind.DWord);
         }
 
         #region Form Events
@@ -57,11 +85,14 @@ namespace CloudreveForWindows.Forms
             panDownload.Dock = DockStyle.Fill;
             panUpload.Dock = DockStyle.Fill;
             panMyShare.Dock = DockStyle.Fill;
+            panSyncBaidu.Dock = DockStyle.Fill;
 
             DisplayMiddlePanleContent(DisplayPanel.FileList);
+            directoryPath1.SetPadding(new Padding(15, 0, 0, 4));
             directoryPath1.AddPath("/");
+            directoryPathBaidu.SetPadding(new Padding(15, 0, 0, 4));
+            directoryPathBaidu.AddPath("/");
             InitialSortMenu();
-            InitialFileTypeIconImageList();
             InitialLeftMenu();
             RefreshFileList();
             RefreshStorage();
@@ -73,33 +104,11 @@ namespace CloudreveForWindows.Forms
 
         private void DisplayMiddlePanleContent(DisplayPanel dp)
         {
-            switch(dp)
-            {
-                case DisplayPanel.FileList:
-                    panFileList.Visible = true;
-                    panDownload.Visible = false;
-                    panUpload.Visible = false;
-                    panMyShare.Visible = false;
-                    break;
-                case DisplayPanel.Download:
-                    panFileList.Visible = false;
-                    panDownload.Visible = true;
-                    panUpload.Visible = false;
-                    panMyShare.Visible = false;
-                    break;
-                case DisplayPanel.Upload:
-                    panFileList.Visible = false;
-                    panDownload.Visible = false;
-                    panUpload.Visible = true;
-                    panMyShare.Visible = false;
-                    break;
-                case DisplayPanel.MyShare:
-                    panFileList.Visible = false;
-                    panDownload.Visible = false;
-                    panUpload.Visible = false;
-                    panMyShare.Visible = true;
-                    break;
-            }
+            panFileList.Visible = dp == DisplayPanel.FileList;
+            panDownload.Visible = dp == DisplayPanel.Download;
+            panUpload.Visible = dp == DisplayPanel.Upload;
+            panMyShare.Visible = dp == DisplayPanel.MyShare;
+            panSyncBaidu.Visible = dp == DisplayPanel.SynchronousBaidu;
         }
 
         private void Main_Resize(object sender, EventArgs e)
@@ -634,19 +643,11 @@ namespace CloudreveForWindows.Forms
 
         #region 文件列表
 
-        private void InitialFileTypeIconImageList()
-        {
-            imglstFileTypeIcon.Images.AddRange(new System.Drawing.Image[]
-            {
-                global::CloudreveForWindows.Properties.Resources.dir
-
-            });
-        }
-
         private void RefreshFileList()
         {
+            List<GetFileListJson.ObjectsItem> currentFileList = new List<GetFileListJson.ObjectsItem>();
+
             chkSelectAll.CheckState = CheckState.Unchecked;
-            currentFileList.Clear();
             dtFileList.Clear();
             dtFileList.AcceptChanges();
             dgvFileList.DataSource = null;
@@ -1272,6 +1273,9 @@ namespace CloudreveForWindows.Forms
             items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.download, "下载任务"));
             items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.upload1, "上传任务"));
 
+            items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.synchronous, "网盘迁移"));
+            items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.baidupan, "百度网盘迁入", 10));
+
             menuLeft.BindDataSource(items, true);
         }
 
@@ -1319,6 +1323,23 @@ namespace CloudreveForWindows.Forms
                     break;
                 case 9:
                     DisplayMiddlePanleContent(DisplayPanel.Upload);
+                    break;
+                case 11:
+                    DisplayMiddlePanleContent(DisplayPanel.SynchronousBaidu);
+                    panBaiduFileList.Dock = DockStyle.Fill;
+                    panBaiduLogin.Dock = DockStyle.Fill;
+                    ws = WebBrowserStatus.Login;
+                    if (Util.BAIDUPAN_TOKEN.Equals(String.Empty))
+                    {
+                        panBaiduFileList.Visible = false;
+                        panBaiduLogin.Visible = true;
+                        wbBaiduLogin.Url = new Uri(FileListBaidu.LoginURL);
+                    }
+                    else
+                    {
+                        panBaiduFileList.Visible = true;
+                        panBaiduLogin.Visible = false;
+                    }
                     break;
             }
             RefreshFileList();
@@ -1386,6 +1407,288 @@ namespace CloudreveForWindows.Forms
             panFileListTop.Enabled = true;
             panRightMenu.Enabled = true;
         }
+
+        private void StartBaiduWait()
+        {
+            panTop.Enabled = false;
+            panLeftMenu.Enabled = false;
+            panStorageInfo.Enabled = false;
+            panFileListTop.Enabled = false;
+            panRightMenu.Enabled = false;
+            lblWaitBaidu.Visible = true;
+            lblWaitBaidu.BringToFront();
+            Application.DoEvents();
+        }
+
+        private void EndBaiduWait()
+        {
+            lblWaitBaidu.Visible = false;
+            lblWaitBaidu.Image = null;
+            panTop.Enabled = true;
+            panLeftMenu.Enabled = true;
+            panStorageInfo.Enabled = true;
+            panFileListTop.Enabled = true;
+            panRightMenu.Enabled = true;
+        }
+
+        #endregion
+
+        #region 百度网盘相关
+
+        private void wbBaiduLogin_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            switch(ws)
+            {
+                case WebBrowserStatus.Login:
+                    string token = HttpClientHelper.GetUrlParameterValue(wbBaiduLogin.Url.AbsoluteUri, "access_token");
+                    if (!String.IsNullOrEmpty(token))
+                    {
+                        FileListBaidu.Token = token;
+                        panBaiduLogin.Visible = false;
+                        panBaiduFileList.Visible = true;
+                        RefreshBaiduFileList();
+                    }
+                    break;
+                case WebBrowserStatus.Logout:
+                    FileListBaidu.Token = null;
+                    panBaiduLogin.Visible = true;
+                    panBaiduFileList.Visible = false;
+                    break;
+            }
+        }
+
+        #region Baidu File List
+
+        private void RefreshBaiduFileList()
+        {
+            List<GetBaiduFileListJson.ListItem> currentFileList = new List<GetBaiduFileListJson.ListItem>();
+
+            chkBaiduSelectAll.CheckState = CheckState.Unchecked;
+            dtBaiduFileList.Clear();
+            dtBaiduFileList.AcceptChanges();
+            dgvBaiduFileList.DataSource = null;
+            lblBaiduFileListFileCount.Text = "共有 {0} 个项目（ {1} 个文件夹，{2} 个文件）";
+
+            currentFileList = FileListBaidu.GetFileList(directoryPathBaidu.CurrentFullPath);
+
+            int dirCount = 0, fileCount = 0;
+
+            for (int i = 0; i < currentFileList.Count; i++)
+            {
+                DataSetFileInfo.TBL_FileInfoRow dr = dtBaiduFileList.NewTBL_FileInfoRow();
+                dr.ID = currentFileList[i].fs_id.ToString();
+                dr.Tick = false;
+                dr.FileName = currentFileList[i].server_filename.Trim();
+                string ext = String.Empty;
+                if (dr.FileName.Contains("."))
+                {
+                    ext = dr.FileName.Substring(dr.FileName.LastIndexOf('.') + 1).ToUpper();
+                }
+                dr.Path = currentFileList[i].path.Trim();
+                //dr.Thumb = currentFileList[i].thumb;
+                dr.Size = currentFileList[i].size;
+                if (dr.Size <= 0)
+                {
+                    dr.SizeDesc = "";
+                }
+                else
+                {
+                    dr.SizeDesc = CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(dr.Size);
+                }
+                switch (currentFileList[i].isdir)
+                {
+                    case 1:  //Dir
+                        dirCount++;
+                        dr.Type = (int)Util.CloudreveFileListType.Dir;
+                        dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.dir);
+                        break;
+                    case 0:  //File
+                        fileCount++;
+                        dr.Type = (int)Util.CloudreveFileListType.File;
+
+                        #region 设置文件图标
+
+                        switch (ext)
+                        {
+                            case "PDF":
+                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.pdf_file);
+                                break;
+                            case "MP3":
+                            case "WAV":
+                            case "MIDI":
+                            case "CDA":
+                            case "WMA":
+                            case "AAC":
+                            case "OGG":
+                            case "VQF":
+                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.audio_file);
+                                break;
+                            case "AVI":
+                            case "WMV":
+                            case "MPG":
+                            case "MPEG":
+                            case "MOV":
+                            case "RM":
+                            case "RAM":
+                            case "RMVB":
+                            case "FLV":
+                            case "MP4":
+                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.video_file);
+                                break;
+                            case "BMP":
+                            case "JPEG":
+                            case "TIF":
+                            case "PNG":
+                            case "GIF":
+                            case "PSD":
+                            case "RAW":
+                            case "EPS":
+                            case "SVG":
+                            case "CDR":
+                            case "AI":
+                            case "JPG":
+                            case "TIFF":
+                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.img_file);
+                                dr.IsImage = true;
+                                break;
+                            case "TXT":
+                            case "INI":
+                            case "XML":
+                            case "MD":
+                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.txt_file);
+                                break;
+                            case "DOC":
+                            case "DOCX":
+                            case "XPS":
+                            case "RTF":
+                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.word_file);
+                                break;
+                            case "XLS":
+                            case "XLSX":
+                            case "CVS":
+                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.excel_file);
+                                break;
+                            case "ZIP":
+                            case "7Z":
+                            case "BZIP2":
+                            case "GZIP":
+                            case "TAR":
+                            case "RAR":
+                            case "XZ":
+                            case "ISO":
+                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.zip_file);
+                                break;
+                            default:
+                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.unknow_file);
+                                break;
+                        }
+
+                        #endregion
+
+                        break;
+                }
+                dr.ModifyDate = FileListBaidu.ConvertTimeStampToDateTime(currentFileList[i].server_mtime).ToString("yyyy-MM-dd HH:mm:ss");
+                dr.CreateDate = FileListBaidu.ConvertTimeStampToDateTime(currentFileList[i].server_ctime).ToString("yyyy-MM-dd HH:mm:ss");
+                //dr.SourceEnabled = Convert.ToBoolean(currentFileList[i].source_enabled);
+                dtBaiduFileList.AddTBL_FileInfoRow(dr);
+            }
+
+            DataView dv = dtBaiduFileList.DefaultView;
+            dv.AllowEdit = true;
+            dv.AllowNew = false;
+            dv.AllowDelete = false;
+            dv.Sort = sortString;
+            dgvBaiduFileList.AutoGenerateColumns = false;
+            dgvBaiduFileList.DataSource = dv;
+            if (dgvBaiduFileList.Rows.Count > 0)
+            {
+                //默认选中第一条记录
+                dgvBaiduFileList.CurrentCell = dgvFileList.Rows[0].Cells[0];
+                dgvBaiduFileList.ClearSelection();
+                dgvBaiduFileList.Rows[0].Selected = false;
+                dgvBaiduFileList.CurrentCell = null;
+            }
+
+            lblBaiduFileListFileCount.Text = String.Format(lblBaiduFileListFileCount.Text, currentFileList.Count, dirCount, fileCount);
+        }
+
+        private void dgvBaiduFileList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            StartBaiduWait();
+
+            BaiduFileListDoubleClick();
+
+            EndBaiduWait();
+        }
+
+        private void BaiduFileListDoubleClick()
+        {
+            if (dgvBaiduFileList.CurrentRow != null && dgvBaiduFileList.CurrentRow.Index >= 0)
+            {
+                DataView dv = (DataView)dgvBaiduFileList.DataSource;
+                switch ((int)(dv[dgvBaiduFileList.CurrentRow.Index]["Type"]))
+                {
+                    case (int)Util.CloudreveFileListType.Dir:
+                        StartBaiduWait();
+
+                        OpenBaiduDirectory(dv[dgvBaiduFileList.CurrentRow.Index]["FileName"].ToString());
+
+                        EndBaiduWait();
+                        break;
+                    case (int)Util.CloudreveFileListType.File:
+                        //if (ExMessageBox.Show("您是否想要将该文件加入下载任务列表？", "提醒", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                        //{
+                        //    AddDownloadTaskToDataTableAndTransferFileControlAndDataBase(dv[dgvFileList.CurrentRow.Index]["ID"].ToString().Trim(),
+                        //                                                                dv[dgvFileList.CurrentRow.Index]["FileName"].ToString().Trim(),
+                        //                                                                dv[dgvFileList.CurrentRow.Index]["SizeDesc"].ToString().Trim(),
+                        //                                                                saveFileDialog1.FileName);
+                        //}
+                        break;
+                }
+            }
+
+            ShowScrollBar(directoryPathBaidu.Handle, 3, 0);
+            ShowScrollBar(panMiddleTopMiddle.Handle, 3, 0);
+        }
+
+        private void directoryPathBaidu_PathItemClick(object sender, DirecrotyPathItemClickedArgs e)
+        {
+            StartBaiduWait();
+
+            RefreshBaiduFileList();
+
+            EndBaiduWait();
+        }
+
+        private void btnBaiduBack_Click(object sender, EventArgs e)
+        {
+            if (!directoryPathBaidu.CurrentFullPath.Equals("/"))
+            {
+                StartBaiduWait();
+
+                directoryPathBaidu.RemoveLastPath();
+                RefreshBaiduFileList();
+
+                EndBaiduWait();
+            }
+        }
+
+        private void btnBaiduLogout_Click(object sender, EventArgs e)
+        {
+            panBaiduLogin.Visible = true;
+            panBaiduFileList.Visible = false;
+            wbBaiduLogin.Url = new Uri( "https://pan.baidu.com");
+            ws = WebBrowserStatus.Logout;
+        }
+
+        private void OpenBaiduDirectory(string dirName)
+        {
+            directoryPathBaidu.AddPath(dirName);
+            Application.DoEvents();
+            RefreshBaiduFileList();
+        }
+
+        #endregion
 
         #endregion
     }

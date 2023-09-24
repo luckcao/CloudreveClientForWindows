@@ -13,6 +13,7 @@ namespace CloudreveMiddleLayer
         public static string GLOBLE_URL = String.Empty;
         public static JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;
         public static string Current_Path_Storage_Policy = String.Empty;
+        public static string BAIDUPAN_TOKEN = String.Empty;
 
         public class CloudreveWebURL
         {
@@ -124,7 +125,12 @@ namespace CloudreveMiddleLayer
             /// <summary>
             /// 获取图片的缩略图URL
             /// </summary>
-            public const string GET_IMAGE_THUMB = "api/v3/file/thumb/{0}";
+            public const string GET_IMAGE_THUMB_URL = "api/v3/file/thumb/{0}";
+
+            /// <summary>
+            ///  获取目录下载时的压缩包签名
+            /// </summary>
+            public const string GET_ARCHIVE_DOWNLOAD_SIGN_URL = "api/v3/file/archive";
         }
 
         public static string DataBaseFullPath
