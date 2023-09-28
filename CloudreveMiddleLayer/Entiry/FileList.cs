@@ -54,6 +54,7 @@ namespace CloudreveMiddleLayer.Entiry
                 da.AddParameter("@DownloadStatus", dr.DownloadStatus);
                 da.AddParameter("@FilePathFrom", dr.FilePathFrom);
                 da.AddParameter("@DownloadFilePath", dr.DownloadFilePath);
+                da.AddParameter("@Category", dr.Category);
 
                 string sql = "INSERT INTO TBL_DownloadInfo " +
                             "       (" +
@@ -63,7 +64,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           DownloadPercent, " +
                             "           DownloadStatus, " +
                             "           FilePathFrom, " +
-                            "           DownloadFilePath" +
+                            "           DownloadFilePath, " +
+                            "           Category " +
                             "       ) " +
                             " VALUES" +
                             "       (" +
@@ -73,7 +75,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           @DownloadPercent, " +
                             "           @DownloadStatus, " +
                             "           @FilePathFrom, " +
-                            "           @DownloadFilePath" +
+                            "           @DownloadFilePath, " +
+                            "           @Category " +
                             "       );";
                 return da.ExecuteSQL(sql);
             }

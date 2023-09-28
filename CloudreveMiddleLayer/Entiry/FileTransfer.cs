@@ -11,7 +11,7 @@ namespace CloudreveMiddleLayer.Entiry
 {
     public class FileTransfer
     {
-        #region Upload
+        #region Cloudreve Upload
 
         private bool GetUploadSessionID(string fileName,
                                                  string uploadPath,
@@ -173,6 +173,8 @@ namespace CloudreveMiddleLayer.Entiry
 
         #region Download
 
+        #region Cloudreve Download
+
         public bool DownloadFile(DataSetDownloadUpload.TBL_DownloadInfoRow dr, TransferFileProgressBar pb, out int returnCode, out string returnMessage)
         {
             string url = Util.GLOBLE_URL;
@@ -196,8 +198,7 @@ namespace CloudreveMiddleLayer.Entiry
                     //开始下载文件
                     if (!DownLoadFile(downloadURL,
                                       dr.DownloadFilePath,
-                                      dr.FileID
-                                        , new Action<int>(
+                                      new Action<int>(
                                                               (int value)
                                                               =>
                                                               {
@@ -232,7 +233,50 @@ namespace CloudreveMiddleLayer.Entiry
             return true;
         }
 
-        private bool DownLoadFile(string URL, string fileNameWithPath, string fileID, Action<int> updateProgress = null)
+        #endregion
+
+        #region BaiduPan Download
+
+        public bool DownloadBaiduFile(string downloadLinkUrl, 
+                                      string saveFileNameWithPath, 
+                                      TransferFileProgressBar pb, 
+                                      out int returnCode, 
+                                      out string returnMessage)
+        {
+            string downloadURL = downloadLinkUrl + "&access_token=" + FileListBaidu.Token;
+            //开始下载文件
+            if (!DownLoadFile(downloadURL,
+                              saveFileNameWithPath,
+                              new Action<int>(
+                                                (int value)
+                                                =>
+                                                {
+                                                    try
+                                                    {
+                                                        pb.SetProgressBarValueInThread(value);
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        Console.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
+                                                    }
+                                                }),
+                              "pan.baidu.com",
+                              "d.pcs.baidu.com"
+            ))
+            {
+                //下载文件出错的处理
+                returnMessage = "Download File Error.";
+                returnCode = -1;
+                return false;
+            }
+            returnMessage = String.Empty;
+            returnCode = 0;
+            return true;
+        }
+
+        #endregion
+
+        private bool DownLoadFile(string URL, string fileNameWithPath, Action<int> updateProgress = null, string userAgent = "", string httpHost = "")
         {
             Stream st = null;
             Stream so = null;
@@ -241,7 +285,15 @@ namespace CloudreveMiddleLayer.Entiry
             bool flag = false;
             try
             {
-                Myrq = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(URL); //从URL地址得到一个WEB请求     
+                Myrq = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(URL); //从URL地址得到一个WEB请求
+                if(!httpHost.Equals(String.Empty))
+                {
+                    Myrq.Host = httpHost;
+                }
+                if(!userAgent.Equals(String.Empty))
+                {
+                    Myrq.UserAgent = userAgent;
+                }
                 myrp = (System.Net.HttpWebResponse)Myrq.GetResponse(); //从WEB请求得到WEB响应     
                 double totalBytes = myrp.ContentLength; //从WEB响应得到总字节数
                 //更新进度
@@ -302,6 +354,5 @@ namespace CloudreveMiddleLayer.Entiry
         }
 
         #endregion
-
     }
 }

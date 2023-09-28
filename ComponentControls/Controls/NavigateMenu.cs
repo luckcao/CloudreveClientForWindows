@@ -153,6 +153,7 @@ namespace ComponentControls.Controls
         private void NavigateMenu_MenuItemClick(object sender, NavigateMenuItemClickedArgs e)
         {
             NavigateMenuItem m = (NavigateMenuItem)sender;
+            
             if(m.panParent == null && m.ChildPanel != null)
             {
                 //根菜单项，并且有子菜单项

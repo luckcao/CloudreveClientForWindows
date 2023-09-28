@@ -30,6 +30,7 @@ namespace ComponentControls.Controls
 
         private Status status = Status.暂停;
         private TransferType transType = TransferType.下载;
+        private TransferCategory transCategory = TransferCategory.CloudreveTransfer;
         private Thread thread = null;
 
         public enum Status
@@ -46,13 +47,20 @@ namespace ComponentControls.Controls
             上传 = 1
         }
 
+        public enum TransferCategory
+        {
+            CloudreveTransfer = 0,  //Cloudreve网盘传输文件
+            BaiduPanTransfer = 1    //百度网盘保存文件至Cloudreve网盘
+        }
+
         public TransferFileItem()
         {
             InitializeComponent();
         }
 
         public TransferFileItem(string fileID, string fileName, string filePathFrom, string filePathTo, 
-                                string fileSize, int percent, object tag, TransferType transType)
+                                string fileSize, int percent, object tag, TransferType transType, 
+                                TransferCategory transCategory)
         {
             InitializeComponent();
             this.fileID = fileID;
@@ -63,6 +71,7 @@ namespace ComponentControls.Controls
             lblFileSize.Text = fileSize;
             pbPercent.Value = percent;
             this.transType = transType;
+            this.transCategory = transCategory;
             if (pbPercent.Value == 100)
             {
                 CurrentStatus = Status.传输完毕;
@@ -70,11 +79,22 @@ namespace ComponentControls.Controls
             this.Tag = tag;
             if (transType == TransferType.下载)
             {
-                thread = new Thread(StartDownload);
+                switch(transCategory)
+                {
+                    case TransferCategory.CloudreveTransfer:
+                        thread = new Thread(StartDownload);
+                        break;
+                    case TransferCategory.BaiduPanTransfer:
+                        thread = new Thread(StartBaiduDownload);
+                        break;
+                }
             }
             else if(transType == TransferType.上传)
             {
-                thread = new Thread(StartUpload);
+                if (transCategory == TransferCategory.CloudreveTransfer)
+                {
+                    thread = new Thread(StartUpload);
+                }
             }
             thread.IsBackground = true;
         }
@@ -232,6 +252,17 @@ namespace ComponentControls.Controls
             else
             {
                 ExMessageBox.Show("上传失败，错误信息如下：\r\n" + returnMessage, "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void StartBaiduDownload()
+        {
+            int returnCode;
+            string returnMessage;
+            if (new FileTransfer().DownloadBaiduFile(filePathFrom, filePathTo , this.ProgressBar, out returnCode, out returnMessage))
+            {
+                //下载成功
+                UpdateCurrentStatusToFinish();
             }
         }
 

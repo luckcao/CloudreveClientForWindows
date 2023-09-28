@@ -14,6 +14,7 @@ namespace CloudreveMiddleLayer
         public static JsonEntiryClass.GetAuthConfigJson.Data AUTH_CONFIG_DATA = null;
         public static string Current_Path_Storage_Policy = String.Empty;
         public static string BAIDUPAN_TOKEN = String.Empty;
+        public static string CACHE_FOLDER = @"Cache\{0}\";
 
         public class CloudreveWebURL
         {
@@ -135,7 +136,7 @@ namespace CloudreveMiddleLayer
 
         public static string DataBaseFullPath
         {
-            get { return GetApplicationPath() + @"system.db"; }
+            get { return ApplicationPath + @"system.db"; }
         }
 
         public enum CloudreveFileListType
@@ -153,15 +154,18 @@ namespace CloudreveMiddleLayer
             系统相关 = 4
         }
 
-        public static string GetApplicationPath()
+        public static string ApplicationPath
         {
-            if(Application.StartupPath.EndsWith(@"\"))
+            get
             {
-                return Application.StartupPath;
-            }
-            else
-            {
-                return Application.StartupPath + @"\";
+                if(Application.StartupPath.EndsWith(@"\"))
+                {
+                    return Application.StartupPath;
+                }
+                else
+                {
+                    return Application.StartupPath + @"\";
+                }
             }
         }
 
