@@ -160,7 +160,7 @@ namespace CloudreveForWindows.Forms
         {
             tfDownload.Add(dr.FileID, dr.FileName, dr.FilePathFrom, dr.DownloadFilePath, dr.FileSizeDesc,
                            dr.DownloadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)) ? 100 : 0,
-                           dr, TransferFileItem.TransferType.下载, autoStart, category);
+                           dr, TransferFileItem.TransferType.下载, autoStart, category, dr.UploadToCloudrevePath);
 
             if (needAddToDB && !FileList.AddDownloadTask(dr))
             {
@@ -175,7 +175,8 @@ namespace CloudreveForWindows.Forms
                                                                                  bool needAddToDB = true,
                                                                                  bool autoStart = false,
                                                                                  string filePathFrom = "",
-                                                                                 TransferFileItem.TransferCategory category = TransferFileItem.TransferCategory.CloudreveTransfer)
+                                                                                 TransferFileItem.TransferCategory category = TransferFileItem.TransferCategory.CloudreveTransfer,
+                                                                                 string uploadToCloudrevePath = "")
         {
             DataSetDownloadUpload.TBL_DownloadInfoRow newRow = dtDownload.NewTBL_DownloadInfoRow();
             newRow.FileID = fileID;
@@ -188,6 +189,7 @@ namespace CloudreveForWindows.Forms
             newRow.OpenFolderDesc = "打开下载目录";
             newRow.DeleteDesc = "删除";
             newRow.Category = (int)category;
+            newRow.UploadToCloudrevePath = uploadToCloudrevePath;
 
             dtDownload.AddTBL_DownloadInfoRow(newRow);
             dtDownload.AcceptChanges();
@@ -295,6 +297,13 @@ namespace CloudreveForWindows.Forms
 
         private void tfDownload_TransferItemCompleted(object sender, string fileID)
         {
+            TransferFileItem t = (TransferFileItem)sender;
+            if(t.Category != TransferFileItem.TransferCategory.CloudreveTransfer)
+            {
+                //如果不是CloudreveTransfer，则表示是从其他网盘转存过来，那么就要创建一个上传任务
+                AddUploadTask(t.FilePathTo, t.UploadToCloudrevePath, t.Category);
+            }
+
             if (!FileList.UpdateDownloadStatus(fileID, ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
             {
                 ExMessageBox.Show("保存下载状态到数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -392,9 +401,41 @@ namespace CloudreveForWindows.Forms
                                                        0.0,
                                                        ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task),
                                                        dr.FileName,
-                                                       dr.UploadFilePath) == -1)
+                                                       dr.UploadFilePath,
+                                                       dr.Category) == -1)
             {
                 ExMessageBox.Show("添加下载任务到数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void AddUploadTask(string localFileFullName, string destPath, TransferFileItem.TransferCategory category = TransferFileItem.TransferCategory.CloudreveTransfer)
+        {
+            System.IO.FileInfo f = new System.IO.FileInfo(localFileFullName);
+
+            int fileID = FileList.AddUploadTask(f.Name,
+                                                CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
+                                                0,
+                                                ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task),
+                                                f.FullName,
+                                                destPath,
+                                                (int)category);
+
+            if (fileID == -1)
+            {
+                ExMessageBox.Show("添加上传任务至数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                tfUpload.Add(fileID.ToString().Trim(),
+                             f.Name,
+                             f.FullName,
+                             destPath,
+                             CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
+                             0,
+                             null,
+                             TransferFileItem.TransferType.上传,
+                             true,
+                             category);
             }
         }
 
@@ -409,33 +450,11 @@ namespace CloudreveForWindows.Forms
 
             for(int i=0;i<openFileDialog1.FileNames.Length;i++)
             {
-                System.IO.FileInfo f = new System.IO.FileInfo(openFileDialog1.FileNames[i]);
-
-                int fileID = FileList.AddUploadTask(f.Name,
-                                                    CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
-                                                    0,
-                                                    ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.start_task),
-                                                    f.FullName,
-                                                    directoryPath1.CurrentFullPath);
-
-                if (fileID == -1)
-                {
-                    ExMessageBox.Show("添加上传任务至数据库失败！", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    tfUpload.Add(fileID.ToString().Trim(),
-                                 f.Name,
-                                 f.FullName,
-                                 directoryPath1.CurrentFullPath,
-                                 CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(f.Length),
-                                 0,
-                                 null,
-                                 TransferFileItem.TransferType.上传,
-                                 true);
-                }
+                AddUploadTask(openFileDialog1.FileNames[i], directoryPath1.CurrentFullPath);
             }
         }
+
+
 
         private void tfUpload_TransferItemDeleted(object sender, int index, bool removeLocalFile)
         {
@@ -445,10 +464,17 @@ namespace CloudreveForWindows.Forms
 
         private void tfUpload_TransferItemCompleted(object sender, string fileID)
         {
+            TransferFileItem t = (TransferFileItem)sender;
+            if(t.Category != TransferFileItem.TransferCategory.CloudreveTransfer)
+            {
+                File.Delete(t.FilePathFrom);
+            }
+
             if (!FileList.UpdateUploadStatus(fileID, ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)))
             {
                 ExMessageBox.Show("上传完成，更新状态失败!", "失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            RefreshStorage();
         }
 
         private void btnPauseAllUploadTask_Click(object sender, EventArgs e)
@@ -1118,6 +1144,7 @@ namespace CloudreveForWindows.Forms
                 StartWait();
 
                 DeleteFile(fileNames);
+                RefreshStorage();
 
                 EndWait();
             }
@@ -1377,7 +1404,7 @@ namespace CloudreveForWindows.Forms
                 prgStorage.Minimum = 0;
                 prgStorage.Value = Convert.ToInt32(s.UsedSpace * 100);
 
-                lblStorage.Text = String.Format(lblStorage.Text.Trim(), s.UsedSpace.ToString() + " " + s.UnitName, s.TotalSpace.ToString() + " " + s.UnitName);
+                lblStorage.Text = String.Format("{0} / {1}", s.UsedSpace.ToString() + " " + s.UnitName, s.TotalSpace.ToString() + " " + s.UnitName);
             }
         }
 
@@ -1704,6 +1731,7 @@ namespace CloudreveForWindows.Forms
             //再添加上传任务（将缓存目录里的文件上传到Cloudreve服务器）
 
             //从文件列表中选择文件（允许多选）之后，点击下载按钮进行多文件下载
+
             dtBaiduFileList.AcceptChanges();
             DataSetFileInfo.TBL_FileInfoRow[] rows = (DataSetFileInfo.TBL_FileInfoRow[])dtBaiduFileList.Select("Tick=true");
             if (rows == null || rows.Length == 0)
@@ -1717,13 +1745,11 @@ namespace CloudreveForWindows.Forms
                 {
                     Directory.CreateDirectory(cachePath);
                 }
-                //if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-                //{
-                    //string selectedPath = folderBrowserDialog1.SelectedPath;
-                    //if (!selectedPath.EndsWith(@"\"))
-                    //{
-                    //    selectedPath += @"\";
-                    //}
+                SelectPathDialog s = new SelectPathDialog("请选择要保存到Cloudreve服务器的路径", MessageBoxDefaultButton.Button2);
+                if (s.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedCloudrevePath = s.SelectedPath, selectedCloudrevePathID = s.SelectedPathID;
+
                     //判断要下载的文件是否已经存在于下载列表里
                     //如果存在，则提示用户。
                     //如果不在，则添加到下载列表里，并启动下载。
@@ -1731,7 +1757,6 @@ namespace CloudreveForWindows.Forms
 
                     for (int i = 0; i < rows.Count(); i++)
                     {
-                        //DataView dv = (DataView)dgvFileList.DataSource;
                         if (rows[i].Type == (int)Util.CloudreveFileListType.Dir)
                         {
                             ExMessageBox.Show("暂不支持下载文件夹。\r\n该文件夹内的文件将不被下载。", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1751,8 +1776,9 @@ namespace CloudreveForWindows.Forms
                                                                                         cachePath + rows[i].FileName,
                                                                                         true,
                                                                                         true,
-                                                                                        detail[i].dlink,
-                                                                                        TransferFileItem.TransferCategory.BaiduPanTransfer);
+                                                                                        detail[0].dlink,
+                                                                                        TransferFileItem.TransferCategory.BaiduPanTransfer,
+                                                                                        selectedCloudrevePath);
 
                             hasNewDownload = true;
                         }
@@ -1761,11 +1787,10 @@ namespace CloudreveForWindows.Forms
                     if (hasNewDownload)
                     {
                         dtDownload.AcceptChanges();
-                        //RefreshDownloadDataGridView();
 
                         ExMessageBox.Show("已添加到下载列表，请在下载列表中查看！", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                //}
+                }
             }
         }
 

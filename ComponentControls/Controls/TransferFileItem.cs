@@ -15,7 +15,7 @@ namespace ComponentControls.Controls
     public partial class TransferFileItem : UserControl
     {
         string fileID = String.Empty;
-        string filePathFrom = String.Empty, filePathTo = String.Empty;
+        string filePathFrom = String.Empty, filePathTo = String.Empty, uploadToCloudrevePath = String.Empty;
 
         public delegate void TransferItemStartClickedEvent(object sender, EventArgs e);
         public event TransferItemStartClickedEvent TransferItemStartClicked;
@@ -60,7 +60,7 @@ namespace ComponentControls.Controls
 
         public TransferFileItem(string fileID, string fileName, string filePathFrom, string filePathTo, 
                                 string fileSize, int percent, object tag, TransferType transType, 
-                                TransferCategory transCategory)
+                                TransferCategory transCategory, string uploadToCloudrevePath)
         {
             InitializeComponent();
             this.fileID = fileID;
@@ -72,6 +72,7 @@ namespace ComponentControls.Controls
             pbPercent.Value = percent;
             this.transType = transType;
             this.transCategory = transCategory;
+            this.uploadToCloudrevePath = uploadToCloudrevePath;
             if (pbPercent.Value == 100)
             {
                 CurrentStatus = Status.传输完毕;
@@ -91,10 +92,11 @@ namespace ComponentControls.Controls
             }
             else if(transType == TransferType.上传)
             {
-                if (transCategory == TransferCategory.CloudreveTransfer)
-                {
-                    thread = new Thread(StartUpload);
-                }
+                //if (transCategory == TransferCategory.CloudreveTransfer)
+                //{
+                //    thread = new Thread(StartUpload);
+                //}
+                thread = new Thread(StartUpload);
             }
             thread.IsBackground = true;
         }
@@ -176,6 +178,16 @@ namespace ComponentControls.Controls
                         break;
                 }
             }
+        }
+
+        public TransferCategory Category
+        {
+            get { return this.transCategory; }
+        }
+
+        public string UploadToCloudrevePath
+        {
+            get { return uploadToCloudrevePath; }
         }
 
         private void btnStartOrPause_Click(object sender, EventArgs e)

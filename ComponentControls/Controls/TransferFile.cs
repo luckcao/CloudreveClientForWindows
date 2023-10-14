@@ -49,9 +49,11 @@ namespace ComponentControls.Controls
 
         public void Add(string fileID, string fileName, string filePathFrom, string filePathTo, 
                         string fileSize, int percent, object tag, TransferFileItem.TransferType transType,
-                        bool autoStart = false, TransferFileItem.TransferCategory transCategory = TransferFileItem.TransferCategory.CloudreveTransfer)
+                        bool autoStart = false, 
+                        TransferFileItem.TransferCategory transCategory = TransferFileItem.TransferCategory.CloudreveTransfer,
+                        string uploadToCloudrevePath = "")
         {
-            TransferFileItem item = new TransferFileItem(fileID, fileName, filePathFrom, filePathTo, fileSize, percent, tag, transType, transCategory);
+            TransferFileItem item = new TransferFileItem(fileID, fileName, filePathFrom, filePathTo, fileSize, percent, tag, transType, transCategory, uploadToCloudrevePath);
             item.Location = new Point(4, (item.Height + itemSpace) * items.Count);
             item.Width = this.Width - 8;
             item.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right | AnchorStyles.Left;
@@ -71,7 +73,7 @@ namespace ComponentControls.Controls
         {
             if(TransferItemCompleted!=null)
             {
-                TransferItemCompleted(this, fileID);
+                TransferItemCompleted(sender, fileID);
             }
         }
 

@@ -36,6 +36,8 @@ namespace CloudreveMiddleLayer.Entiry
                              "      DownloadStatus, " +
                              "      FilePathFrom, " +
                              "      DownloadFilePath, " +
+                             "      Category, " +
+                             "      UploadToCloudrevePath, " +
                              "      '打开下载目录' OpenFolderDesc, " +
                              "      '删除' DeleteDesc " +
                              " From TBL_DownloadInfo";
@@ -55,6 +57,7 @@ namespace CloudreveMiddleLayer.Entiry
                 da.AddParameter("@FilePathFrom", dr.FilePathFrom);
                 da.AddParameter("@DownloadFilePath", dr.DownloadFilePath);
                 da.AddParameter("@Category", dr.Category);
+                da.AddParameter("@UploadToCloudrevePath", DataHelper.SqlNull(dr.UploadToCloudrevePath));
 
                 string sql = "INSERT INTO TBL_DownloadInfo " +
                             "       (" +
@@ -65,7 +68,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           DownloadStatus, " +
                             "           FilePathFrom, " +
                             "           DownloadFilePath, " +
-                            "           Category " +
+                            "           Category, " +
+                            "           UploadToCloudrevePath " +
                             "       ) " +
                             " VALUES" +
                             "       (" +
@@ -76,7 +80,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           @DownloadStatus, " +
                             "           @FilePathFrom, " +
                             "           @DownloadFilePath, " +
-                            "           @Category " +
+                            "           @Category, " +
+                            "           @UploadToCloudrevePath " +
                             "       );";
                 return da.ExecuteSQL(sql);
             }
@@ -136,6 +141,7 @@ namespace CloudreveMiddleLayer.Entiry
                              "      UploadStatus, " +
                              "      FilePathFrom, " +
                              "      UploadFilePath, " +
+                             "      Category, " +
                              "      '打开下载目录' OpenFolderDesc, " +
                              "      '删除' DeleteDesc " +
                              " From TBL_UploadInfo";
@@ -143,7 +149,13 @@ namespace CloudreveMiddleLayer.Entiry
             }
         }
 
-        public static int AddUploadTask(string fileName, string fileSizeDesc, double uploadPercent, byte[] uploadStatus, string filePathFrom, string uploadFilePath)
+        public static int AddUploadTask(string fileName, 
+                                        string fileSizeDesc, 
+                                        double uploadPercent, 
+                                        byte[] uploadStatus, 
+                                        string filePathFrom, 
+                                        string uploadFilePath,
+                                        int category)
         {
             using (DataHelper da = new DataHelper())
             {
@@ -153,6 +165,7 @@ namespace CloudreveMiddleLayer.Entiry
                 da.AddParameter("@UploadStatus", uploadStatus);
                 da.AddParameter("@FilePathFrom", filePathFrom);
                 da.AddParameter("@UploadFilePath", uploadFilePath);
+                da.AddParameter("@Category", category);
 
                 string sql = "INSERT INTO TBL_UploadInfo " +
                             "       (" +
@@ -161,7 +174,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           UploadPercent, " +
                             "           UploadStatus, " +
                             "           FilePathFrom, " +
-                            "           UploadFilePath" +
+                            "           UploadFilePath, " +
+                            "           Category " +
                             "       ) " +
                             " VALUES" +
                             "       (" +
@@ -170,7 +184,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           @UploadPercent, " +
                             "           @UploadStatus, " +
                             "           @FilePathFrom, " +
-                            "           @UploadFilePath" +
+                            "           @UploadFilePath, " +
+                            "           @Category " +
                             "       );" +
                             " SELECT LAST_INSERT_ROWID() FROM TBL_UploadInfo;";
                 int fileID = da.ExecuteReader(sql);
@@ -232,8 +247,11 @@ namespace CloudreveMiddleLayer.Entiry
             if (!string.IsNullOrEmpty(responseContent))
             {
                 CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root root = JsonConvert.DeserializeObject<CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root>(responseContent);
-                Util.Current_Path_Storage_Policy = root.data.policy.id;
-                return root.data.objects;
+                if(root.data!=null)
+                {
+                    Util.Current_Path_Storage_Policy = root.data.policy.id;
+                    return root.data.objects;
+                }
             }
             return null;
         }
@@ -601,6 +619,33 @@ namespace CloudreveMiddleLayer.Entiry
             string tmpCookie = Util.GLOBLE_COOKIE;
             System.Drawing.Image responseContent = HttpClientHelper.GetImage(url, ref tmpCookie);
             return responseContent;
+        }
+
+        #endregion
+
+        #region Directory Tree
+
+        public static List<GetFileListJson.ObjectsItem> GetDirectoryTree(string startPath)
+        {
+            List<GetFileListJson.ObjectsItem> result = new List<GetFileListJson.ObjectsItem>();
+            List<GetFileListJson.ObjectsItem> list = GetFileList(startPath);
+            if (list == null)
+            {
+                return null;
+            }
+            for (int i = 0; i < list.Count; i++)
+            {
+                if(list[i].type.Trim().ToUpper().Equals("DIR"))
+                {
+                    result.Add(list[i]);
+                    List<GetFileListJson.ObjectsItem> subList = GetDirectoryTree(startPath + "/" + list[i].name);
+                    if(subList != null)
+                    {
+                        result.AddRange(subList);
+                    }
+                }
+            }
+            return result.Count == 0 ? null : result;
         }
 
         #endregion

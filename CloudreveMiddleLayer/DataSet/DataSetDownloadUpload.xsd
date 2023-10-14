@@ -25,6 +25,7 @@
               <xs:element name="OpenFolderDesc" msprop:Generator_ColumnVarNameInTable="columnOpenFolderDesc" msprop:Generator_ColumnPropNameInRow="OpenFolderDesc" msprop:Generator_ColumnPropNameInTable="OpenFolderDescColumn" msprop:Generator_UserColumnName="OpenFolderDesc" type="xs:string" minOccurs="0" />
               <xs:element name="DeleteDesc" msprop:Generator_ColumnVarNameInTable="columnDeleteDesc" msprop:Generator_ColumnPropNameInRow="DeleteDesc" msprop:Generator_ColumnPropNameInTable="DeleteDescColumn" msprop:Generator_UserColumnName="DeleteDesc" type="xs:string" minOccurs="0" />
               <xs:element name="Category" msprop:Generator_ColumnVarNameInTable="columnCategory" msprop:Generator_ColumnPropNameInRow="Category" msprop:Generator_ColumnPropNameInTable="CategoryColumn" msprop:Generator_UserColumnName="Category" type="xs:int" minOccurs="0" />
+              <xs:element name="UploadToCloudrevePath" msprop:Generator_ColumnVarNameInTable="columnUploadToCloudrevePath" msprop:Generator_ColumnPropNameInRow="UploadToCloudrevePath" msprop:Generator_ColumnPropNameInTable="UploadToCloudrevePathColumn" msprop:Generator_UserColumnName="UploadToCloudrevePath" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -40,6 +41,7 @@
               <xs:element name="UploadFilePath" msprop:Generator_ColumnVarNameInTable="columnUploadFilePath" msprop:Generator_ColumnPropNameInRow="UploadFilePath" msprop:Generator_ColumnPropNameInTable="UploadFilePathColumn" msprop:Generator_UserColumnName="UploadFilePath" type="xs:string" minOccurs="0" />
               <xs:element name="OpenFolderDesc" msprop:Generator_ColumnVarNameInTable="columnOpenFolderDesc" msprop:Generator_ColumnPropNameInRow="OpenFolderDesc" msprop:Generator_ColumnPropNameInTable="OpenFolderDescColumn" msprop:Generator_UserColumnName="OpenFolderDesc" type="xs:string" minOccurs="0" />
               <xs:element name="DeleteDesc" msprop:Generator_ColumnVarNameInTable="columnDeleteDesc" msprop:Generator_ColumnPropNameInRow="DeleteDesc" msprop:Generator_ColumnPropNameInTable="DeleteDescColumn" msprop:Generator_UserColumnName="DeleteDesc" type="xs:string" minOccurs="0" />
+              <xs:element name="Category" msprop:Generator_ColumnVarNameInTable="columnCategory" msprop:Generator_ColumnPropNameInRow="Category" msprop:Generator_ColumnPropNameInTable="CategoryColumn" msprop:Generator_UserColumnName="Category" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

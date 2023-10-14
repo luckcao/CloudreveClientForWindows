@@ -305,6 +305,8 @@ namespace CloudreveMiddleLayer.DataSet {
             
             private global::System.Data.DataColumn columnIsImage;
             
+            private global::System.Data.DataColumn columnParentID;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TBL_FileInfoDataTable() {
@@ -444,6 +446,14 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ParentIDColumn {
+                get {
+                    return this.columnParentID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -479,7 +489,7 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TBL_FileInfoRow AddTBL_FileInfoRow(string ID, string FileName, string Path, bool Thumb, long Size, int Type, byte[] TypeImage, string ModifyDate, string CreateDate, bool SourceEnabled, bool Tick, string SizeDesc, bool IsImage) {
+            public TBL_FileInfoRow AddTBL_FileInfoRow(string ID, string FileName, string Path, bool Thumb, long Size, int Type, byte[] TypeImage, string ModifyDate, string CreateDate, bool SourceEnabled, bool Tick, string SizeDesc, bool IsImage, string ParentID) {
                 TBL_FileInfoRow rowTBL_FileInfoRow = ((TBL_FileInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID,
@@ -494,7 +504,8 @@ namespace CloudreveMiddleLayer.DataSet {
                         SourceEnabled,
                         Tick,
                         SizeDesc,
-                        IsImage};
+                        IsImage,
+                        ParentID};
                 rowTBL_FileInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTBL_FileInfoRow);
                 return rowTBL_FileInfoRow;
@@ -530,6 +541,7 @@ namespace CloudreveMiddleLayer.DataSet {
                 this.columnTick = base.Columns["Tick"];
                 this.columnSizeDesc = base.Columns["SizeDesc"];
                 this.columnIsImage = base.Columns["IsImage"];
+                this.columnParentID = base.Columns["ParentID"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -561,6 +573,8 @@ namespace CloudreveMiddleLayer.DataSet {
                 base.Columns.Add(this.columnSizeDesc);
                 this.columnIsImage = new global::System.Data.DataColumn("IsImage", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnIsImage);
+                this.columnParentID = new global::System.Data.DataColumn("ParentID", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnParentID);
                 this.columnIsImage.DefaultValue = ((bool)(false));
             }
             
@@ -912,6 +926,22 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ParentID {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_FileInfo.ParentIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_FileInfo”中列“ParentID”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_FileInfo.ParentIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsIDNull() {
                 return this.IsNull(this.tableTBL_FileInfo.IDColumn);
             }
@@ -1064,6 +1094,18 @@ namespace CloudreveMiddleLayer.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetIsImageNull() {
                 this[this.tableTBL_FileInfo.IsImageColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsParentIDNull() {
+                return this.IsNull(this.tableTBL_FileInfo.ParentIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetParentIDNull() {
+                this[this.tableTBL_FileInfo.ParentIDColumn] = global::System.Convert.DBNull;
             }
         }
         
