@@ -28,6 +28,8 @@ namespace CloudreveMiddleLayer.Entiry
         {
             using(DataHelper da = new DataHelper())
             {
+                da.AddParameter("@UserName", Util.CURRENT_USER_ID);
+
                 string sql = "Select " +
                              "      FileID, " +
                              "      FileName, " +
@@ -40,7 +42,9 @@ namespace CloudreveMiddleLayer.Entiry
                              "      UploadToCloudrevePath, " +
                              "      '打开下载目录' OpenFolderDesc, " +
                              "      '删除' DeleteDesc " +
-                             " From TBL_DownloadInfo";
+                             " From TBL_DownloadInfo " +
+                             " Where" +
+                             "      UserName = @UserName";
                 return da.GetData(sql, dt);
             }
         }
@@ -58,6 +62,7 @@ namespace CloudreveMiddleLayer.Entiry
                 da.AddParameter("@DownloadFilePath", dr.DownloadFilePath);
                 da.AddParameter("@Category", dr.Category);
                 da.AddParameter("@UploadToCloudrevePath", DataHelper.SqlNull(dr.UploadToCloudrevePath));
+                da.AddParameter("@UserName", Util.CURRENT_USER_ID);
 
                 string sql = "INSERT INTO TBL_DownloadInfo " +
                             "       (" +
@@ -69,7 +74,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           FilePathFrom, " +
                             "           DownloadFilePath, " +
                             "           Category, " +
-                            "           UploadToCloudrevePath " +
+                            "           UploadToCloudrevePath, " +
+                            "           UserName " +
                             "       ) " +
                             " VALUES" +
                             "       (" +
@@ -81,7 +87,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           @FilePathFrom, " +
                             "           @DownloadFilePath, " +
                             "           @Category, " +
-                            "           @UploadToCloudrevePath " +
+                            "           @UploadToCloudrevePath, " +
+                            "           @UserName " +
                             "       );";
                 return da.ExecuteSQL(sql);
             }
@@ -133,6 +140,8 @@ namespace CloudreveMiddleLayer.Entiry
         {
             using (DataHelper da = new DataHelper())
             {
+                da.AddParameter("@UserName", Util.CURRENT_USER_ID);
+
                 string sql = "Select " +
                              "      FileID, " +
                              "      FileName, " +
@@ -144,7 +153,9 @@ namespace CloudreveMiddleLayer.Entiry
                              "      Category, " +
                              "      '打开下载目录' OpenFolderDesc, " +
                              "      '删除' DeleteDesc " +
-                             " From TBL_UploadInfo";
+                             " From TBL_UploadInfo " +
+                             " Where " +
+                             "      UserName = @UserName ";
                 return da.GetData(sql, dt);
             }
         }
@@ -166,6 +177,7 @@ namespace CloudreveMiddleLayer.Entiry
                 da.AddParameter("@FilePathFrom", filePathFrom);
                 da.AddParameter("@UploadFilePath", uploadFilePath);
                 da.AddParameter("@Category", category);
+                da.AddParameter("@UserName", Util.CURRENT_USER_ID);
 
                 string sql = "INSERT INTO TBL_UploadInfo " +
                             "       (" +
@@ -175,7 +187,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           UploadStatus, " +
                             "           FilePathFrom, " +
                             "           UploadFilePath, " +
-                            "           Category " +
+                            "           Category, " +
+                            "           UserName " +
                             "       ) " +
                             " VALUES" +
                             "       (" +
@@ -185,7 +198,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           @UploadStatus, " +
                             "           @FilePathFrom, " +
                             "           @UploadFilePath, " +
-                            "           @Category " +
+                            "           @Category, " +
+                            "           @UserName " +
                             "       );" +
                             " SELECT LAST_INSERT_ROWID() FROM TBL_UploadInfo;";
                 int fileID = da.ExecuteReader(sql);
@@ -249,7 +263,7 @@ namespace CloudreveMiddleLayer.Entiry
                 CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root root = JsonConvert.DeserializeObject<CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root>(responseContent);
                 if(root.data!=null)
                 {
-                    Util.Current_Path_Storage_Policy = root.data.policy.id;
+                    //Util.Current_Path_Storage_Policy = root.data.policy.id;
                     return root.data.objects;
                 }
             }

@@ -1303,7 +1303,7 @@ namespace CloudreveForWindows.Forms
             List<NavigateMenuItem> items = new List<NavigateMenuItem>();
 
             items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.myfile, "我的文件"));
-            items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.home, "主目录", 0));
+            items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.home, "主目录", 0, true));
             items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.video, "视频", 0));
             items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.image, "图片", 0));
             items.Add(new NavigateMenuItem(global::CloudreveForWindows.Properties.Resources.music, "音乐", 0));

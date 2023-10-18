@@ -165,8 +165,9 @@ namespace ComponentControls.Controls
             }
             else
             {
+                Selected(m.MenuID);
                 //子菜单项
-                if(MenuItemClick != null)
+                if (MenuItemClick != null)
                 {
                     MenuItemClick(m, new NavigateMenuItemClickedArgs(m.MenuID, m.ParentMenuID));
                 }
@@ -188,6 +189,16 @@ namespace ComponentControls.Controls
             {
                 menuItems[i].MenuItemBackgroundColor = menuItems[i] == m ? MenuItemMouseOnBackgroundColor : MenuItemBackgroundColor;
                 menuItems[i].MenuItemForeColor = menuItems[i] == m ? MenuItemMouseOnForeColor : MenuItemForeColor;
+            }
+        }
+
+        public void Selected(int menuID)
+        {
+            int index = menuItems.FindIndex(t => t.MenuID == menuID);
+
+            for(int i = 0; i< menuItems.Count; i++)
+            {
+                menuItems[i].Selected = i == index;
             }
         }
 

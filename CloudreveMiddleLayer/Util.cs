@@ -15,6 +15,7 @@ namespace CloudreveMiddleLayer
         public static string Current_Path_Storage_Policy = String.Empty;
         public static string BAIDUPAN_TOKEN = String.Empty;
         public static string CACHE_FOLDER = @"Cache\{0}\";
+        public static string CURRENT_USER_ID = String.Empty;
 
         public class CloudreveWebURL
         {

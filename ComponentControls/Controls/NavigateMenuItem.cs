@@ -26,7 +26,7 @@ namespace ComponentControls.Controls
         internal delegate void MenuItemClickEvent(object sender, NavigateMenuItemClickedArgs e);
         internal event MenuItemClickEvent MenuItemClick;
 
-        public NavigateMenuItem(Image menuIcon, string menuText, int parentMenuID)
+        public NavigateMenuItem(Image menuIcon, string menuText, int parentMenuID, bool isSelected = false)
         {
             InitializeComponent();
             this.picMenuIcon.Image = menuIcon;
@@ -35,7 +35,7 @@ namespace ComponentControls.Controls
             this.picStatus.Visible = false;
             this.picMenuIcon.Left += 30;
             this.lblMenuText.Left += 30;
-
+            this.Selected = isSelected;
         }
 
         public NavigateMenuItem(Image menuIcon, string menuText)
@@ -99,6 +99,19 @@ namespace ComponentControls.Controls
         {
             get { return panChild; }
             set { panChild = value; }
+        }
+
+        internal bool Selected
+        {
+            get { return this.picSelected.Visible; }
+            set 
+            { 
+                this.picSelected.Visible = value;
+                if (value && picSelected.Image == null)
+                {
+                    this.picSelected.Image = global::ComponentControls.Properties.Resources.selected;
+                }
+            }
         }
 
         internal void NavigateMenuItem_MouseEnter(object sender, EventArgs e)

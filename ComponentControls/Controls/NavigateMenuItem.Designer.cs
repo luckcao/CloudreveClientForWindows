@@ -30,8 +30,10 @@ namespace ComponentControls.Controls
         private void InitializeComponent()
         {
             this.lblMenuText = new System.Windows.Forms.Label();
+            this.picSelected = new System.Windows.Forms.PictureBox();
             this.picStatus = new System.Windows.Forms.PictureBox();
             this.picMenuIcon = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picSelected)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMenuIcon)).BeginInit();
             this.SuspendLayout();
@@ -50,6 +52,17 @@ namespace ComponentControls.Controls
             this.lblMenuText.Click += new System.EventHandler(this.NavigateMenuItem_Click);
             this.lblMenuText.MouseEnter += new System.EventHandler(this.NavigateMenuItem_MouseEnter);
             // 
+            // picSelected
+            // 
+            this.picSelected.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.picSelected.BackColor = System.Drawing.Color.Transparent;
+            this.picSelected.Location = new System.Drawing.Point(4, 15);
+            this.picSelected.Name = "picSelected";
+            this.picSelected.Size = new System.Drawing.Size(10, 10);
+            this.picSelected.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picSelected.TabIndex = 3;
+            this.picSelected.TabStop = false;
+            // 
             // picStatus
             // 
             this.picStatus.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -67,7 +80,7 @@ namespace ComponentControls.Controls
             // 
             this.picMenuIcon.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.picMenuIcon.BackColor = System.Drawing.Color.Transparent;
-            this.picMenuIcon.Location = new System.Drawing.Point(21, 10);
+            this.picMenuIcon.Location = new System.Drawing.Point(24, 10);
             this.picMenuIcon.Name = "picMenuIcon";
             this.picMenuIcon.Size = new System.Drawing.Size(20, 20);
             this.picMenuIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -80,6 +93,7 @@ namespace ComponentControls.Controls
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.picSelected);
             this.Controls.Add(this.picStatus);
             this.Controls.Add(this.lblMenuText);
             this.Controls.Add(this.picMenuIcon);
@@ -89,6 +103,7 @@ namespace ComponentControls.Controls
             this.Click += new System.EventHandler(this.NavigateMenuItem_Click);
             this.MouseEnter += new System.EventHandler(this.NavigateMenuItem_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.NavigateMenuItem_MouseLeave);
+            ((System.ComponentModel.ISupportInitialize)(this.picSelected)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMenuIcon)).EndInit();
             this.ResumeLayout(false);
@@ -101,5 +116,6 @@ namespace ComponentControls.Controls
         private System.Windows.Forms.PictureBox picMenuIcon;
         private System.Windows.Forms.Label lblMenuText;
         private System.Windows.Forms.PictureBox picStatus;
+        private System.Windows.Forms.PictureBox picSelected;
     }
 }

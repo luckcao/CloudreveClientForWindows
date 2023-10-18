@@ -48,6 +48,7 @@ namespace CloudreveForWindows.Forms
 
                             if (StartLogin())
                             {
+                                Util.CURRENT_USER_ID = txtUserName.Text.Trim();
                                 //跳转到主页面
                                 Util.GLOBLE_URL = cboDB.Text.Trim();
                                 this.Hide();
@@ -232,6 +233,7 @@ namespace CloudreveForWindows.Forms
                 //读取配置，如果没有读取到，则使用配置默认值为当前ServerUrl当前用户添加所有配置
 
                 //登录成功，打开主页面
+                Util.CURRENT_USER_ID = txtUserName.Text.Trim();
                 Util.GLOBLE_URL = cboDB.Text.Trim();
                 this.Hide();
                 new Main().ShowDialog();

@@ -336,6 +336,8 @@ namespace CloudreveMiddleLayer.DataSet {
             
             private global::System.Data.DataColumn columnUploadToCloudrevePath;
             
+            private global::System.Data.DataColumn columnUserName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TBL_DownloadInfoDataTable() {
@@ -459,6 +461,14 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn UserNameColumn {
+                get {
+                    return this.columnUserName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -494,7 +504,7 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TBL_DownloadInfoRow AddTBL_DownloadInfoRow(string FileID, string FileName, string FileSizeDesc, double DownloadPercent, byte[] DownloadStatus, string FilePathFrom, string DownloadFilePath, string OpenFolderDesc, string DeleteDesc, int Category, string UploadToCloudrevePath) {
+            public TBL_DownloadInfoRow AddTBL_DownloadInfoRow(string FileID, string FileName, string FileSizeDesc, double DownloadPercent, byte[] DownloadStatus, string FilePathFrom, string DownloadFilePath, string OpenFolderDesc, string DeleteDesc, int Category, string UploadToCloudrevePath, string UserName) {
                 TBL_DownloadInfoRow rowTBL_DownloadInfoRow = ((TBL_DownloadInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         FileID,
@@ -507,7 +517,8 @@ namespace CloudreveMiddleLayer.DataSet {
                         OpenFolderDesc,
                         DeleteDesc,
                         Category,
-                        UploadToCloudrevePath};
+                        UploadToCloudrevePath,
+                        UserName};
                 rowTBL_DownloadInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTBL_DownloadInfoRow);
                 return rowTBL_DownloadInfoRow;
@@ -541,6 +552,7 @@ namespace CloudreveMiddleLayer.DataSet {
                 this.columnDeleteDesc = base.Columns["DeleteDesc"];
                 this.columnCategory = base.Columns["Category"];
                 this.columnUploadToCloudrevePath = base.Columns["UploadToCloudrevePath"];
+                this.columnUserName = base.Columns["UserName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -568,6 +580,8 @@ namespace CloudreveMiddleLayer.DataSet {
                 base.Columns.Add(this.columnCategory);
                 this.columnUploadToCloudrevePath = new global::System.Data.DataColumn("UploadToCloudrevePath", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUploadToCloudrevePath);
+                this.columnUserName = new global::System.Data.DataColumn("UserName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUserName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -721,6 +735,8 @@ namespace CloudreveMiddleLayer.DataSet {
             
             private global::System.Data.DataColumn columnCategory;
             
+            private global::System.Data.DataColumn columnUserName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TBL_UploadInfoDataTable() {
@@ -836,6 +852,14 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn UserNameColumn {
+                get {
+                    return this.columnUserName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -871,7 +895,7 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TBL_UploadInfoRow AddTBL_UploadInfoRow(string FileID, string FileName, string FileSizeDesc, double UploadPercent, byte[] UploadStatus, string FilePathFrom, string UploadFilePath, string OpenFolderDesc, string DeleteDesc, int Category) {
+            public TBL_UploadInfoRow AddTBL_UploadInfoRow(string FileID, string FileName, string FileSizeDesc, double UploadPercent, byte[] UploadStatus, string FilePathFrom, string UploadFilePath, string OpenFolderDesc, string DeleteDesc, int Category, string UserName) {
                 TBL_UploadInfoRow rowTBL_UploadInfoRow = ((TBL_UploadInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         FileID,
@@ -883,7 +907,8 @@ namespace CloudreveMiddleLayer.DataSet {
                         UploadFilePath,
                         OpenFolderDesc,
                         DeleteDesc,
-                        Category};
+                        Category,
+                        UserName};
                 rowTBL_UploadInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTBL_UploadInfoRow);
                 return rowTBL_UploadInfoRow;
@@ -916,6 +941,7 @@ namespace CloudreveMiddleLayer.DataSet {
                 this.columnOpenFolderDesc = base.Columns["OpenFolderDesc"];
                 this.columnDeleteDesc = base.Columns["DeleteDesc"];
                 this.columnCategory = base.Columns["Category"];
+                this.columnUserName = base.Columns["UserName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -941,6 +967,8 @@ namespace CloudreveMiddleLayer.DataSet {
                 base.Columns.Add(this.columnDeleteDesc);
                 this.columnCategory = new global::System.Data.DataColumn("Category", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCategory);
+                this.columnUserName = new global::System.Data.DataColumn("UserName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUserName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1259,6 +1287,22 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string UserName {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_DownloadInfo.UserNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_DownloadInfo”中列“UserName”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_DownloadInfo.UserNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsFileIDNull() {
                 return this.IsNull(this.tableTBL_DownloadInfo.FileIDColumn);
             }
@@ -1387,6 +1431,18 @@ namespace CloudreveMiddleLayer.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetUploadToCloudrevePathNull() {
                 this[this.tableTBL_DownloadInfo.UploadToCloudrevePathColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsUserNameNull() {
+                return this.IsNull(this.tableTBL_DownloadInfo.UserNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetUserNameNull() {
+                this[this.tableTBL_DownloadInfo.UserNameColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1566,6 +1622,22 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string UserName {
+                get {
+                    try {
+                        return ((string)(this[this.tableTBL_UploadInfo.UserNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_UploadInfo”中列“UserName”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_UploadInfo.UserNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsFileIDNull() {
                 return this.IsNull(this.tableTBL_UploadInfo.FileIDColumn);
             }
@@ -1682,6 +1754,18 @@ namespace CloudreveMiddleLayer.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetCategoryNull() {
                 this[this.tableTBL_UploadInfo.CategoryColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsUserNameNull() {
+                return this.IsNull(this.tableTBL_UploadInfo.UserNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetUserNameNull() {
+                this[this.tableTBL_UploadInfo.UserNameColumn] = global::System.Convert.DBNull;
             }
         }
         
