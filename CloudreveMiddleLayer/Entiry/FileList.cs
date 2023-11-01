@@ -40,6 +40,7 @@ namespace CloudreveMiddleLayer.Entiry
                              "      DownloadFilePath, " +
                              "      Category, " +
                              "      UploadToCloudrevePath, " +
+                             "      IsDownloadCloudreveDirectory, " +
                              "      '打开下载目录' OpenFolderDesc, " +
                              "      '删除' DeleteDesc " +
                              " From TBL_DownloadInfo " +
@@ -63,6 +64,7 @@ namespace CloudreveMiddleLayer.Entiry
                 da.AddParameter("@Category", dr.Category);
                 da.AddParameter("@UploadToCloudrevePath", DataHelper.SqlNull(dr.UploadToCloudrevePath));
                 da.AddParameter("@UserName", Util.CURRENT_USER_ID);
+                da.AddParameter("@IsDownloadCloudreveDirectory", dr.IsDownloadCloudreveDirectory);
 
                 string sql = "INSERT INTO TBL_DownloadInfo " +
                             "       (" +
@@ -75,7 +77,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           DownloadFilePath, " +
                             "           Category, " +
                             "           UploadToCloudrevePath, " +
-                            "           UserName " +
+                            "           UserName, " +
+                            "           IsDownloadCloudreveDirectory " +
                             "       ) " +
                             " VALUES" +
                             "       (" +
@@ -88,7 +91,8 @@ namespace CloudreveMiddleLayer.Entiry
                             "           @DownloadFilePath, " +
                             "           @Category, " +
                             "           @UploadToCloudrevePath, " +
-                            "           @UserName " +
+                            "           @UserName, " +
+                            "           @IsDownloadCloudreveDirectory " +
                             "       );";
                 return da.ExecuteSQL(sql);
             }
@@ -263,7 +267,7 @@ namespace CloudreveMiddleLayer.Entiry
                 CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root root = JsonConvert.DeserializeObject<CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root>(responseContent);
                 if(root.data!=null)
                 {
-                    //Util.Current_Path_Storage_Policy = root.data.policy.id;
+                    Util.Current_Path_Storage_Policy = root.data.policy.id;
                     return root.data.objects;
                 }
             }

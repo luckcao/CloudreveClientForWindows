@@ -30,7 +30,10 @@ namespace CloudreveMiddleLayer.Controls
         {
             Action t = () =>
             {
-                this.Value = value;
+                if(value>=0)
+                {
+                    this.Value = value;
+                }
             };
 
             //跨线程操作

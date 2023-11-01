@@ -177,13 +177,26 @@ namespace CloudreveMiddleLayer.Entiry
 
         public bool DownloadFile(DataSetDownloadUpload.TBL_DownloadInfoRow dr, TransferFileProgressBar pb, out int returnCode, out string returnMessage)
         {
-            string url = Util.GLOBLE_URL;
+            string url = Util.GLOBLE_URL, responseContent = String.Empty;
             if (!url.EndsWith("/"))
             {
                 url += "/";
             }
-            url += Util.CloudreveWebURL.GET_DOWNLOAD_FILE_URL + "/" + dr.FileID.ToString();
-            string responseContent = HttpClientHelper.Put(url, ref Util.GLOBLE_COOKIE);
+            if(dr.IsDownloadCloudreveDirectory)
+            {
+                url += Util.CloudreveWebURL.GET_DOWNLOAD_DIRECTORY_URL;
+                
+                JObject requestJsonObj = new JObject();
+                requestJsonObj.Add("items", new JArray() {  });
+                requestJsonObj.Add("dirs", new JArray() { dr.FileID });
+                string tmp = Util.GLOBLE_COOKIE;
+                responseContent = HttpClientHelper.Post(url, requestJsonObj.ToString(), ref tmp);
+            }
+            else
+            {
+                url += Util.CloudreveWebURL.GET_DOWNLOAD_FILE_URL + "/" + dr.FileID.ToString();
+                responseContent = HttpClientHelper.Put(url, ref Util.GLOBLE_COOKIE);
+            }
             returnMessage = String.Empty;
             returnCode = -1;
             if (!string.IsNullOrEmpty(responseContent))

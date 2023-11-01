@@ -338,6 +338,8 @@ namespace CloudreveMiddleLayer.DataSet {
             
             private global::System.Data.DataColumn columnUserName;
             
+            private global::System.Data.DataColumn columnIsDownloadCloudreveDirectory;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TBL_DownloadInfoDataTable() {
@@ -469,6 +471,14 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn IsDownloadCloudreveDirectoryColumn {
+                get {
+                    return this.columnIsDownloadCloudreveDirectory;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -504,7 +514,7 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TBL_DownloadInfoRow AddTBL_DownloadInfoRow(string FileID, string FileName, string FileSizeDesc, double DownloadPercent, byte[] DownloadStatus, string FilePathFrom, string DownloadFilePath, string OpenFolderDesc, string DeleteDesc, int Category, string UploadToCloudrevePath, string UserName) {
+            public TBL_DownloadInfoRow AddTBL_DownloadInfoRow(string FileID, string FileName, string FileSizeDesc, double DownloadPercent, byte[] DownloadStatus, string FilePathFrom, string DownloadFilePath, string OpenFolderDesc, string DeleteDesc, int Category, string UploadToCloudrevePath, string UserName, bool IsDownloadCloudreveDirectory) {
                 TBL_DownloadInfoRow rowTBL_DownloadInfoRow = ((TBL_DownloadInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         FileID,
@@ -518,7 +528,8 @@ namespace CloudreveMiddleLayer.DataSet {
                         DeleteDesc,
                         Category,
                         UploadToCloudrevePath,
-                        UserName};
+                        UserName,
+                        IsDownloadCloudreveDirectory};
                 rowTBL_DownloadInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTBL_DownloadInfoRow);
                 return rowTBL_DownloadInfoRow;
@@ -553,6 +564,7 @@ namespace CloudreveMiddleLayer.DataSet {
                 this.columnCategory = base.Columns["Category"];
                 this.columnUploadToCloudrevePath = base.Columns["UploadToCloudrevePath"];
                 this.columnUserName = base.Columns["UserName"];
+                this.columnIsDownloadCloudreveDirectory = base.Columns["IsDownloadCloudreveDirectory"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -582,6 +594,8 @@ namespace CloudreveMiddleLayer.DataSet {
                 base.Columns.Add(this.columnUploadToCloudrevePath);
                 this.columnUserName = new global::System.Data.DataColumn("UserName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUserName);
+                this.columnIsDownloadCloudreveDirectory = new global::System.Data.DataColumn("IsDownloadCloudreveDirectory", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIsDownloadCloudreveDirectory);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1303,6 +1317,22 @@ namespace CloudreveMiddleLayer.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDownloadCloudreveDirectory {
+                get {
+                    try {
+                        return ((bool)(this[this.tableTBL_DownloadInfo.IsDownloadCloudreveDirectoryColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TBL_DownloadInfo”中列“IsDownloadCloudreveDirectory”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTBL_DownloadInfo.IsDownloadCloudreveDirectoryColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsFileIDNull() {
                 return this.IsNull(this.tableTBL_DownloadInfo.FileIDColumn);
             }
@@ -1443,6 +1473,18 @@ namespace CloudreveMiddleLayer.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetUserNameNull() {
                 this[this.tableTBL_DownloadInfo.UserNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsIsDownloadCloudreveDirectoryNull() {
+                return this.IsNull(this.tableTBL_DownloadInfo.IsDownloadCloudreveDirectoryColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetIsDownloadCloudreveDirectoryNull() {
+                this[this.tableTBL_DownloadInfo.IsDownloadCloudreveDirectoryColumn] = global::System.Convert.DBNull;
             }
         }
         

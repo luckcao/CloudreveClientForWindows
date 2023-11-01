@@ -160,7 +160,7 @@ namespace CloudreveForWindows.Forms
         {
             tfDownload.Add(dr.FileID, dr.FileName, dr.FilePathFrom, dr.DownloadFilePath, dr.FileSizeDesc,
                            dr.DownloadStatus.SequenceEqual(ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.finished_task)) ? 100 : 0,
-                           dr, TransferFileItem.TransferType.下载, autoStart, category, dr.UploadToCloudrevePath);
+                           dr, TransferFileItem.TransferType.下载, autoStart, category, dr.IsUploadToCloudrevePathNull()?"": dr.UploadToCloudrevePath);
 
             if (needAddToDB && !FileList.AddDownloadTask(dr))
             {
@@ -176,7 +176,8 @@ namespace CloudreveForWindows.Forms
                                                                                  bool autoStart = false,
                                                                                  string filePathFrom = "",
                                                                                  TransferFileItem.TransferCategory category = TransferFileItem.TransferCategory.CloudreveTransfer,
-                                                                                 string uploadToCloudrevePath = "")
+                                                                                 string uploadToCloudrevePath = "",
+                                                                                 bool isDownloadCloudreveDirectory = false)
         {
             DataSetDownloadUpload.TBL_DownloadInfoRow newRow = dtDownload.NewTBL_DownloadInfoRow();
             newRow.FileID = fileID;
@@ -190,6 +191,7 @@ namespace CloudreveForWindows.Forms
             newRow.DeleteDesc = "删除";
             newRow.Category = (int)category;
             newRow.UploadToCloudrevePath = uploadToCloudrevePath;
+            newRow.IsDownloadCloudreveDirectory = isDownloadCloudreveDirectory;
 
             dtDownload.AddTBL_DownloadInfoRow(newRow);
             dtDownload.AcceptChanges();
@@ -212,6 +214,11 @@ namespace CloudreveForWindows.Forms
             else
             {
                 saveFileDialog1.FileName = dv[dgvFileList.CurrentRow.Index]["FileName"].ToString().Trim();
+                if (Convert.ToInt32(dv[dgvFileList.CurrentRow.Index]["Type"]) == (int)Util.CloudreveFileListType.Dir)
+                {
+                    saveFileDialog1.FileName += ".zip";
+                }
+                //saveFileDialog1.FileName =  dv[dgvFileList.CurrentRow.Index]["FileName"].ToString().Trim();
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     AddDownloadTaskToDataTableAndTransferFileControlAndDataBase(dv[dgvFileList.CurrentRow.Index]["ID"].ToString().Trim(),
@@ -219,7 +226,11 @@ namespace CloudreveForWindows.Forms
                                                                                 dv[dgvFileList.CurrentRow.Index]["SizeDesc"].ToString().Trim(),
                                                                                 saveFileDialog1.FileName,
                                                                                 true,
-                                                                                true);
+                                                                                true,
+                                                                                String.Empty,
+                                                                                TransferFileItem.TransferCategory.CloudreveTransfer,
+                                                                                String.Empty,
+                                                                                Convert.ToInt32(dv[dgvFileList.CurrentRow.Index]["Type"]) == (int)Util.CloudreveFileListType.Dir);
                     ExMessageBox.Show("已添加到下载列表，请在下载列表中查看！", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -238,6 +249,8 @@ namespace CloudreveForWindows.Forms
             {
                 if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                 {
+                    this.Cursor = Cursors.WaitCursor;
+
                     string selectedPath = folderBrowserDialog1.SelectedPath;
                     if (!selectedPath.EndsWith(@"\"))
                     {
@@ -251,11 +264,11 @@ namespace CloudreveForWindows.Forms
                     for (int i = 0; i < rows.Count(); i++)
                     {
                         DataView dv = (DataView)dgvFileList.DataSource;
-                        if (rows[i].Type == (int)Util.CloudreveFileListType.Dir)
-                        {
-                            ExMessageBox.Show("暂不支持下载文件夹。\r\n该文件夹内的文件将不被下载。", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            continue;
-                        }
+                        //if (rows[i].Type == (int)Util.CloudreveFileListType.Dir)
+                        //{
+                        //    ExMessageBox.Show("暂不支持下载文件夹。\r\n该文件夹内的文件将不被下载。", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        //    continue;
+                        //}
                         if (dtDownload.Select("FileID = '" + rows[i].ID + "'").Length > 0)
                         {
                             ExMessageBox.Show("文件“" + rows[i].FileName + "”已经存在于下载任务列表。\r\n将取消将此文件加入下载列表。", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -264,9 +277,13 @@ namespace CloudreveForWindows.Forms
                         AddDownloadTaskToDataTableAndTransferFileControlAndDataBase(rows[i].ID,
                                                                                     rows[i].FileName,
                                                                                     rows[i].SizeDesc,
-                                                                                    selectedPath + rows[i].FileName,
+                                                                                    (rows[i].Type == (int)Util.CloudreveFileListType.Dir ? selectedPath + rows[i].FileName + ".zip" : selectedPath + rows[i].FileName),
                                                                                     true,
-                                                                                    true);
+                                                                                    true,
+                                                                                    String.Empty,
+                                                                                    TransferFileItem.TransferCategory.CloudreveTransfer,
+                                                                                    String.Empty,
+                                                                                    rows[i].Type == (int)Util.CloudreveFileListType.Dir);
 
                         hasNewDownload = true;
                     }
@@ -278,6 +295,8 @@ namespace CloudreveForWindows.Forms
 
                         ExMessageBox.Show("已添加到下载列表，请在下载列表中查看！", "提醒", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+
+                    this.Cursor = Cursors.Default;
                 }
             }
         }
@@ -711,124 +730,127 @@ namespace CloudreveForWindows.Forms
 
             int dirCount = 0, fileCount = 0;
 
-            for (int i = 0; i < currentFileList.Count; i++)
+            if(currentFileList != null)
             {
-                DataSetFileInfo.TBL_FileInfoRow dr = dtFileList.NewTBL_FileInfoRow();
-                dr.ID = currentFileList[i].id;
-                dr.Tick = false;
-                dr.FileName = currentFileList[i].name.Trim();
-                string ext = String.Empty;
-                if (dr.FileName.Contains("."))
+                for (int i = 0; i < currentFileList.Count; i++)
                 {
-                    ext = dr.FileName.Substring(dr.FileName.LastIndexOf('.') + 1).ToUpper();
-                }
-                dr.Path = currentFileList[i].path.Trim();
-                dr.Thumb = currentFileList[i].thumb;
-                dr.Size = currentFileList[i].size;
-                if (dr.Size <= 0)
-                {
-                    dr.SizeDesc = "";
-                }
-                else
-                {
-                    dr.SizeDesc = CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(dr.Size);
-                }
-                switch (currentFileList[i].type.Trim().ToUpper())
-                {
-                    case "DIR":
-                        dirCount++;
-                        dr.Type = (int)Util.CloudreveFileListType.Dir;
-                        dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.dir);
-                        break;
-                    case "FILE":
-                        fileCount++;
-                        dr.Type = (int)Util.CloudreveFileListType.File;
+                    DataSetFileInfo.TBL_FileInfoRow dr = dtFileList.NewTBL_FileInfoRow();
+                    dr.ID = currentFileList[i].id;
+                    dr.Tick = false;
+                    dr.FileName = currentFileList[i].name.Trim();
+                    string ext = String.Empty;
+                    if (dr.FileName.Contains("."))
+                    {
+                        ext = dr.FileName.Substring(dr.FileName.LastIndexOf('.') + 1).ToUpper();
+                    }
+                    dr.Path = currentFileList[i].path.Trim();
+                    dr.Thumb = currentFileList[i].thumb;
+                    dr.Size = currentFileList[i].size;
+                    if (dr.Size <= 0)
+                    {
+                        dr.SizeDesc = "";
+                    }
+                    else
+                    {
+                        dr.SizeDesc = CloudreveMiddleLayer.Helper.IO.FileInfo.GetSizeInShortFormat(dr.Size);
+                    }
+                    switch (currentFileList[i].type.Trim().ToUpper())
+                    {
+                        case "DIR":
+                            dirCount++;
+                            dr.Type = (int)Util.CloudreveFileListType.Dir;
+                            dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.dir);
+                            break;
+                        case "FILE":
+                            fileCount++;
+                            dr.Type = (int)Util.CloudreveFileListType.File;
 
-                        #region 设置文件图标
+                            #region 设置文件图标
 
-                        switch (ext)
-                        {
-                            case "PDF":
-                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.pdf_file);
-                                break;
-                            case "MP3":
-                            case "WAV":
-                            case "MIDI":
-                            case "CDA":
-                            case "WMA":
-                            case "AAC":
-                            case "OGG":
-                            case "VQF":
-                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.audio_file);
-                                break;
-                            case "AVI":
-                            case "WMV":
-                            case "MPG":
-                            case "MPEG":
-                            case "MOV":
-                            case "RM":
-                            case "RAM":
-                            case "RMVB":
-                            case "FLV":
-                            case "MP4":
-                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.video_file);
-                                break;
-                            case "BMP":
-                            case "JPEG":
-                            case "TIF":
-                            case "PNG":
-                            case "GIF":
-                            case "PSD":
-                            case "RAW":
-                            case "EPS":
-                            case "SVG":
-                            case "CDR":
-                            case "AI":
-                            case "JPG":
-                            case "TIFF":
-                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.img_file);
-                                dr.IsImage = true;
-                                break;
-                            case "TXT":
-                            case "INI":
-                            case "XML":
-                            case "MD":
-                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.txt_file);
-                                break;
-                            case "DOC":
-                            case "DOCX":
-                            case "XPS":
-                            case "RTF":
-                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.word_file);
-                                break;
-                            case "XLS":
-                            case "XLSX":
-                            case "CVS":
-                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.excel_file);
-                                break;
-                            case "ZIP":
-                            case "7Z":
-                            case "BZIP2":
-                            case "GZIP":
-                            case "TAR":
-                            case "RAR":
-                            case "XZ":
-                            case "ISO":
-                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.zip_file);
-                                break;
-                            default:
-                                dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.unknow_file);
-                                break;
-                        }
+                            switch (ext)
+                            {
+                                case "PDF":
+                                    dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.pdf_file);
+                                    break;
+                                case "MP3":
+                                case "WAV":
+                                case "MIDI":
+                                case "CDA":
+                                case "WMA":
+                                case "AAC":
+                                case "OGG":
+                                case "VQF":
+                                    dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.audio_file);
+                                    break;
+                                case "AVI":
+                                case "WMV":
+                                case "MPG":
+                                case "MPEG":
+                                case "MOV":
+                                case "RM":
+                                case "RAM":
+                                case "RMVB":
+                                case "FLV":
+                                case "MP4":
+                                    dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.video_file);
+                                    break;
+                                case "BMP":
+                                case "JPEG":
+                                case "TIF":
+                                case "PNG":
+                                case "GIF":
+                                case "PSD":
+                                case "RAW":
+                                case "EPS":
+                                case "SVG":
+                                case "CDR":
+                                case "AI":
+                                case "JPG":
+                                case "TIFF":
+                                    dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.img_file);
+                                    dr.IsImage = true;
+                                    break;
+                                case "TXT":
+                                case "INI":
+                                case "XML":
+                                case "MD":
+                                    dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.txt_file);
+                                    break;
+                                case "DOC":
+                                case "DOCX":
+                                case "XPS":
+                                case "RTF":
+                                    dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.word_file);
+                                    break;
+                                case "XLS":
+                                case "XLSX":
+                                case "CVS":
+                                    dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.excel_file);
+                                    break;
+                                case "ZIP":
+                                case "7Z":
+                                case "BZIP2":
+                                case "GZIP":
+                                case "TAR":
+                                case "RAR":
+                                case "XZ":
+                                case "ISO":
+                                    dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.zip_file);
+                                    break;
+                                default:
+                                    dr.TypeImage = ImageHelper.ImageToBytes(global::CloudreveForWindows.Properties.Resources.unknow_file);
+                                    break;
+                            }
 
-                        #endregion
+                            #endregion
 
-                        break;
+                            break;
+                    }
+                    dr.ModifyDate = Convert.ToDateTime(currentFileList[i].date.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                    dr.CreateDate = Convert.ToDateTime(currentFileList[i].create_date.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
+                    dr.SourceEnabled = Convert.ToBoolean(currentFileList[i].source_enabled);
+                    dtFileList.AddTBL_FileInfoRow(dr);
                 }
-                dr.ModifyDate = Convert.ToDateTime(currentFileList[i].date.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                dr.CreateDate = Convert.ToDateTime(currentFileList[i].create_date.Trim()).ToString("yyyy-MM-dd HH:mm:ss");
-                dr.SourceEnabled = Convert.ToBoolean(currentFileList[i].source_enabled);
-                dtFileList.AddTBL_FileInfoRow(dr);
             }
 
             DataView dv = dtFileList.DefaultView;
@@ -966,7 +988,7 @@ namespace CloudreveForWindows.Forms
                 DataView dv = (DataView)dgvFileList.DataSource;
 
                 打开OToolStripMenuItem.Enabled = Convert.ToInt32(dv[e.RowIndex]["Type"]) == (int)Util.CloudreveFileListType.Dir;
-                下载WToolStripMenuItem.Enabled = Convert.ToInt32(dv[e.RowIndex]["Type"]) == (int)Util.CloudreveFileListType.File;
+                //下载WToolStripMenuItem.Enabled = Convert.ToInt32(dv[e.RowIndex]["Type"]) == (int)Util.CloudreveFileListType.File;
                 menuClickedFile.Show(MousePosition.X, MousePosition.Y);
             }
             else if(e.Button == MouseButtons.Left)
@@ -1374,7 +1396,7 @@ namespace CloudreveForWindows.Forms
                     {
                         panBaiduFileList.Visible = false;
                         panBaiduLogin.Visible = true;
-                        wbBaiduLogin.Url = new Uri(FileListBaidu.LoginURL);
+                        wbBaiduLogin.Source = new Uri(FileListBaidu.LoginURL);
                     }
                     else
                     {
@@ -1476,12 +1498,34 @@ namespace CloudreveForWindows.Forms
 
         #region 百度网盘相关
 
+        private void wbBaiduLogin_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+        {
+            switch (ws)
+            {
+                case WebBrowserStatus.Login:
+                    string token = HttpClientHelper.GetUrlParameterValue(wbBaiduLogin.Source.AbsoluteUri, "access_token");
+                    if (!String.IsNullOrEmpty(token))
+                    {
+                        FileListBaidu.Token = token;
+                        panBaiduLogin.Visible = false;
+                        panBaiduFileList.Visible = true;
+                        RefreshBaiduFileList();
+                    }
+                    break;
+                case WebBrowserStatus.Logout:
+                    FileListBaidu.Token = null;
+                    panBaiduLogin.Visible = true;
+                    panBaiduFileList.Visible = false;
+                    break;
+            }
+        }
+
         private void wbBaiduLogin_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             switch(ws)
             {
                 case WebBrowserStatus.Login:
-                    string token = HttpClientHelper.GetUrlParameterValue(wbBaiduLogin.Url.AbsoluteUri, "access_token");
+                    string token = HttpClientHelper.GetUrlParameterValue(wbBaiduLogin.Source.AbsoluteUri, "access_token");
                     if (!String.IsNullOrEmpty(token))
                     {
                         FileListBaidu.Token = token;
@@ -1721,7 +1765,7 @@ namespace CloudreveForWindows.Forms
         {
             panBaiduLogin.Visible = true;
             panBaiduFileList.Visible = false;
-            wbBaiduLogin.Url = new Uri( "https://pan.baidu.com");
+            wbBaiduLogin.Source = new Uri( "https://pan.baidu.com");
             ws = WebBrowserStatus.Logout;
         }
 

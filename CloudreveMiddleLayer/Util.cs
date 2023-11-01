@@ -130,9 +130,9 @@ namespace CloudreveMiddleLayer
             public const string GET_IMAGE_THUMB_URL = "api/v3/file/thumb/{0}";
 
             /// <summary>
-            ///  获取目录下载时的压缩包签名
+            ///  获取打包下载时的压缩包下载URL
             /// </summary>
-            public const string GET_ARCHIVE_DOWNLOAD_SIGN_URL = "api/v3/file/archive";
+            public const string GET_DOWNLOAD_DIRECTORY_URL = "api/v3/file/archive";
         }
 
         public static string DataBaseFullPath
