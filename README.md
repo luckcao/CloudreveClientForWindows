@@ -1,6 +1,6 @@
 # Cloudreve Client For Windows
 
-该项目是一个用C# Win Form（.Net Framework 4.8）编写的基于Cloudreve 3.8.X云盘服务的客户端程序。<br>
+该项目是一个用VS2022(C# Win Form .Net Framework 4.8）编写的基于Cloudreve 3.8.X云盘服务的客户端程序。<br>
 原本是想给Cloudreve云盘加功能的，但是发现它是用go语言编写的，很遗憾，我不会这个语言。之后又看见GitHub上ErrorCodesForLzx这位朋友所写的安卓客户端CloudreveZX，可惜他没有写完。所以，决定自己写一个客户端吧。但因本人时间有限，只实现了Web客户端主页面的具体功能，配置/设置页面的功能后期会陆续补上。<br>
 不论如何，还是要感谢ErrorCodesForLzx这位朋友！！！
 
