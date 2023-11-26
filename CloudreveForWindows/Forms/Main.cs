@@ -581,6 +581,7 @@ namespace CloudreveForWindows.Forms
             else
             {
                 ExMessageBox.Show("获取分享文件列表出错，错误信息如下：\r\n" + returnMsg, "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblMyShareFileCount.Text = string.Format(lblMyShareFileCount.Text, "0", "0", "0");
             }
         }
 
@@ -980,25 +981,28 @@ namespace CloudreveForWindows.Forms
 
         private void dgvFileList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
+            if(e.RowIndex >= 0)
             {
-                dgvFileList.Rows[e.RowIndex].Selected = true;
-                dgvFileList.CurrentCell = dgvFileList.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (e.Button == MouseButtons.Right)
+                {
+                    dgvFileList.Rows[e.RowIndex].Selected = true;
+                    dgvFileList.CurrentCell = dgvFileList.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-                DataView dv = (DataView)dgvFileList.DataSource;
+                    DataView dv = (DataView)dgvFileList.DataSource;
 
-                打开OToolStripMenuItem.Enabled = Convert.ToInt32(dv[e.RowIndex]["Type"]) == (int)Util.CloudreveFileListType.Dir;
-                //下载WToolStripMenuItem.Enabled = Convert.ToInt32(dv[e.RowIndex]["Type"]) == (int)Util.CloudreveFileListType.File;
-                menuClickedFile.Show(MousePosition.X, MousePosition.Y);
-            }
-            else if(e.Button == MouseButtons.Left)
-            {
-                dgvFileList.Rows[e.RowIndex].Selected = true;
-            }
-            if (panRightMenu.Visible)
-            {
-                DisplayFileDirectoryProperty();
-            }
+                    打开OToolStripMenuItem.Enabled = Convert.ToInt32(dv[e.RowIndex]["Type"]) == (int)Util.CloudreveFileListType.Dir;
+                    //下载WToolStripMenuItem.Enabled = Convert.ToInt32(dv[e.RowIndex]["Type"]) == (int)Util.CloudreveFileListType.File;
+                    menuClickedFile.Show(MousePosition.X, MousePosition.Y);
+                }
+                else if (e.Button == MouseButtons.Left)
+                {
+                    dgvFileList.Rows[e.RowIndex].Selected = true;
+                }
+                if (panRightMenu.Visible)
+                {
+                    DisplayFileDirectoryProperty();
+                }
+            }            
         }
 
         #region Tick列操作代码
@@ -1697,7 +1701,7 @@ namespace CloudreveForWindows.Forms
                 dgvBaiduFileList.CurrentCell = null;
             }
 
-            lblBaiduFileListFileCount.Text = String.Format(lblBaiduFileListFileCount.Text, currentFileList.Count, dirCount, fileCount);
+            lblBaiduFileListFileCount.Text = String.Format(lblBaiduFileListFileCount.Text, currentFileList == null ? 0 : currentFileList.Count, dirCount, fileCount);
         }
 
         private void dgvBaiduFileList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

@@ -267,7 +267,11 @@ namespace CloudreveMiddleLayer.Entiry
                 CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root root = JsonConvert.DeserializeObject<CloudreveMiddleLayer.JsonEntiryClass.GetFileListJson.Root>(responseContent);
                 if(root.data!=null)
                 {
-                    Util.Current_Path_Storage_Policy = root.data.policy.id;
+                    if(root.data.policy != null)
+                    {
+                        Util.Current_Path_Storage_Policy = root.data.policy.id;
+                    }
+                    
                     return root.data.objects;
                 }
             }
