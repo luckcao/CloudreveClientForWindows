@@ -34,11 +34,11 @@
 
 以下是程序的界面，我就不一一放出来了，基本上和网页端的一样。<br>
 
-![image](https://raw.githubusercontent.com/luckcao/CloudreveClientForWindows/master/login.png)
+![login.png](https://s2.loli.net/2023/12/17/7zOQ3WZNfVxDInG.png)
 
-![image](https://raw.githubusercontent.com/luckcao/CloudreveClientForWindows/master/mainscreen.png)
+![mainscreen.png](https://s2.loli.net/2023/12/17/4bh5HerfCZFWLMg.png)
 
 
 感兴趣的朋友也可以加我微信在线交流（加我微信时，请注明：Cloudreve    因平时比较忙，但我肯定会每天都看的）：<br>
 
-![image](https://raw.githubusercontent.com/luckcao/CloudreveClientForWindows/master/weixin_qc.jpg)
+![weixin_qc.jpg](https://s2.loli.net/2023/12/17/kgynNGFDlwERdzJ.jpg)
